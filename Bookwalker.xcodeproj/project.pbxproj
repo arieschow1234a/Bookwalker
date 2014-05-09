@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		213FF127191C8DAD003B166B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF122191C8DAD003B166B /* LoginViewController.m */; };
+		213FF128191C8DAD003B166B /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF124191C8DAD003B166B /* SignupViewController.m */; };
+		213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */; };
+		213FF133191C930D003B166B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF12A191C930C003B166B /* AudioToolbox.framework */; };
+		213FF134191C930D003B166B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF12B191C930C003B166B /* CFNetwork.framework */; };
+		213FF135191C930D003B166B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF12C191C930C003B166B /* CoreLocation.framework */; };
+		213FF136191C930D003B166B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF12D191C930C003B166B /* libz.dylib */; };
+		213FF137191C930D003B166B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF12E191C930C003B166B /* MobileCoreServices.framework */; };
+		213FF138191C930D003B166B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF12F191C930D003B166B /* QuartzCore.framework */; };
+		213FF139191C930D003B166B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF130191C930D003B166B /* Security.framework */; };
+		213FF13A191C930D003B166B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF131191C930D003B166B /* StoreKit.framework */; };
+		213FF13B191C930D003B166B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF132191C930D003B166B /* SystemConfiguration.framework */; };
+		213FF13D191C95E1003B166B /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213FF13C191C95E1003B166B /* Parse.framework */; };
+		213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF142191C9BDB003B166B /* RequestTableViewController.m */; };
+		213FF146191CA16D003B166B /* BookshelfTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF145191CA16D003B166B /* BookshelfTableViewController.m */; };
+		213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF148191CA2CA003B166B /* AddBookViewController.m */; };
 		21DE540F1917A3A7004C5591 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE540E1917A3A7004C5591 /* Foundation.framework */; };
 		21DE54111917A3A7004C5591 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54101917A3A7004C5591 /* CoreGraphics.framework */; };
 		21DE54131917A3A7004C5591 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54121917A3A7004C5591 /* UIKit.framework */; };
@@ -14,7 +30,6 @@
 		21DE541B1917A3A7004C5591 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DE541A1917A3A7004C5591 /* main.m */; };
 		21DE541F1917A3A7004C5591 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DE541E1917A3A7004C5591 /* AppDelegate.m */; };
 		21DE54221917A3A7004C5591 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21DE54201917A3A7004C5591 /* Main.storyboard */; };
-		21DE54251917A3A7004C5591 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DE54241917A3A7004C5591 /* ViewController.m */; };
 		21DE54271917A3A7004C5591 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21DE54261917A3A7004C5591 /* Images.xcassets */; };
 		21DE542E1917A3A8004C5591 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE542D1917A3A8004C5591 /* XCTest.framework */; };
 		21DE542F1917A3A8004C5591 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE540E1917A3A7004C5591 /* Foundation.framework */; };
@@ -34,6 +49,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		213FF121191C8DAD003B166B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		213FF122191C8DAD003B166B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		213FF123191C8DAD003B166B /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
+		213FF124191C8DAD003B166B /* SignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignupViewController.m; sourceTree = "<group>"; };
+		213FF125191C8DAD003B166B /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		213FF12A191C930C003B166B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		213FF12B191C930C003B166B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		213FF12C191C930C003B166B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		213FF12D191C930C003B166B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		213FF12E191C930C003B166B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		213FF12F191C930D003B166B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		213FF130191C930D003B166B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		213FF131191C930D003B166B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		213FF132191C930D003B166B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		213FF13C191C95E1003B166B /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		213FF141191C9BDB003B166B /* RequestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestTableViewController.h; sourceTree = "<group>"; };
+		213FF142191C9BDB003B166B /* RequestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestTableViewController.m; sourceTree = "<group>"; };
+		213FF144191CA16D003B166B /* BookshelfTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookshelfTableViewController.h; sourceTree = "<group>"; };
+		213FF145191CA16D003B166B /* BookshelfTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookshelfTableViewController.m; sourceTree = "<group>"; };
+		213FF147191CA2CA003B166B /* AddBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddBookViewController.h; sourceTree = "<group>"; };
+		213FF148191CA2CA003B166B /* AddBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBookViewController.m; sourceTree = "<group>"; };
 		21DE540B1917A3A7004C5591 /* Bookwalker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookwalker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DE540E1917A3A7004C5591 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		21DE54101917A3A7004C5591 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -45,8 +82,6 @@
 		21DE541D1917A3A7004C5591 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		21DE541E1917A3A7004C5591 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		21DE54211917A3A7004C5591 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		21DE54231917A3A7004C5591 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		21DE54241917A3A7004C5591 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		21DE54261917A3A7004C5591 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		21DE542C1917A3A8004C5591 /* BookwalkerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookwalkerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DE542D1917A3A8004C5591 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -60,6 +95,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				213FF133191C930D003B166B /* AudioToolbox.framework in Frameworks */,
+				213FF134191C930D003B166B /* CFNetwork.framework in Frameworks */,
+				213FF135191C930D003B166B /* CoreLocation.framework in Frameworks */,
+				213FF136191C930D003B166B /* libz.dylib in Frameworks */,
+				213FF137191C930D003B166B /* MobileCoreServices.framework in Frameworks */,
+				213FF138191C930D003B166B /* QuartzCore.framework in Frameworks */,
+				213FF13D191C95E1003B166B /* Parse.framework in Frameworks */,
+				213FF139191C930D003B166B /* Security.framework in Frameworks */,
+				213FF13A191C930D003B166B /* StoreKit.framework in Frameworks */,
+				213FF13B191C930D003B166B /* SystemConfiguration.framework in Frameworks */,
 				21DE54111917A3A7004C5591 /* CoreGraphics.framework in Frameworks */,
 				21DE54131917A3A7004C5591 /* UIKit.framework in Frameworks */,
 				21DE540F1917A3A7004C5591 /* Foundation.framework in Frameworks */,
@@ -82,6 +127,8 @@
 		21DE54021917A3A7004C5591 = {
 			isa = PBXGroup;
 			children = (
+				213FF13C191C95E1003B166B /* Parse.framework */,
+				21DE54201917A3A7004C5591 /* Main.storyboard */,
 				21DE54141917A3A7004C5591 /* Bookwalker */,
 				21DE54331917A3A8004C5591 /* BookwalkerTests */,
 				21DE540D1917A3A7004C5591 /* Frameworks */,
@@ -101,6 +148,15 @@
 		21DE540D1917A3A7004C5591 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				213FF12A191C930C003B166B /* AudioToolbox.framework */,
+				213FF12B191C930C003B166B /* CFNetwork.framework */,
+				213FF12C191C930C003B166B /* CoreLocation.framework */,
+				213FF12D191C930C003B166B /* libz.dylib */,
+				213FF12E191C930C003B166B /* MobileCoreServices.framework */,
+				213FF12F191C930D003B166B /* QuartzCore.framework */,
+				213FF130191C930D003B166B /* Security.framework */,
+				213FF131191C930D003B166B /* StoreKit.framework */,
+				213FF132191C930D003B166B /* SystemConfiguration.framework */,
 				21DE540E1917A3A7004C5591 /* Foundation.framework */,
 				21DE54101917A3A7004C5591 /* CoreGraphics.framework */,
 				21DE54121917A3A7004C5591 /* UIKit.framework */,
@@ -112,11 +168,18 @@
 		21DE54141917A3A7004C5591 /* Bookwalker */ = {
 			isa = PBXGroup;
 			children = (
-				21DE541D1917A3A7004C5591 /* AppDelegate.h */,
-				21DE541E1917A3A7004C5591 /* AppDelegate.m */,
-				21DE54201917A3A7004C5591 /* Main.storyboard */,
-				21DE54231917A3A7004C5591 /* ViewController.h */,
-				21DE54241917A3A7004C5591 /* ViewController.m */,
+				213FF147191CA2CA003B166B /* AddBookViewController.h */,
+				213FF148191CA2CA003B166B /* AddBookViewController.m */,
+				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
+				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
+				213FF144191CA16D003B166B /* BookshelfTableViewController.h */,
+				213FF145191CA16D003B166B /* BookshelfTableViewController.m */,
+				213FF121191C8DAD003B166B /* LoginViewController.h */,
+				213FF122191C8DAD003B166B /* LoginViewController.m */,
+				213FF123191C8DAD003B166B /* SignupViewController.h */,
+				213FF124191C8DAD003B166B /* SignupViewController.m */,
+				213FF125191C8DAD003B166B /* TPKeyboardAvoidingScrollView.h */,
+				213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */,
 				21DE54261917A3A7004C5591 /* Images.xcassets */,
 				21DE54151917A3A7004C5591 /* Supporting Files */,
 			);
@@ -126,6 +189,8 @@
 		21DE54151917A3A7004C5591 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				21DE541D1917A3A7004C5591 /* AppDelegate.h */,
+				21DE541E1917A3A7004C5591 /* AppDelegate.m */,
 				21DE54161917A3A7004C5591 /* Bookwalker-Info.plist */,
 				21DE54171917A3A7004C5591 /* InfoPlist.strings */,
 				21DE541A1917A3A7004C5591 /* main.m */,
@@ -249,9 +314,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21DE54251917A3A7004C5591 /* ViewController.m in Sources */,
+				213FF127191C8DAD003B166B /* LoginViewController.m in Sources */,
 				21DE541F1917A3A7004C5591 /* AppDelegate.m in Sources */,
+				213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */,
+				213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */,
 				21DE541B1917A3A7004C5591 /* main.m in Sources */,
+				213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */,
+				213FF146191CA16D003B166B /* BookshelfTableViewController.m in Sources */,
+				213FF128191C8DAD003B166B /* SignupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +358,7 @@
 				21DE54211917A3A7004C5591 /* Base */,
 			);
 			name = Main.storyboard;
+			path = Bookwalker;
 			sourceTree = "<group>";
 		};
 		21DE54361917A3A8004C5591 /* InfoPlist.strings */ = {
@@ -376,6 +447,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bookwalker/Bookwalker-Prefix.pch";
 				INFOPLIST_FILE = "Bookwalker/Bookwalker-Info.plist";
@@ -389,6 +464,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bookwalker/Bookwalker-Prefix.pch";
 				INFOPLIST_FILE = "Bookwalker/Bookwalker-Info.plist";
@@ -456,6 +535,7 @@
 				21DE543F1917A3A8004C5591 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		21DE54401917A3A8004C5591 /* Build configuration list for PBXNativeTarget "BookwalkerTests" */ = {
 			isa = XCConfigurationList;
@@ -464,6 +544,7 @@
 				21DE54421917A3A8004C5591 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

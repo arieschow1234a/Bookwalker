@@ -13,11 +13,14 @@
 @property (strong, nonatomic) NSString *author;
 @property (strong, nonatomic) NSString *isbn;
 @property (strong, nonatomic) NSString *note;
+@property (strong, nonatomic) NSString *holder;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *isbnLabel;
 @property (weak, nonatomic) IBOutlet UILabel *noteLabel;
+@property (weak, nonatomic) IBOutlet UILabel *holderLabel;
+
 
 
 

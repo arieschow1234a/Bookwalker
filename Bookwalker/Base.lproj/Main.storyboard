@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="-154" y="285"/>
         </scene>
-        <!--Books Table View Controller - Books-->
+        <!--Books Table View Controller - Discover-->
         <scene sceneID="zbe-Aw-nMU">
             <objects>
                 <tableViewController id="Ks7-HP-f6K" customClass="BooksTableViewController" sceneMemberID="viewController">
@@ -66,7 +66,7 @@
                             <outlet property="delegate" destination="Ks7-HP-f6K" id="ePL-Rt-lcf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Books" id="lmn-nn-VIZ"/>
+                    <navigationItem key="navigationItem" title="Discover" id="lmn-nn-VIZ"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QoV-lg-6e9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -85,32 +85,39 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ixc-Ly-ALZ">
-                                <rect key="frame" x="91" y="64" width="159" height="184"/>
+                                <rect key="frame" x="20" y="64" width="113" height="184"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XU4-Jv-Paa">
-                                <rect key="frame" x="76" y="282" width="185" height="21"/>
+                                <rect key="frame" x="148" y="83" width="185" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Author" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IVc-Gc-O25">
-                                <rect key="frame" x="76" y="311" width="185" height="21"/>
+                                <rect key="frame" x="148" y="112" width="185" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ISBN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BaJ-XU-8mh">
-                                <rect key="frame" x="76" y="347" width="185" height="21"/>
+                                <rect key="frame" x="148" y="141" width="185" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Holder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOs-0g-pKa">
+                                <rect key="frame" x="148" y="170" width="185" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Note" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZa-MR-IOT">
-                                <rect key="frame" x="76" y="376" width="185" height="59"/>
+                                <rect key="frame" x="20" y="256" width="185" height="59"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -128,6 +135,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="authorLabel" destination="IVc-Gc-O25" id="Eh1-tp-mtg"/>
+                        <outlet property="holderLabel" destination="wOs-0g-pKa" id="gBT-Ec-iEb"/>
                         <outlet property="isbnLabel" destination="BaJ-XU-8mh" id="SUn-gm-Bcm"/>
                         <outlet property="noteLabel" destination="zZa-MR-IOT" id="Gq1-P3-ZAd"/>
                         <outlet property="titleLabel" destination="XU4-Jv-Paa" id="bqf-3V-gTN"/>
@@ -137,7 +145,7 @@
             </objects>
             <point key="canvasLocation" x="1477" y="280"/>
         </scene>
-        <!--View Controller - Request-->
+        <!--View Controller - Title-->
         <scene sceneID="4sd-cf-Icf">
             <objects>
                 <viewController id="U3M-WY-n6w" sceneMemberID="viewController">
@@ -150,7 +158,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Request" id="S6a-IY-eWm"/>
+                    <navigationItem key="navigationItem" title="Title" id="qOC-87-eOc"/>
                     <connections>
                         <segue destination="Gsy-j9-Uqq" kind="push" identifier="showLogin" id="yrv-vU-Gfq"/>
                     </connections>
@@ -632,6 +640,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="TMq-MX-CKy"/>
+        <segue reference="yrv-vU-Gfq"/>
     </inferredMetricsTieBreakers>
 </document>

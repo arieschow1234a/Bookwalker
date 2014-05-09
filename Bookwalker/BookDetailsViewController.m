@@ -21,7 +21,9 @@
     self.titleLabel.text = [[NSString alloc]initWithFormat:@"Title: %@", self.bookTitle];
      self.authorLabel.text = [[NSString alloc]initWithFormat:@"Author: %@", self.author];
      self.isbnLabel.text = [[NSString alloc]initWithFormat:@"ISBN: %@", self.isbn];
-     self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@", self.note];
+    self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@", self.holder];
+    self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@", self.note];
+
     
 }
 

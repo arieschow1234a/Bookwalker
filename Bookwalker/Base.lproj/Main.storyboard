@@ -176,8 +176,8 @@
                                     <segue destination="PvV-cN-4Sh" kind="unwind" identifier="Do Add Book" unwindAction="addedPhoto:" id="Oaf-nO-DDm"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ISBN" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QN6-DU-lQJ">
-                                <rect key="frame" x="20" y="66" width="181" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ISBN" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QN6-DU-lQJ">
+                                <rect key="frame" x="20" y="69" width="181" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -187,10 +187,34 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Search"/>
                             </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Usp-ZU-NHL">
+                                <rect key="frame" x="20" y="114" width="181" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Author" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w2E-hD-hrw">
+                                <rect key="frame" x="20" y="160" width="181" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Note" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gWH-Ia-h4F">
+                                <rect key="frame" x="20" y="208" width="181" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="095-td-AoL"/>
+                    <connections>
+                        <outlet property="authorField" destination="w2E-hD-hrw" id="Eux-aM-ZU9"/>
+                        <outlet property="isbnField" destination="QN6-DU-lQJ" id="xm0-O3-MuV"/>
+                        <outlet property="noteField" destination="gWH-Ia-h4F" id="ibo-Qy-Hbc"/>
+                        <outlet property="titleField" destination="Usp-ZU-NHL" id="n2T-aj-rPr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDc-Ru-bYL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="PvV-cN-4Sh" userLabel="Exit" sceneMemberID="exit"/>
@@ -220,7 +244,13 @@
                             <outlet property="delegate" destination="zYI-Mb-Vfh" id="8RZ-vS-Sc4"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Request" id="uw5-KS-Gf3"/>
+                    <navigationItem key="navigationItem" title="Request" id="uw5-KS-Gf3">
+                        <barButtonItem key="rightBarButtonItem" title="Log Out" id="urW-xQ-TIY">
+                            <connections>
+                                <action selector="logout:" destination="zYI-Mb-Vfh" id="BeR-yV-Gn0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="Gsy-j9-Uqq" kind="push" identifier="showLogin" id="TMq-MX-CKy"/>
                     </connections>
@@ -233,7 +263,7 @@
         <scene sceneID="3bV-1f-csS">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Q2q-3P-AJB" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Request" id="4Vc-eG-Xmh"/>
+                    <tabBarItem key="tabBarItem" title="Request" image="request" id="4Vc-eG-Xmh"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="19k-4O-UPH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -302,6 +332,17 @@
                                             <action selector="login:" destination="Gsy-j9-Uqq" eventType="touchUpInside" id="E1K-jE-RGb"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Don't have an account?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xaD-lx-AxH">
+                                        <rect key="frame" x="40" y="416" width="183" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="183" id="4IB-lZ-4wa"/>
+                                            <constraint firstAttribute="height" constant="44" id="Gba-vV-67w"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="highlightedColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="SLh-yz-Lkw" secondAttribute="bottom" priority="1" constant="4" id="353-tX-vL7"/>
@@ -317,17 +358,6 @@
                                     <constraint firstAttribute="trailing" secondItem="SLh-yz-Lkw" secondAttribute="trailing" constant="40" id="tAt-Kb-Ajs"/>
                                 </constraints>
                             </scrollView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xaD-lx-AxH">
-                                <rect key="frame" x="40" y="416" width="183" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="183" id="4IB-lZ-4wa"/>
-                                    <constraint firstAttribute="height" constant="44" id="Gba-vV-67w"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U2b-Dc-sce">
                                 <rect key="frame" x="201" y="416" width="79" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -337,7 +367,6 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="Sign Up">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -350,9 +379,7 @@
                             <constraint firstItem="aZY-Ky-hZw" firstAttribute="top" secondItem="U2b-Dc-sce" secondAttribute="bottom" constant="20" id="HrX-TP-Pe7"/>
                             <constraint firstItem="T1s-AP-HlA" firstAttribute="leading" secondItem="AtF-7K-1AV" secondAttribute="leading" id="Tij-Ub-k8u"/>
                             <constraint firstItem="aZY-Ky-hZw" firstAttribute="top" secondItem="T1s-AP-HlA" secondAttribute="bottom" id="VAX-ox-bsq"/>
-                            <constraint firstItem="aZY-Ky-hZw" firstAttribute="top" secondItem="xaD-lx-AxH" secondAttribute="bottom" constant="20" id="qwI-0p-l8P"/>
                             <constraint firstItem="U2b-Dc-sce" firstAttribute="leading" secondItem="AtF-7K-1AV" secondAttribute="leading" constant="201" id="rOo-gZ-Kl4"/>
-                            <constraint firstItem="xaD-lx-AxH" firstAttribute="leading" secondItem="AtF-7K-1AV" secondAttribute="leading" constant="40" id="sNK-Px-a2k"/>
                             <constraint firstItem="T1s-AP-HlA" firstAttribute="top" secondItem="AtF-7K-1AV" secondAttribute="top" id="siK-Ep-6PV"/>
                             <constraint firstAttribute="trailing" secondItem="T1s-AP-HlA" secondAttribute="trailing" id="wzt-16-lND"/>
                         </constraints>
@@ -493,7 +520,7 @@
         <scene sceneID="08Z-7A-3D2">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tew-NP-9UI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Books" id="iDg-qk-Yx6"/>
+                    <tabBarItem key="tabBarItem" title="Books" image="book" id="iDg-qk-Yx6"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NoQ-ew-cSr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -512,7 +539,7 @@
         <scene sceneID="9uV-0y-hWl">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tpx-pq-iyi" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Bookshelf" id="acg-ps-Sxh"/>
+                    <tabBarItem key="tabBarItem" title="Bookshelf" image="bookshelf" id="acg-ps-Sxh"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Aif-Pt-2nK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -528,6 +555,11 @@
             <point key="canvasLocation" x="511" y="872"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="book" width="26" height="26"/>
+        <image name="bookshelf" width="25" height="25"/>
+        <image name="request" width="26" height="26"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

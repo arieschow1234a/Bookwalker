@@ -124,11 +124,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		213FF14A191CD725003B166B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				21DE54201917A3A7004C5591 /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		21DE54021917A3A7004C5591 = {
 			isa = PBXGroup;
 			children = (
-				213FF13C191C95E1003B166B /* Parse.framework */,
-				21DE54201917A3A7004C5591 /* Main.storyboard */,
+				213FF14A191CD725003B166B /* View */,
 				21DE54141917A3A7004C5591 /* Bookwalker */,
 				21DE54331917A3A8004C5591 /* BookwalkerTests */,
 				21DE540D1917A3A7004C5591 /* Frameworks */,
@@ -148,6 +155,7 @@
 		21DE540D1917A3A7004C5591 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				213FF13C191C95E1003B166B /* Parse.framework */,
 				213FF12A191C930C003B166B /* AudioToolbox.framework */,
 				213FF12B191C930C003B166B /* CFNetwork.framework */,
 				213FF12C191C930C003B166B /* CoreLocation.framework */,

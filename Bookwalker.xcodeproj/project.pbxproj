@@ -176,12 +176,12 @@
 		21DE54141917A3A7004C5591 /* Bookwalker */ = {
 			isa = PBXGroup;
 			children = (
-				213FF147191CA2CA003B166B /* AddBookViewController.h */,
-				213FF148191CA2CA003B166B /* AddBookViewController.m */,
 				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
 				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
 				213FF144191CA16D003B166B /* BookshelfTableViewController.h */,
 				213FF145191CA16D003B166B /* BookshelfTableViewController.m */,
+				213FF147191CA2CA003B166B /* AddBookViewController.h */,
+				213FF148191CA2CA003B166B /* AddBookViewController.m */,
 				213FF121191C8DAD003B166B /* LoginViewController.h */,
 				213FF122191C8DAD003B166B /* LoginViewController.m */,
 				213FF123191C8DAD003B166B /* SignupViewController.h */,

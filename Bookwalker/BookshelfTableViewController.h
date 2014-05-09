@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <Parse/Parse.h>
 @interface BookshelfTableViewController : UITableViewController
+
+@property (nonatomic, strong) PFRelation *booksRelation;
+@property (nonatomic, strong) NSMutableArray *books;
 
 @end

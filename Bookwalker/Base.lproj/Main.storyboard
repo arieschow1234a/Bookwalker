@@ -57,7 +57,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="FKe-r4-jJz" kind="push" id="A43-6Y-MLN"/>
+                                    <segue destination="FKe-r4-jJz" kind="push" identifier="show Details" id="A43-6Y-MLN"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -72,10 +72,10 @@
             </objects>
             <point key="canvasLocation" x="1037" y="280"/>
         </scene>
-        <!--View Controller-->
+        <!--Book Details View Controller-->
         <scene sceneID="J3a-Sf-SfX">
             <objects>
-                <viewController id="FKe-r4-jJz" sceneMemberID="viewController">
+                <viewController id="FKe-r4-jJz" customClass="BookDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5UJ-08-bdV"/>
                         <viewControllerLayoutGuide type="bottom" id="dpt-FH-YVL"/>
@@ -88,6 +88,34 @@
                                 <rect key="frame" x="91" y="64" width="159" height="184"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XU4-Jv-Paa">
+                                <rect key="frame" x="76" y="282" width="185" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Author" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IVc-Gc-O25">
+                                <rect key="frame" x="76" y="311" width="185" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ISBN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BaJ-XU-8mh">
+                                <rect key="frame" x="76" y="347" width="185" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Note" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zZa-MR-IOT">
+                                <rect key="frame" x="76" y="376" width="185" height="59"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -98,6 +126,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="authorLabel" destination="IVc-Gc-O25" id="Eh1-tp-mtg"/>
+                        <outlet property="isbnLabel" destination="BaJ-XU-8mh" id="SUn-gm-Bcm"/>
+                        <outlet property="noteLabel" destination="zZa-MR-IOT" id="Gq1-P3-ZAd"/>
+                        <outlet property="titleLabel" destination="XU4-Jv-Paa" id="bqf-3V-gTN"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mFS-Sj-A4u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

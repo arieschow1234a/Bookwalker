@@ -24,6 +24,7 @@
 		213FF146191CA16D003B166B /* BookshelfTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF145191CA16D003B166B /* BookshelfTableViewController.m */; };
 		213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF148191CA2CA003B166B /* AddBookViewController.m */; };
 		213FF14D191CFCB3003B166B /* BooksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF14C191CFCB3003B166B /* BooksTableViewController.m */; };
+		213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF152191D065D003B166B /* BookDetailsViewController.m */; };
 		21DE540F1917A3A7004C5591 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE540E1917A3A7004C5591 /* Foundation.framework */; };
 		21DE54111917A3A7004C5591 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54101917A3A7004C5591 /* CoreGraphics.framework */; };
 		21DE54131917A3A7004C5591 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54121917A3A7004C5591 /* UIKit.framework */; };
@@ -74,6 +75,8 @@
 		213FF148191CA2CA003B166B /* AddBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBookViewController.m; sourceTree = "<group>"; };
 		213FF14B191CFCB3003B166B /* BooksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTableViewController.h; sourceTree = "<group>"; };
 		213FF14C191CFCB3003B166B /* BooksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksTableViewController.m; sourceTree = "<group>"; };
+		213FF151191D065D003B166B /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
+		213FF152191D065D003B166B /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		21DE540B1917A3A7004C5591 /* Bookwalker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookwalker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DE540E1917A3A7004C5591 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		21DE54101917A3A7004C5591 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -181,6 +184,8 @@
 			children = (
 				213FF14B191CFCB3003B166B /* BooksTableViewController.h */,
 				213FF14C191CFCB3003B166B /* BooksTableViewController.m */,
+				213FF151191D065D003B166B /* BookDetailsViewController.h */,
+				213FF152191D065D003B166B /* BookDetailsViewController.m */,
 				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
 				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
 				213FF144191CA16D003B166B /* BookshelfTableViewController.h */,
@@ -333,6 +338,7 @@
 				213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */,
 				21DE541B1917A3A7004C5591 /* main.m in Sources */,
+				213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */,
 				213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */,
 				213FF146191CA16D003B166B /* BookshelfTableViewController.m in Sources */,
 				213FF128191C8DAD003B166B /* SignupViewController.m in Sources */,

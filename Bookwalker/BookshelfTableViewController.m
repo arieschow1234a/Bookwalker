@@ -88,7 +88,7 @@
 
 
 #pragma mark - Navigation
-
+/*
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"Add Book"]){
@@ -97,6 +97,7 @@
     }
 }
 
+*/
 // this is called when AddBookViewController unwinds back to us
 
 - (IBAction)addedPhoto:(UIStoryboardSegue *)segue

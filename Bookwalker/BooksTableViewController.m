@@ -8,6 +8,7 @@
 
 #import "BooksTableViewController.h"
 #import <Parse/Parse.h>
+#import "BookDetailsViewController.h"
 
 @interface BooksTableViewController ()
 
@@ -72,15 +73,27 @@
 
 
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([segue.identifier isEqualToString:@"show Details"]){
+        BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
+        // set up the vc to run here
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        PFObject *book = [self.books objectAtIndex:indexPath.row];
+        bdvc.title = [book objectForKey:@"title"];
+        bdvc.bookTitle = [book objectForKey:@"title"];
+        bdvc.author = [book objectForKey:@"author"];
+        bdvc.isbn = [book objectForKey:@"isbn"];
+        bdvc.note = [book objectForKey:@"note"];
+        
+    }
 }
-*/
+
+
+
+
 
 @end

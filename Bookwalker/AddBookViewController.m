@@ -43,8 +43,7 @@
         [book setObject:note forKey:@"note"];
         [book setObject:[user objectId] forKey:@"holder"];
         [book setObject:[user username] forKey:@"holderName"];
-        
- 
+        [book setObject:@0 forKey:@"noOfRequests"];
         
         self.book = book;
         [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

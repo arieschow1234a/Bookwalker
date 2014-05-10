@@ -35,8 +35,6 @@
     }else{
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
-    self.requests = [[NSMutableArray alloc] init];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -110,19 +108,19 @@
         } else {
             self.requests = nil;
             for (PFObject *book in objects){
-                
+             
                 PFRelation *bookRelation = [book relationforKey:@"requestsRelation"];
                 [[bookRelation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                     
                     if ([objects count] >  1) {
                         NSLog(@"found");
                         [self.requests addObject:book];
+                    
                     }
                     NSLog(@"Requests: %lu", (unsigned long)[self.requests count]);
                     [self.tableView reloadData];
                 }];
             }
-            
         }
     }];
     

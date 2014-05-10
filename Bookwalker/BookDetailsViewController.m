@@ -99,6 +99,11 @@
                 PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
                 [requestsRelation addObject:self.savedNote];
                 [requestsRelation addObject:self.savedRequest];
+                
+                NSNumber *number = [book objectForKey:@"noOfRequest"];
+                int value = [number intValue];
+                number = [NSNumber numberWithInt:value + 2];
+                [book setObject:number forKey:@"noOfRequests"];
                 [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"Error %@ %@", error, [error userInfo]);

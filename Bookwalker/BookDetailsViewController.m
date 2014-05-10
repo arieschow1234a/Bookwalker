@@ -78,23 +78,22 @@
             self.savedRequest = [objects objectAtIndex:0];
             NSLog(@"%@", self.savedRequest);
             
-            /*
-            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
             
-            // Retrieve the object by id
+            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
             [query getObjectInBackgroundWithId:self.objectId block:^(PFObject *book, NSError *error) {
+                NSLog(@"%@", book);
                 
-                // Now let's update it with some new data. In this case, only cheatMode and score
-                // will get sent to the cloud. playerName hasn't changed.
                 PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
                 [requestsRelation addObject:self.savedRequest];
                 [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"Error %@ %@", error, [error userInfo]);
+                    }else{
+                        NSLog(@"Saved the relation");
                     }
                 }];
             }];
-            */
+            
         }
        
     }];

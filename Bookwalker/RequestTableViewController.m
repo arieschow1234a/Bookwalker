@@ -36,7 +36,6 @@
 }
 
 
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -76,4 +75,11 @@
 }
 */
 
+#pragma mark - IBAction
+
+- (IBAction)logout:(id)sender
+{
+    [PFUser logOut];
+    [self performSegueWithIdentifier:@"showLogin" sender:self];
+}
 @end

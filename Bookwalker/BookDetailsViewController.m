@@ -99,7 +99,7 @@
                 PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
                 [requestsRelation addObject:self.savedNote];
                 [requestsRelation addObject:self.savedRequest];
-                
+                // Get the NSNumber into int
                 NSNumber *number = [book objectForKey:@"noOfRequest"];
                 int value = [number intValue];
                 number = [NSNumber numberWithInt:value + 2];

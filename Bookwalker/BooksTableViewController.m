@@ -23,6 +23,14 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self retriveAllBooks];
+
+}
+
+
 - (NSArray *)books
 {
     if (!_books) {
@@ -100,7 +108,21 @@
 }
 
 
+#pragma mark - helper method
 
+- (void)retriveAllBooks
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+    [query orderByDescending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            self.books = [[NSMutableArray alloc] initWithArray:objects];
+            [self.tableView reloadData];
+        }
+    }];
+}
 
 
 @end

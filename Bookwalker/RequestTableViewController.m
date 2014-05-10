@@ -107,43 +107,20 @@
             // There was an error
         } else {
             self.requests = nil;
-            for (PFObject *book in objects){
-             
-                PFRelation *bookRelation = [book relationforKey:@"requestsRelation"];
-                [[bookRelation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                    
-                    if ([objects count] >  1) {
-                        NSLog(@"found");
-                        [self.requests addObject:book];
-                    
-                    }
-                    NSLog(@"Requests: %lu", (unsigned long)[self.requests count]);
-                    [self.tableView reloadData];
-                }];
+            NSArray *books = [[NSArray alloc] initWithArray:objects];
+            for (PFObject *book in books){
+                NSNumber *number = [book objectForKey:@"noOfRequests"];
+                NSLog(@"%@", number);
+                int value = [number intValue];
+                if(value > 1) {
+                    NSLog(@"found");
+                    [self.requests addObject:book];
+                }
             }
-        }
-    }];
-    
-    
-    /*
-     PFQuery *query = [PFQuery queryWithClassName:@"User"];
-
-    [query orderByDescending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (error) {
-            NSLog (@"Error: %@ %@", error, [error userInfo]);
-        }else{
-            // We found messages!!
-            self.messages = objects;
             [self.tableView reloadData];
         }
-        if ([self.refreshControl isRefreshing]) {
-            [self.refreshControl endRefreshing];
-        }
-        
     }];
-     */
-     
+    
 }
 
 

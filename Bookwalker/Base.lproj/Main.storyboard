@@ -230,16 +230,6 @@
                                     <action selector="cancel:" destination="0eA-Xa-Rqu" eventType="touchUpInside" id="Pls-i6-mL3"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nav-CY-C0J">
-                                <rect key="frame" x="254" y="24" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="PvV-cN-4Sh" kind="unwind" identifier="Do Add Book" unwindAction="addedPhoto:" id="QNN-wS-WIS"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ISBN" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QN6-DU-lQJ">
                                 <rect key="frame" x="20" y="69" width="181" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -250,6 +240,9 @@
                                 <rect key="frame" x="232" y="69" width="68" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Search"/>
+                                <connections>
+                                    <action selector="update:" destination="0eA-Xa-Rqu" eventType="touchUpInside" id="Mwg-ss-5Ey"/>
+                                </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Usp-ZU-NHL">
                                 <rect key="frame" x="20" y="114" width="181" height="30"/>
@@ -269,10 +262,22 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3tG-FR-XdU">
+                                <rect key="frame" x="243" y="24" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="PvV-cN-4Sh" kind="unwind" identifier="Do Add Book" unwindAction="addedPhoto:" id="GZT-1T-qqJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" id="095-td-AoL"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="authorField" destination="w2E-hD-hrw" id="Eux-aM-ZU9"/>
                         <outlet property="isbnField" destination="QN6-DU-lQJ" id="xm0-O3-MuV"/>
@@ -283,7 +288,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDc-Ru-bYL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="PvV-cN-4Sh" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1472" y="872"/>
+            <point key="canvasLocation" x="1451" y="872"/>
         </scene>
         <!--Request Table View Controller - Request-->
         <scene sceneID="UGq-DV-u6P">

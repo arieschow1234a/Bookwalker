@@ -26,24 +26,23 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    
     if ([segue.identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]){
         // need to change ISBN to number
-        NSLog(@"1");
         NSString *isbn = [self.isbnField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString *title = self.titleField.text;
         NSString *author = self.authorField.text;
         NSString *note = self.noteField.text;
         PFUser *user = [PFUser currentUser];
-        NSLog(@"2");
 
         //upload to parse
-        /*
+     /*
         PFObject *request = [PFObject objectWithClassName:@"Requests"];
         [request setObject:[user objectId] forKey:@"speakerId"];
         [request setObject:[user username] forKey:@"speakerName"];
         [request setObject:note forKey:@"comment"];
         [request saveInBackground];
-         */
+    */
         PFObject *book = [PFObject objectWithClassName:@"Books"];
         [book setObject:isbn forKey:@"isbn"];
         [book setObject:title forKey:@"title"];
@@ -53,7 +52,6 @@
         [book setObject:[user username] forKey:@"holderName"];
      //   PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
        // [requestsRelation addObject:request];
-        NSLog(@"3");
         self.book = book;
         [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error) {
@@ -78,6 +76,7 @@
             }
         }];
     }
+
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
@@ -96,12 +95,11 @@
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil, nil];
             [alertView show];
+            return NO;
         }
-        return NO;
-    }else {
         return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
-        NSLog(@"Pass");
     }
+    return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
 }
 
 

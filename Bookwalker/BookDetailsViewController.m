@@ -10,7 +10,7 @@
 
 @interface BookDetailsViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
-
+@property (strong, nonatomic) PFObject *savedRequest;
 
 @end
 
@@ -19,18 +19,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.titleLabel.text = [[NSString alloc]initWithFormat:@"Title: %@", self.bookTitle];
      self.authorLabel.text = [[NSString alloc]initWithFormat:@"Author: %@", self.author];
      self.isbnLabel.text = [[NSString alloc]initWithFormat:@"ISBN: %@", self.isbn];
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@", self.holder];
     self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@", self.note];
-
+    NSLog(@"%@", self.objectId);
     
 }
 
 - (IBAction)sendRequest:(id)sender {
     
-
+    PFUser *user = [PFUser currentUser];
+    
+    PFObject *request = [PFObject objectWithClassName:@"Requests"];
+    [request setObject:[user objectId] forKey:@"speakerId"];
+    [request setObject:[user username] forKey:@"speakerName"];
+    [request setObject:self.note forKey:@"comment"];
+    [request setObject:self.objectId forKey:@"bookObjectId"];
+    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self retrieveRequest];
+        }
+    }];
     
     
     // going back
@@ -49,5 +61,47 @@
 }
 
 */
+
+# pragma mark - Helper methods
+
+- (void)retrieveRequest
+{
+    // Search for the messages sent by others
+    PFQuery *query = [PFQuery queryWithClassName:@"Requests"];
+    [query whereKey:@"bookObjectId" equalTo:self.objectId];
+    [query whereKey:@"comment" equalTo:self.note];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog (@"Error: %@ %@", error, [error userInfo]);
+        }else{
+            // We found request!!
+            self.savedRequest = [objects objectAtIndex:0];
+            NSLog(@"%@", self.savedRequest);
+            
+            /*
+            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+            
+            // Retrieve the object by id
+            [query getObjectInBackgroundWithId:self.objectId block:^(PFObject *book, NSError *error) {
+                
+                // Now let's update it with some new data. In this case, only cheatMode and score
+                // will get sent to the cloud. playerName hasn't changed.
+                PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
+                [requestsRelation addObject:self.savedRequest];
+                [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        NSLog(@"Error %@ %@", error, [error userInfo]);
+                    }
+                }];
+            }];
+            */
+        }
+       
+    }];
+}
+
+
+
+
 
 @end

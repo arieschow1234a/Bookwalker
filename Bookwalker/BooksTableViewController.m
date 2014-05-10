@@ -83,14 +83,12 @@
         // set up the vc to run here
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         PFObject *book = [self.books objectAtIndex:indexPath.row];
-        bdvc.book = book;
         bdvc.title = [book objectForKey:@"title"];
         bdvc.bookTitle = [book objectForKey:@"title"];
         bdvc.author = [book objectForKey:@"author"];
         bdvc.isbn = [book objectForKey:@"isbn"];
         bdvc.note = [book objectForKey:@"note"];
         bdvc.holder = [book objectForKey:@"holderName"];
-        
     }
 }
 

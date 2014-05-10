@@ -182,12 +182,12 @@
 		21DE54141917A3A7004C5591 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
+				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
 				213FF14B191CFCB3003B166B /* BooksTableViewController.h */,
 				213FF14C191CFCB3003B166B /* BooksTableViewController.m */,
 				213FF151191D065D003B166B /* BookDetailsViewController.h */,
 				213FF152191D065D003B166B /* BookDetailsViewController.m */,
-				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
-				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
 				213FF144191CA16D003B166B /* BookshelfTableViewController.h */,
 				213FF145191CA16D003B166B /* BookshelfTableViewController.m */,
 				213FF147191CA2CA003B166B /* AddBookViewController.h */,

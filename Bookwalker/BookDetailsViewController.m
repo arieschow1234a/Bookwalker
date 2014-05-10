@@ -92,7 +92,6 @@
            self.savedNote = objects[0];
             self.savedRequest = objects[1];
             
-            
             PFQuery *query = [PFQuery queryWithClassName:@"Books"];
             [query getObjectInBackgroundWithId:self.objectId block:^(PFObject *book, NSError *error) {
                 

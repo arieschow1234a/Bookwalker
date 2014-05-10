@@ -26,7 +26,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self retriveAllBooks];
+    [self fetchAllBooks];
 
 }
 
@@ -110,7 +110,7 @@
 
 #pragma mark - helper method
 
-- (void)retriveAllBooks
+- (void)fetchAllBooks
 {
     PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query orderByDescending:@"createdAt"];

@@ -19,20 +19,16 @@
 {
     if(!_requests){
         _requests = [[NSMutableArray alloc] init];
-        
     }
     return _requests;
         
 }
 
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     PFUser *currentUser = [PFUser currentUser];
-    if (currentUser) {
-        NSLog(@"Current User: %@", currentUser.username);
-    }else{
+    if (!currentUser) {
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
 }

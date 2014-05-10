@@ -21,29 +21,11 @@
     [super viewDidLoad];
 }
 
-- (PFRelation *)booksRelation
-{
-    if (!_booksRelation) {
-        _booksRelation = [[PFUser currentUser] objectForKey:@"booksRelation"];
-    }
-    return _booksRelation;
-}
-
-- (NSArray *)books
+- (NSMutableArray *)books
 {
     if (!_books) {
-        PFQuery *query = [self.booksRelation query];
-        [query orderByDescending:@"createdAt"];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            if (error){
-                NSLog(@"Error %@ %@", error, [error userInfo]);
-            }else{
-                _books = [[NSMutableArray alloc] initWithArray:objects];
-                [self.tableView reloadData];
-
-            }
-        }];
-
+        _books = [[NSMutableArray alloc] init];
+        [self fetchMyBook];
     }
     return _books;
 }
@@ -52,8 +34,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    
+    [self fetchMyBook];
 }
 
 
@@ -108,6 +89,25 @@
         [self.books insertObject:addedBook atIndex:0];
         [self.tableView reloadData];
     }
+}
+
+#pragma mark - helper method
+
+- (void)fetchMyBook
+{
+    PFRelation *booksRelation = [[PFUser currentUser] objectForKey:@"booksRelation"];
+    PFQuery *query = [booksRelation query];
+    [query orderByDescending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            self.books = [[NSMutableArray alloc] initWithArray:objects];
+            [self.tableView reloadData];
+            
+        }
+    }];
+
 }
 
 

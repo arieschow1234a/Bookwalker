@@ -93,6 +93,7 @@
         bdvc.isbn = [book objectForKey:@"isbn"];
         bdvc.note = [book objectForKey:@"note"];
         bdvc.holder= [book objectForKey:@"holderName"];
+        bdvc.holderId = [book objectForKey:@"holder"];
 
         
     }

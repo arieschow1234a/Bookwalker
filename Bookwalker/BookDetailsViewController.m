@@ -10,6 +10,7 @@
 
 @interface BookDetailsViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
+@property (strong, nonatomic) PFObject *savedNote;
 @property (strong, nonatomic) PFObject *savedRequest;
 
 @end
@@ -33,14 +34,28 @@
     
     PFUser *user = [PFUser currentUser];
     
-    PFObject *request = [PFObject objectWithClassName:@"Requests"];
-    [request setObject:[user objectId] forKey:@"speakerId"];
-    [request setObject:[user username] forKey:@"speakerName"];
-    [request setObject:self.note forKey:@"comment"];
-    [request setObject:self.objectId forKey:@"bookObjectId"];
-    [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    PFObject *note = [PFObject objectWithClassName:@"Requests"];
+    [note setObject:self.holderId forKey:@"speakerId"];
+    [note setObject:self.holder forKey:@"speakerName"];
+    [note setObject:self.note forKey:@"comment"];
+    [note setObject:self.objectId forKey:@"bookObjectId"];
+    [note saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [self retrieveRequest];
+            PFObject *request = [PFObject objectWithClassName:@"Requests"];
+            [request setObject:user.objectId forKey:@"speakerId"];
+            [request setObject:user.username forKey:@"speakerName"];
+            [request setObject:self.replyTextView.text forKey:@"comment"];
+            [request setObject:self.objectId forKey:@"bookObjectId"];
+            [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    NSLog(@"Done");
+                    [self retrieveRequest];
+                }
+            }];
+            
+            
+            
+            //[self retrieveRequest];
         }
     }];
     
@@ -69,31 +84,30 @@
     // Search for the messages sent by others
     PFQuery *query = [PFQuery queryWithClassName:@"Requests"];
     [query whereKey:@"bookObjectId" equalTo:self.objectId];
-    [query whereKey:@"comment" equalTo:self.note];
+    [query orderByAscending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSLog (@"Error: %@ %@", error, [error userInfo]);
         }else{
             // We found request!!
-            self.savedRequest = [objects objectAtIndex:0];
-            NSLog(@"%@", self.savedRequest);
+            
+           self.savedNote = objects[0];
+            self.savedRequest = objects[1];
             
             
             PFQuery *query = [PFQuery queryWithClassName:@"Books"];
             [query getObjectInBackgroundWithId:self.objectId block:^(PFObject *book, NSError *error) {
-                NSLog(@"%@", book);
                 
                 PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
+                [requestsRelation addObject:self.savedNote];
                 [requestsRelation addObject:self.savedRequest];
                 [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"Error %@ %@", error, [error userInfo]);
-                    }else{
-                        NSLog(@"Saved the relation");
                     }
                 }];
             }];
-            
+        
         }
        
     }];

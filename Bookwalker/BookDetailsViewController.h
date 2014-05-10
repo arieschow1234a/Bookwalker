@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface BookDetailsViewController : UIViewController
 @property (strong, nonatomic) NSString *bookTitle;
@@ -14,6 +15,7 @@
 @property (strong, nonatomic) NSString *isbn;
 @property (strong, nonatomic) NSString *note;
 @property (strong, nonatomic) NSString *holder;
+@property (strong, nonatomic) PFObject *book;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;

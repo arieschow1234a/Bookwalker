@@ -1,38 +1,32 @@
 //
-//  BookshelfTableViewController.m
+//  BooksTableViewController.m
 //  Bookwalker
 //
 //  Created by Aries on 9/5/14.
 //  Copyright (c) 2014年 Aries. All rights reserved.
 //
 
-#import "BookshelfTableViewController.h"
-#import "AddBookViewController.h"
+#import "BooksTableViewController.h"
+#import <Parse/Parse.h>
+#import "BookDetailsViewController.h"
 
-@interface BookshelfTableViewController ()
+@interface BooksTableViewController ()
 
 @end
 
-@implementation BookshelfTableViewController
+@implementation BooksTableViewController
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
-
-- (PFRelation *)booksRelation
-{
-    if (!_booksRelation) {
-        _booksRelation = [[PFUser currentUser] objectForKey:@"booksRelation"];
-    }
-    return _booksRelation;
+    
 }
 
 - (NSArray *)books
 {
     if (!_books) {
-        PFQuery *query = [self.booksRelation query];
+        PFQuery *query = [PFQuery queryWithClassName:@"Books"];
         [query orderByDescending:@"createdAt"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error){
@@ -40,22 +34,12 @@
             }else{
                 _books = [[NSMutableArray alloc] initWithArray:objects];
                 [self.tableView reloadData];
-
             }
         }];
-
+        
     }
     return _books;
 }
-
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    
-}
-
 
 
 
@@ -83,35 +67,35 @@
     PFObject *book = [self.books objectAtIndex:indexPath.row];
     cell.textLabel.text = [book objectForKey:@"title"];
     cell.detailTextLabel.text = [book objectForKey:@"author"];
+    
     return cell;
 }
 
 
+
+
 #pragma mark - Navigation
-/*
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([segue.identifier isEqualToString:@"Add Book"]){
-        AddBookViewController *abvc = (AddBookViewController *)segue.destinationViewController;
+    if([segue.identifier isEqualToString:@"show Details"]){
+        BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
         // set up the vc to run here
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        PFObject *book = [self.books objectAtIndex:indexPath.row];
+        bdvc.book = book;
+        bdvc.title = [book objectForKey:@"title"];
+        bdvc.bookTitle = [book objectForKey:@"title"];
+        bdvc.author = [book objectForKey:@"author"];
+        bdvc.isbn = [book objectForKey:@"isbn"];
+        bdvc.note = [book objectForKey:@"note"];
+        bdvc.holder = [book objectForKey:@"holderName"];
+        
     }
 }
 
-*/
-// this is called when AddBookViewController unwinds back to us
 
-- (IBAction)addedPhoto:(UIStoryboardSegue *)segue
-{
-    if ([segue.sourceViewController isKindOfClass:[AddBookViewController class]]) {
-        AddBookViewController *abvc = (AddBookViewController *)segue.sourceViewController;
-        PFObject *addedBook = abvc.book;
-        [self.books insertObject:addedBook atIndex:0];
-        [self.tableView reloadData];
-    }
-}
 
 
 
 @end
-
-

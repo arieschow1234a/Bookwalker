@@ -26,6 +26,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    
     if ([segue.identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]){
         // need to change ISBN to number
         NSString *isbn = [self.isbnField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -33,8 +34,15 @@
         NSString *author = self.authorField.text;
         NSString *note = self.noteField.text;
         PFUser *user = [PFUser currentUser];
-        
+
         //upload to parse
+     /*
+        PFObject *request = [PFObject objectWithClassName:@"Requests"];
+        [request setObject:[user objectId] forKey:@"speakerId"];
+        [request setObject:[user username] forKey:@"speakerName"];
+        [request setObject:note forKey:@"comment"];
+        [request saveInBackground];
+    */
         PFObject *book = [PFObject objectWithClassName:@"Books"];
         [book setObject:isbn forKey:@"isbn"];
         [book setObject:title forKey:@"title"];
@@ -42,6 +50,8 @@
         [book setObject:note forKey:@"note"];
         [book setObject:[user objectId] forKey:@"holder"];
         [book setObject:[user username] forKey:@"holderName"];
+     //   PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
+       // [requestsRelation addObject:request];
         self.book = book;
         [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error) {
@@ -66,6 +76,7 @@
             }
         }];
     }
+
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
@@ -84,11 +95,11 @@
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil, nil];
             [alertView show];
+            return NO;
         }
-        return NO;
-    }else {
         return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
     }
+    return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
 }
 
 

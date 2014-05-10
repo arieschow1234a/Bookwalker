@@ -48,14 +48,12 @@
             [request setObject:self.objectId forKey:@"bookObjectId"];
             [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
-                    NSLog(@"Done");
-                    [self retrieveRequest];
+                    [self getSavedRequestAndSaveInParse];
                 }
             }];
             
             
             
-            //[self retrieveRequest];
         }
     }];
     
@@ -79,7 +77,7 @@
 
 # pragma mark - Helper methods
 
-- (void)retrieveRequest
+- (void)getSavedRequestAndSaveInParse
 {
     // Search for the messages sent by others
     PFQuery *query = [PFQuery queryWithClassName:@"Requests"];

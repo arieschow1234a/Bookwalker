@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface RequestTableViewController : UITableViewController
-- (IBAction)logout:(id)sender;
 
 @end

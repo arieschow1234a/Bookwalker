@@ -124,18 +124,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		213FF14A191CD725003B166B /* View */ = {
-			isa = PBXGroup;
-			children = (
-				21DE54201917A3A7004C5591 /* Main.storyboard */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
 		21DE54021917A3A7004C5591 = {
 			isa = PBXGroup;
 			children = (
-				213FF14A191CD725003B166B /* View */,
+				213FF13C191C95E1003B166B /* Parse.framework */,
+				21DE54201917A3A7004C5591 /* Main.storyboard */,
 				21DE54141917A3A7004C5591 /* Bookwalker */,
 				21DE54331917A3A8004C5591 /* BookwalkerTests */,
 				21DE540D1917A3A7004C5591 /* Frameworks */,
@@ -155,7 +148,6 @@
 		21DE540D1917A3A7004C5591 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				213FF13C191C95E1003B166B /* Parse.framework */,
 				213FF12A191C930C003B166B /* AudioToolbox.framework */,
 				213FF12B191C930C003B166B /* CFNetwork.framework */,
 				213FF12C191C930C003B166B /* CoreLocation.framework */,
@@ -176,12 +168,12 @@
 		21DE54141917A3A7004C5591 /* Bookwalker */ = {
 			isa = PBXGroup;
 			children = (
+				213FF147191CA2CA003B166B /* AddBookViewController.h */,
+				213FF148191CA2CA003B166B /* AddBookViewController.m */,
 				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
 				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
 				213FF144191CA16D003B166B /* BookshelfTableViewController.h */,
 				213FF145191CA16D003B166B /* BookshelfTableViewController.m */,
-				213FF147191CA2CA003B166B /* AddBookViewController.h */,
-				213FF148191CA2CA003B166B /* AddBookViewController.m */,
 				213FF121191C8DAD003B166B /* LoginViewController.h */,
 				213FF122191C8DAD003B166B /* LoginViewController.m */,
 				213FF123191C8DAD003B166B /* SignupViewController.h */,

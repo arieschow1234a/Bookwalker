@@ -10,15 +10,15 @@
 #import <Parse/Parse.h>
 
 @interface RequestTableViewController ()
-@property (strong, nonatomic) NSMutableArray *requests;
+@property (strong, nonatomic) NSArray *requests;
 @end
 
 @implementation RequestTableViewController
 
-- (NSMutableArray *)requests
+- (NSArray *)requests
 {
     if(!_requests){
-        _requests = [[NSMutableArray alloc] init];
+        _requests = [[NSArray alloc] init];
     }
     return _requests;
         
@@ -94,9 +94,37 @@
 
 - (void)retrieveRequest
 {
+    PFUser *user = [PFUser currentUser];
+    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+    [query whereKey:@"requesterId" equalTo:user.objectId];
+    [query orderByDescending:@"updatedAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+           self.requests = objects;
+            [self.tableView reloadData];
+
+        }
+    }];
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
      PFUser *user = [PFUser currentUser];
      PFRelation *relation = [user relationforKey:@"booksRelation"];
-     PFQuery *query = [relation query];
+    
+    PFQuery *query = [relation query];
     [query orderByDescending:@"updatedAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
@@ -116,6 +144,7 @@
             [self.tableView reloadData];
         }
     }];
+     */
     
 }
 

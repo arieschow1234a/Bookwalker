@@ -26,7 +26,10 @@
      self.isbnLabel.text = [[NSString alloc]initWithFormat:@"ISBN: %@", self.isbn];
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@", self.holder];
     self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@", self.note];
-    NSLog(@"%@", self.objectId);
+    
+    [self.replyTextView.layer setBorderColor: [[UIColor blueColor] CGColor]];
+    [self.replyTextView.layer setBorderWidth:1.0f];
+    self.replyTextView.editable = YES;
     
 }
 
@@ -75,7 +78,7 @@
 
 */
 
-# pragma mark - Helper methods
+#pragma mark - Helper methods
 
 - (void)getSavedRequestAndSaveInParse
 {
@@ -103,6 +106,9 @@
                 int value = [number intValue];
                 number = [NSNumber numberWithInt:value + 2];
                 [book setObject:number forKey:@"noOfRequests"];
+                
+                [book setObject:[PFUser currentUser].objectId forKey:@"requesterId"];
+
                 [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"Error %@ %@", error, [error userInfo]);

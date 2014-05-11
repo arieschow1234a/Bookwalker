@@ -23,6 +23,14 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self fetchAllBooks];
+
+}
+
+
 - (NSArray *)books
 {
     if (!_books) {
@@ -83,19 +91,38 @@
         // set up the vc to run here
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         PFObject *book = [self.books objectAtIndex:indexPath.row];
-        bdvc.book = book;
+        
+        bdvc.objectId = book.objectId;
+        
         bdvc.title = [book objectForKey:@"title"];
+        
         bdvc.bookTitle = [book objectForKey:@"title"];
         bdvc.author = [book objectForKey:@"author"];
         bdvc.isbn = [book objectForKey:@"isbn"];
         bdvc.note = [book objectForKey:@"note"];
-        bdvc.holder = [book objectForKey:@"holderName"];
+        bdvc.holder= [book objectForKey:@"holderName"];
+        bdvc.holderId = [book objectForKey:@"holder"];
+
         
     }
 }
 
 
+#pragma mark - helper method
 
+- (void)fetchAllBooks
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+    [query orderByDescending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            self.books = [[NSMutableArray alloc] initWithArray:objects];
+            [self.tableView reloadData];
+        }
+    }];
+}
 
 
 @end

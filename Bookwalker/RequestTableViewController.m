@@ -10,27 +10,33 @@
 #import <Parse/Parse.h>
 
 @interface RequestTableViewController ()
-
+@property (strong, nonatomic) NSArray *requests;
 @end
 
 @implementation RequestTableViewController
+
+- (NSArray *)requests
+{
+    if(!_requests){
+        _requests = [[NSArray alloc] init];
+    }
+    return _requests;
+        
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     PFUser *currentUser = [PFUser currentUser];
-    if (currentUser) {
-        NSLog(@"Current User: %@", currentUser.username);
-    }else{
+    if (!currentUser) {
         [self performSegueWithIdentifier:@"showLogin" sender:self];
     }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+    [self retrieveRequest];
     [self.navigationController.navigationBar setHidden:NO];
     
 }
@@ -40,16 +46,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.requests count];
 }
 
 
@@ -58,6 +62,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"request" forIndexPath:indexPath];
     
     // Configure the cell...
+    PFObject *request = [self.requests objectAtIndex:indexPath.row];
+    cell.textLabel.text = [request objectForKey:@"title"];
     
     return cell;
 }
@@ -82,4 +88,72 @@
     [PFUser logOut];
     [self performSegueWithIdentifier:@"showLogin" sender:self];
 }
+
+
+# pragma mark - Helper methods
+
+- (void)retrieveRequest
+{
+    PFUser *user = [PFUser currentUser];
+    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+    [query whereKey:@"requesterId" equalTo:user.objectId];
+    [query orderByDescending:@"updatedAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+           self.requests = objects;
+            [self.tableView reloadData];
+
+        }
+    }];
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
+     PFUser *user = [PFUser currentUser];
+     PFRelation *relation = [user relationforKey:@"booksRelation"];
+    
+    PFQuery *query = [relation query];
+    [query orderByDescending:@"updatedAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            // There was an error
+        } else {
+            self.requests = nil;
+            NSArray *books = [[NSArray alloc] initWithArray:objects];
+            for (PFObject *book in books){
+                NSNumber *number = [book objectForKey:@"noOfRequests"];
+                NSLog(@"%@", number);
+                int value = [number intValue];
+                if(value > 1) {
+                    NSLog(@"found");
+                    [self.requests addObject:book];
+                }
+            }
+            [self.tableView reloadData];
+        }
+    }];
+     */
+    
+}
+
+
+
+
+
+
+
+
+
 @end

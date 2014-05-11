@@ -36,13 +36,6 @@
         PFUser *user = [PFUser currentUser];
 
         //upload to parse
-     /*
-        PFObject *request = [PFObject objectWithClassName:@"Requests"];
-        [request setObject:[user objectId] forKey:@"speakerId"];
-        [request setObject:[user username] forKey:@"speakerName"];
-        [request setObject:note forKey:@"comment"];
-        [request saveInBackground];
-    */
         PFObject *book = [PFObject objectWithClassName:@"Books"];
         [book setObject:isbn forKey:@"isbn"];
         [book setObject:title forKey:@"title"];
@@ -50,8 +43,8 @@
         [book setObject:note forKey:@"note"];
         [book setObject:[user objectId] forKey:@"holder"];
         [book setObject:[user username] forKey:@"holderName"];
-     //   PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
-       // [requestsRelation addObject:request];
+        [book setObject:@0 forKey:@"noOfRequests"];
+        
         self.book = book;
         [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error) {
@@ -103,12 +96,12 @@
 }
 
 
-
-
-
-
 - (IBAction)cancel:(id)sender {
  [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     
 }
+
+
+
+
 @end

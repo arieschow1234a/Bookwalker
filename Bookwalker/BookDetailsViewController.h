@@ -15,7 +15,9 @@
 @property (strong, nonatomic) NSString *isbn;
 @property (strong, nonatomic) NSString *note;
 @property (strong, nonatomic) NSString *holder;
-@property (strong, nonatomic) PFObject *book;
+@property (strong, nonatomic) NSString *objectId;
+@property (strong, nonatomic) NSString *holderId;
+
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;

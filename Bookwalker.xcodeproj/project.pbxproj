@@ -134,7 +134,6 @@
 			isa = PBXGroup;
 			children = (
 				21DE54201917A3A7004C5591 /* Main.storyboard */,
-				21DE54141917A3A7004C5591 /* Controller */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -143,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				213FF14A191CD725003B166B /* View */,
+				21DE54141917A3A7004C5591 /* Controller */,
 				21DE54331917A3A8004C5591 /* BookwalkerTests */,
 				21DE540D1917A3A7004C5591 /* Frameworks */,
 				21DE540C1917A3A7004C5591 /* Products */,
@@ -182,12 +182,12 @@
 		21DE54141917A3A7004C5591 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
+				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
 				213FF14B191CFCB3003B166B /* BooksTableViewController.h */,
 				213FF14C191CFCB3003B166B /* BooksTableViewController.m */,
 				213FF151191D065D003B166B /* BookDetailsViewController.h */,
 				213FF152191D065D003B166B /* BookDetailsViewController.m */,
-				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
-				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
 				213FF144191CA16D003B166B /* BookshelfTableViewController.h */,
 				213FF145191CA16D003B166B /* BookshelfTableViewController.m */,
 				213FF147191CA2CA003B166B /* AddBookViewController.h */,

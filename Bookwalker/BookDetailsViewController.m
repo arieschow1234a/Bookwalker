@@ -10,7 +10,8 @@
 
 @interface BookDetailsViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
-
+@property (strong, nonatomic) PFObject *savedNote;
+@property (strong, nonatomic) PFObject *savedRequest;
 
 @end
 
@@ -19,18 +20,45 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.titleLabel.text = [[NSString alloc]initWithFormat:@"Title: %@", self.bookTitle];
      self.authorLabel.text = [[NSString alloc]initWithFormat:@"Author: %@", self.author];
      self.isbnLabel.text = [[NSString alloc]initWithFormat:@"ISBN: %@", self.isbn];
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@", self.holder];
     self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@", self.note];
-
+    
+    [self.replyTextView.layer setBorderColor: [[UIColor blueColor] CGColor]];
+    [self.replyTextView.layer setBorderWidth:1.0f];
+    self.replyTextView.editable = YES;
     
 }
 
 - (IBAction)sendRequest:(id)sender {
     
-
+    PFUser *user = [PFUser currentUser];
+    
+    PFObject *note = [PFObject objectWithClassName:@"Requests"];
+    [note setObject:self.holderId forKey:@"speakerId"];
+    [note setObject:self.holder forKey:@"speakerName"];
+    [note setObject:self.note forKey:@"comment"];
+    [note setObject:self.objectId forKey:@"bookObjectId"];
+    [note saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            PFObject *request = [PFObject objectWithClassName:@"Requests"];
+            [request setObject:user.objectId forKey:@"speakerId"];
+            [request setObject:user.username forKey:@"speakerName"];
+            [request setObject:self.replyTextView.text forKey:@"comment"];
+            [request setObject:self.objectId forKey:@"bookObjectId"];
+            [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    [self getSavedRequestAndSaveInParse];
+                }
+            }];
+            
+            
+            
+        }
+    }];
     
     
     // going back
@@ -49,5 +77,52 @@
 }
 
 */
+
+#pragma mark - Helper methods
+
+- (void)getSavedRequestAndSaveInParse
+{
+    // Search for the messages sent by others
+    PFQuery *query = [PFQuery queryWithClassName:@"Requests"];
+    [query whereKey:@"bookObjectId" equalTo:self.objectId];
+    [query orderByAscending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog (@"Error: %@ %@", error, [error userInfo]);
+        }else{
+            // We found request!!
+            
+           self.savedNote = objects[0];
+            self.savedRequest = objects[1];
+            
+            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+            [query getObjectInBackgroundWithId:self.objectId block:^(PFObject *book, NSError *error) {
+                
+                PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
+                [requestsRelation addObject:self.savedNote];
+                [requestsRelation addObject:self.savedRequest];
+                // Get the NSNumber into int
+                NSNumber *number = [book objectForKey:@"noOfRequest"];
+                int value = [number intValue];
+                number = [NSNumber numberWithInt:value + 2];
+                [book setObject:number forKey:@"noOfRequests"];
+                
+                [book setObject:[PFUser currentUser].objectId forKey:@"requesterId"];
+
+                [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        NSLog(@"Error %@ %@", error, [error userInfo]);
+                    }
+                }];
+            }];
+        
+        }
+       
+    }];
+}
+
+
+
+
 
 @end

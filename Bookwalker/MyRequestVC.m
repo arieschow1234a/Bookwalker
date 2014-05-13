@@ -11,6 +11,7 @@
 @interface MyRequestVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic)NSArray *conversations;
+@property (weak, nonatomic) IBOutlet UITextView *replyTextView;
 
 
 @end
@@ -24,16 +25,24 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    [self.replyTextView.layer setBorderColor: [[UIColor blueColor] CGColor]];
+    [self.replyTextView.layer setBorderWidth:1.0f];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self retrieveRequestOfABook];
+
 }
 
 
 - (PFObject *)myquest
 {
-    if (!_myquest) {
-        _myquest = [[PFObject alloc] init];
+    if (!_myRequestBook) {
+        _myRequestBook = [[PFObject alloc] init];
     }
-    return _myquest;
+    return _myRequestBook;
 }
 
 - (NSArray *)conversations
@@ -63,6 +72,38 @@
 }
 
 
+- (IBAction)sendReply:(id)sender
+{
+    //save the reply into requests class and save it into books requestsRelation
+    PFUser *user = [PFUser currentUser];
+    PFObject *reply= [PFObject objectWithClassName:@"Requests"];
+    [reply setObject:user.objectId forKey:@"speakerId"];
+    [reply setObject:user.username forKey:@"speakerName"];
+    [reply setObject:self.replyTextView.text forKey:@"comment"];
+    [reply setObject:self.myRequestBook.objectId forKey:@"bookObjectId"];
+    [reply saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self.replyTextView resignFirstResponder];
+            self.replyTextView.text = nil;
+            PFRelation *requestsRelation = [self.myRequestBook relationForKey:@"requestsRelation"];
+            [requestsRelation addObject:reply];
+            // Get the NSNumber into int
+            NSNumber *number = [self.myRequestBook objectForKey:@"noOfRequest"];
+            int value = [number intValue];
+            number = [NSNumber numberWithInt:value + 1];
+            [self.myRequestBook setObject:number forKey:@"noOfRequests"];
+            [self.myRequestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    [self retrieveRequestOfABook];
+                }else{
+                    NSLog(@"Error %@ %@", error, [error userInfo]);
+                }
+            }];
+        }else{
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }
+    }];
+}
 
 /*
 #pragma mark - Navigation
@@ -81,7 +122,7 @@
 - (void)retrieveRequestOfABook
 {
 
-     PFRelation *relation = [self.myquest relationforKey:@"requestsRelation"];
+     PFRelation *relation = [self.myRequestBook relationforKey:@"requestsRelation"];
      PFQuery *query = [relation query];
      [query orderByAscending:@"createdAt"];
      [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

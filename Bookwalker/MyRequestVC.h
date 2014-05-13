@@ -11,6 +11,6 @@
 
 @interface MyRequestVC : UIViewController
 
-@property (nonatomic, strong) PFObject *myquest;
+@property (nonatomic, strong) PFObject *myRequestBook;
 
 @end

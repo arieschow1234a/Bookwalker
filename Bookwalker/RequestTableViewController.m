@@ -7,7 +7,7 @@
 //
 
 #import "RequestTableViewController.h"
-#import "MyRequestVC.h";
+#import "MyRequestVC.h"
 #import <Parse/Parse.h>
 
 @interface RequestTableViewController ()
@@ -39,6 +39,7 @@
     [super viewWillAppear:animated];
     [self retrieveRequest];
     [self.navigationController.navigationBar setHidden:NO];
+
     
 }
 
@@ -82,10 +83,10 @@
         // set up the vc to run here
         
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        PFObject *myRequest = [self.requests objectAtIndex:indexPath.row];
+        PFObject *myRequestBook = [self.requests objectAtIndex:indexPath.row];
         
-        mrvc.myquest = myRequest;
-        mrvc.title = [myRequest objectForKey:@"title"];
+        mrvc.myRequestBook = myRequestBook;
+        mrvc.title = [myRequestBook objectForKey:@"title"];
         
     }
 }
@@ -118,16 +119,6 @@
         }
     }];
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     //May be useful when fetching the request from other people
     /*

@@ -7,6 +7,7 @@
 //
 
 #import "RequestTableViewController.h"
+#import "MyRequestVC.h"
 #import <Parse/Parse.h>
 
 @interface RequestTableViewController ()
@@ -38,6 +39,7 @@
     [super viewWillAppear:animated];
     [self retrieveRequest];
     [self.navigationController.navigationBar setHidden:NO];
+
     
 }
 
@@ -70,16 +72,24 @@
 
 
 
-/*
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([segue.identifier isEqualToString:@"My request"]){
+        
+        MyRequestVC *mrvc = (MyRequestVC *)segue.destinationViewController;
+        // set up the vc to run here
+        
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        PFObject *myRequestBook = [self.requests objectAtIndex:indexPath.row];
+        
+        mrvc.myRequestBook = myRequestBook;
+        mrvc.title = [myRequestBook objectForKey:@"title"];
+        
+    }
 }
-*/
 
 #pragma mark - IBAction
 
@@ -94,6 +104,7 @@
 
 - (void)retrieveRequest
 {
+    // My requests of others' books
     PFUser *user = [PFUser currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query whereKey:@"requesterId" equalTo:user.objectId];
@@ -109,17 +120,7 @@
     }];
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    //May be useful when fetching the request from other people
     /*
      PFUser *user = [PFUser currentUser];
      PFRelation *relation = [user relationforKey:@"booksRelation"];

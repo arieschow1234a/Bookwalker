@@ -24,16 +24,16 @@
             </objects>
             <point key="canvasLocation" x="-154" y="285"/>
         </scene>
-        <!--Books Table View Controller - Discover-->
+        <!--All BooksTVC - Discover-->
         <scene sceneID="zbe-Aw-nMU">
             <objects>
-                <tableViewController id="Ks7-HP-f6K" customClass="BooksTableViewController" sceneMemberID="viewController">
+                <tableViewController id="Ks7-HP-f6K" customClass="AllBooksTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Xiv-sa-WYz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="books" textLabel="Ib0-dL-MC8" detailTextLabel="dHh-9u-5fA" style="IBUITableViewCellStyleSubtitle" id="77Y-mo-V3N">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Book Cell" textLabel="Ib0-dL-MC8" detailTextLabel="dHh-9u-5fA" style="IBUITableViewCellStyleSubtitle" id="77Y-mo-V3N">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="77Y-mo-V3N" id="G7Z-cP-JY6">
@@ -162,16 +162,16 @@
             </objects>
             <point key="canvasLocation" x="1492" y="257"/>
         </scene>
-        <!--Bookshelf Table View Controller - My Bookshelf-->
+        <!--Book ShelfTVC - My Bookshelf-->
         <scene sceneID="kMu-4c-1MG">
             <objects>
-                <tableViewController id="1ri-1f-seN" customClass="BookshelfTableViewController" sceneMemberID="viewController">
+                <tableViewController id="1ri-1f-seN" customClass="BookShelfTVC" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="b0i-MQ-xxm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="books" textLabel="ifw-zO-qEV" detailTextLabel="9IO-WL-jfc" style="IBUITableViewCellStyleSubtitle" id="Cu1-Ex-Tej">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Book Cell" textLabel="ifw-zO-qEV" detailTextLabel="9IO-WL-jfc" style="IBUITableViewCellStyleSubtitle" id="Cu1-Ex-Tej">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cu1-Ex-Tej" id="769-s4-MH2">
@@ -275,7 +275,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="PvV-cN-4Sh" kind="unwind" identifier="Do Add Book" unwindAction="addedPhoto:" id="GZT-1T-qqJ"/>
+                                    <segue destination="PvV-cN-4Sh" kind="unwind" identifier="Do Add Book" unwindAction="addedBook:" id="bHp-0d-RM4"/>
                                 </connections>
                             </button>
                         </subviews>

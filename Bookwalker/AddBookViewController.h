@@ -10,12 +10,7 @@
 #import <Parse/Parse.h>
 
 @interface AddBookViewController : UIViewController
-- (IBAction)cancel:(id)sender;
 
-@property (weak, nonatomic) IBOutlet UITextField *isbnField;
-@property (weak, nonatomic) IBOutlet UITextField *titleField;
-@property (weak, nonatomic) IBOutlet UITextField *authorField;
-@property (weak, nonatomic) IBOutlet UITextField *noteField;
 @property (strong, nonatomic) PFObject *book;
 
 @end

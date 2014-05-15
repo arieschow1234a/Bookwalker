@@ -9,7 +9,10 @@
 #import "AddBookViewController.h"
 
 @interface AddBookViewController ()
-
+@property (weak, nonatomic) IBOutlet UITextField *isbnField;
+@property (weak, nonatomic) IBOutlet UITextField *titleField;
+@property (weak, nonatomic) IBOutlet UITextField *authorField;
+@property (weak, nonatomic) IBOutlet UITextField *noteField;
 @end
 
 @implementation AddBookViewController
@@ -56,16 +59,14 @@
                 [alertView show];
                 
             }else{
-                // Everything was successful!
+                // Saved the book in Parse and then save the book in user's booksRelation
                 PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
                 [booksRelation addObject:book];
-                NSLog(@"Done!!!");
                 [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (error) {
                         NSLog(@"Error %@ %@", error, [error userInfo]);
                     }
                 }];
-
             }
         }];
     }

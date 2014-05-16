@@ -27,7 +27,7 @@
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@", self.holder];
     self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@", self.note];
     
-    [self.replyTextView.layer setBorderColor: [[UIColor blueColor] CGColor]];
+    [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
     self.replyTextView.editable = YES;
     

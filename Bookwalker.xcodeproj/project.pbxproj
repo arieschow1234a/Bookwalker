@@ -23,6 +23,7 @@
 		213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF142191C9BDB003B166B /* RequestTableViewController.m */; };
 		213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF148191CA2CA003B166B /* AddBookViewController.m */; };
 		213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF152191D065D003B166B /* BookDetailsViewController.m */; };
+		21544E841925D66400C20B08 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21544E831925D66400C20B08 /* NavigationController.m */; };
 		21654AB31922274900D808F2 /* MyRequestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21654AB21922274900D808F2 /* MyRequestVC.m */; };
 		21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1019247BED00CA9CA1 /* BooksTVC.m */; };
 		21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */; };
@@ -75,6 +76,8 @@
 		213FF148191CA2CA003B166B /* AddBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddBookViewController.m; sourceTree = "<group>"; };
 		213FF151191D065D003B166B /* BookDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailsViewController.h; sourceTree = "<group>"; };
 		213FF152191D065D003B166B /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
+		21544E821925D66400C20B08 /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
+		21544E831925D66400C20B08 /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		21654AB11922274900D808F2 /* MyRequestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRequestVC.h; sourceTree = "<group>"; };
 		21654AB21922274900D808F2 /* MyRequestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRequestVC.m; sourceTree = "<group>"; };
 		21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTVC.h; sourceTree = "<group>"; };
@@ -144,6 +147,63 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		21544E851925D94600C20B08 /* BookShelf */ = {
+			isa = PBXGroup;
+			children = (
+				21CDCA151924810600CA9CA1 /* BookShelfTVC.h */,
+				21CDCA161924810600CA9CA1 /* BookShelfTVC.m */,
+				213FF147191CA2CA003B166B /* AddBookViewController.h */,
+				213FF148191CA2CA003B166B /* AddBookViewController.m */,
+			);
+			name = BookShelf;
+			sourceTree = "<group>";
+		};
+		21544E861925D95E00C20B08 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				21654AB11922274900D808F2 /* MyRequestVC.h */,
+				21654AB21922274900D808F2 /* MyRequestVC.m */,
+				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
+				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
+			);
+			name = Request;
+			sourceTree = "<group>";
+		};
+		21544E871925D97100C20B08 /* AllBooks */ = {
+			isa = PBXGroup;
+			children = (
+				21CDCA1219247DFB00CA9CA1 /* AllBooksTVC.h */,
+				21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */,
+				213FF151191D065D003B166B /* BookDetailsViewController.h */,
+				213FF152191D065D003B166B /* BookDetailsViewController.m */,
+			);
+			name = AllBooks;
+			sourceTree = "<group>";
+		};
+		21544E881925D98D00C20B08 /* LogIn */ = {
+			isa = PBXGroup;
+			children = (
+				213FF121191C8DAD003B166B /* LoginViewController.h */,
+				213FF122191C8DAD003B166B /* LoginViewController.m */,
+				213FF123191C8DAD003B166B /* SignupViewController.h */,
+				213FF124191C8DAD003B166B /* SignupViewController.m */,
+			);
+			name = LogIn;
+			sourceTree = "<group>";
+		};
+		21544E891925D99E00C20B08 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */,
+				21CDCA1019247BED00CA9CA1 /* BooksTVC.m */,
+				213FF125191C8DAD003B166B /* TPKeyboardAvoidingScrollView.h */,
+				213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */,
+				21544E821925D66400C20B08 /* NavigationController.h */,
+				21544E831925D66400C20B08 /* NavigationController.m */,
+			);
+			name = Support;
+			sourceTree = "<group>";
+		};
 		21DE54021917A3A7004C5591 = {
 			isa = PBXGroup;
 			children = (
@@ -188,26 +248,11 @@
 		21DE54141917A3A7004C5591 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				21654AB11922274900D808F2 /* MyRequestVC.h */,
-				21654AB21922274900D808F2 /* MyRequestVC.m */,
-				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
-				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
-				21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */,
-				21CDCA1019247BED00CA9CA1 /* BooksTVC.m */,
-				21CDCA1219247DFB00CA9CA1 /* AllBooksTVC.h */,
-				21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */,
-				213FF151191D065D003B166B /* BookDetailsViewController.h */,
-				213FF152191D065D003B166B /* BookDetailsViewController.m */,
-				21CDCA151924810600CA9CA1 /* BookShelfTVC.h */,
-				21CDCA161924810600CA9CA1 /* BookShelfTVC.m */,
-				213FF147191CA2CA003B166B /* AddBookViewController.h */,
-				213FF148191CA2CA003B166B /* AddBookViewController.m */,
-				213FF121191C8DAD003B166B /* LoginViewController.h */,
-				213FF122191C8DAD003B166B /* LoginViewController.m */,
-				213FF123191C8DAD003B166B /* SignupViewController.h */,
-				213FF124191C8DAD003B166B /* SignupViewController.m */,
-				213FF125191C8DAD003B166B /* TPKeyboardAvoidingScrollView.h */,
-				213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */,
+				21544E881925D98D00C20B08 /* LogIn */,
+				21544E871925D97100C20B08 /* AllBooks */,
+				21544E861925D95E00C20B08 /* Request */,
+				21544E851925D94600C20B08 /* BookShelf */,
+				21544E891925D99E00C20B08 /* Support */,
 				21DE54261917A3A7004C5591 /* Images.xcassets */,
 				21DE54151917A3A7004C5591 /* Supporting Files */,
 			);
@@ -346,6 +391,7 @@
 				213FF127191C8DAD003B166B /* LoginViewController.m in Sources */,
 				21DE541F1917A3A7004C5591 /* AppDelegate.m in Sources */,
 				213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */,
+				21544E841925D66400C20B08 /* NavigationController.m in Sources */,
 				21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */,
 				21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */,
 				213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */,

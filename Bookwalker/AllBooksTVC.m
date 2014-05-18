@@ -66,7 +66,7 @@
         if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
-            self.books = objects;
+            self.books = [[NSMutableArray alloc] initWithArray:objects];
         }
     }];
 }

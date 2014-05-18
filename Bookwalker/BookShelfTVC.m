@@ -39,20 +39,15 @@
 {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.books removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
         PFObject *book = [self.books objectAtIndex:indexPath.row];
         [book deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
-                //delete
-                [self.books removeObjectAtIndex:indexPath.row];
-                [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-            }else{
+            if (error) {
                 NSLog(@"Error %@ %@", error, [error userInfo]);
             }
         }];
-
-        
-    
-        }
+    }
 }
     
 

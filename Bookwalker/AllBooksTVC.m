@@ -60,7 +60,6 @@
 
 - (void)fetchAllBooks
 {
-    
     PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query orderByDescending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {

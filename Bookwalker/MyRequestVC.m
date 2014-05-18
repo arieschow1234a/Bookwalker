@@ -25,7 +25,7 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.replyTextView.layer setBorderColor: [[UIColor blueColor] CGColor]];
+    [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
 }
 

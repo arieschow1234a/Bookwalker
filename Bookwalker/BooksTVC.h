@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BooksTVC : UITableViewController
-@property (nonatomic, strong) NSArray *books;
+@property (nonatomic, strong) NSMutableArray *books;
 @end

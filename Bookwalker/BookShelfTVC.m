@@ -26,6 +26,30 @@
     [self fetchMyBook];
 }
 
+#pragma mark - tableview delegate
+
+// Use the swipe to delete the entry
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.books removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        PFObject *book = [self.books objectAtIndex:indexPath.row];
+        [book deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (error) {
+                NSLog(@"Error %@ %@", error, [error userInfo]);
+            }
+        }];
+    }
+}
+    
 
 
 
@@ -57,7 +81,8 @@
         if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
-            self.books = objects;
+            self.books = [[NSMutableArray alloc] initWithArray:objects];
+            
         }
     }];
     

@@ -24,7 +24,7 @@
     
 }
 
-- (void)setBooks:(NSArray *)books
+- (void)setBooks:(NSMutableArray *)books
 {
     _books = books;
     [self.tableView reloadData];

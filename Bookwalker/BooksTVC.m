@@ -7,7 +7,9 @@
 //
 
 #import "BooksTVC.h"
+#import "BookCell.h"
 #import <Parse/Parse.h>
+
 
 @interface BooksTVC ()
 
@@ -46,12 +48,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Book Cell" forIndexPath:indexPath];
+    BookCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BookCell" forIndexPath:indexPath];
     
     // Configure the cell...
     PFObject *book = [self.books objectAtIndex:indexPath.row];
-    cell.textLabel.text = [book objectForKey:@"title"];
-    cell.detailTextLabel.text = [book objectForKey:@"author"];
+    [cell configureCellForBook:book];
+
+    
+    //cell.textLabel.text = [book objectForKey:@"title"];
+    //cell.detailTextLabel.text = [book objectForKey:@"author"];
     
     return cell;
 }

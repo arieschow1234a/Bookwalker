@@ -19,11 +19,6 @@
 @property (strong, nonatomic) NSString *holderId;
 
 
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *authorLabel;
-@property (weak, nonatomic) IBOutlet UILabel *isbnLabel;
-@property (weak, nonatomic) IBOutlet UILabel *noteLabel;
-@property (weak, nonatomic) IBOutlet UILabel *holderLabel;
 
 
 

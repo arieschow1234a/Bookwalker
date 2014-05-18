@@ -157,6 +157,7 @@
                     <navigationItem key="navigationItem" id="8dB-3w-3ZM"/>
                     <connections>
                         <outlet property="authorLabel" destination="IVc-Gc-O25" id="Eh1-tp-mtg"/>
+                        <outlet property="bookImageView" destination="ixc-Ly-ALZ" id="ayY-c1-czL"/>
                         <outlet property="holderLabel" destination="wOs-0g-pKa" id="gBT-Ec-iEb"/>
                         <outlet property="isbnLabel" destination="BaJ-XU-8mh" id="SUn-gm-Bcm"/>
                         <outlet property="noteLabel" destination="zZa-MR-IOT" id="Gq1-P3-ZAd"/>
@@ -207,6 +208,7 @@
                                     <outlet property="authorLabel" destination="eSa-0p-TDK" id="DNf-5A-gul"/>
                                     <outlet property="bookImageView" destination="DcG-ar-5TJ" id="hiX-G1-yBg"/>
                                     <outlet property="titleLabel" destination="biQ-xU-u5L" id="RIH-sx-Yaf"/>
+                                    <segue destination="VUw-ef-rWl" kind="modal" identifier="edit" id="wtd-Yz-Y26"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -717,6 +719,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VUw-ef-rWl" customClass="NavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="b6f-5X-M19"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="A8N-Bf-a4x">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -741,4 +744,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="wtd-Yz-Y26"/>
+    </inferredMetricsTieBreakers>
 </document>

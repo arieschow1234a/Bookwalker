@@ -57,6 +57,19 @@
 
 #pragma mark - Navigation
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"edit"]){
+        UITableViewCell *cell = sender;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+        UINavigationController *navigationController = segue.destinationViewController;
+        AddBookViewController *abvc = (AddBookViewController *)navigationController.topViewController;
+        abvc.book = [self.books objectAtIndex:indexPath.row];
+    }
+}
+
+
+
 - (IBAction)addedBook:(UIStoryboardSegue *)segue
 {
     if ([segue.sourceViewController isKindOfClass:[AddBookViewController class]]) {

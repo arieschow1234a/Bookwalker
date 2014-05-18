@@ -13,6 +13,13 @@
 @property (strong, nonatomic) PFObject *savedNote;
 @property (strong, nonatomic) PFObject *savedRequest;
 
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *authorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *isbnLabel;
+@property (weak, nonatomic) IBOutlet UILabel *noteLabel;
+@property (weak, nonatomic) IBOutlet UILabel *holderLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *bookImageView;
+
 @end
 
 @implementation BookDetailsViewController
@@ -26,6 +33,7 @@
      self.isbnLabel.text = [[NSString alloc]initWithFormat:@"ISBN: %@", self.isbn];
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@", self.holder];
     self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@", self.note];
+    self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
     
     [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];

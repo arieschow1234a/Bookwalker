@@ -169,7 +169,7 @@
             </objects>
             <point key="canvasLocation" x="1492" y="257"/>
         </scene>
-        <!--Book ShelfTVC - My Bookshelf-->
+        <!--Book ShelfTVC - Share your books-->
         <scene sceneID="kMu-4c-1MG">
             <objects>
                 <tableViewController id="1ri-1f-seN" customClass="BookShelfTVC" sceneMemberID="viewController">
@@ -217,7 +217,7 @@
                             <outlet property="delegate" destination="1ri-1f-seN" id="dF9-KD-gb2"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="My Bookshelf" id="IZ3-PR-qSK">
+                    <navigationItem key="navigationItem" title="Share your books" id="IZ3-PR-qSK">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="6QV-4B-alA">
                             <connections>
                                 <segue destination="VUw-ef-rWl" kind="modal" identifier="Add Book" id="XjY-4T-GLX"/>
@@ -676,11 +676,11 @@
             </objects>
             <point key="canvasLocation" x="2002" y="-938"/>
         </scene>
-        <!--Navigation Controller - Books-->
+        <!--Navigation Controller - Discover-->
         <scene sceneID="08Z-7A-3D2">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tew-NP-9UI" customClass="NavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Books" image="book" id="iDg-qk-Yx6"/>
+                    <tabBarItem key="tabBarItem" title="Discover" image="book" id="iDg-qk-Yx6"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NoQ-ew-cSr">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -695,11 +695,11 @@
             </objects>
             <point key="canvasLocation" x="511" y="280"/>
         </scene>
-        <!--Navigation Controller - Bookshelf-->
+        <!--Navigation Controller - Share-->
         <scene sceneID="9uV-0y-hWl">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tpx-pq-iyi" customClass="NavigationController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Bookshelf" image="bookshelf" id="acg-ps-Sxh"/>
+                    <tabBarItem key="tabBarItem" title="Share" image="bookshelf" id="acg-ps-Sxh"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Aif-Pt-2nK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

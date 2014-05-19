@@ -7,7 +7,7 @@
 //
 
 #import "RequestTableViewController.h"
-#import "MyRequestVC.h"
+#import "RequestDetailsVC.h"
 #import <Parse/Parse.h>
 
 @interface RequestTableViewController ()
@@ -54,7 +54,6 @@
         [self.allRequests addObject:requestsFromOthers];
     }else if ([self.allRequests count] == 2){
        [self.allRequests replaceObjectAtIndex:1 withObject:requestsFromOthers];
-      //  [self.allRequests insertObject:requestsFromOthers atIndex:0];
     }else{
         [self.allRequests replaceObjectAtIndex:0 withObject:requestsFromOthers];
 
@@ -129,16 +128,15 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([segue.identifier isEqualToString:@"My request"]){
+    if([segue.identifier isEqualToString:@"showRequest"]){
         
-        MyRequestVC *mrvc = (MyRequestVC *)segue.destinationViewController;
+        RequestDetailsVC *rdvc = (RequestDetailsVC *)segue.destinationViewController;
         // set up the vc to run here
         
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        PFObject *myRequestBook = [self.allRequests objectAtIndex:indexPath.row];
-        
-        mrvc.myRequestBook = myRequestBook;
-        mrvc.title = [myRequestBook objectForKey:@"title"];
+        PFObject *requestBook = [[self.allRequests objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        rdvc.requestBook = requestBook;
+        rdvc.title = [requestBook objectForKey:@"title"];
         
     }
 }
@@ -168,35 +166,6 @@
            self.myRequests = [[NSMutableArray alloc] initWithArray:objects];
         }
     }];
-    
-
-    
-    //May be useful when fetching the request from other people
-    /*
-     PFUser *user = [PFUser currentUser];
-     PFRelation *relation = [user relationforKey:@"booksRelation"];
-    
-    PFQuery *query = [relation query];
-    [query orderByDescending:@"updatedAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (error) {
-            // There was an error
-        } else {
-            self.requests = nil;
-            NSArray *books = [[NSArray alloc] initWithArray:objects];
-            for (PFObject *book in books){
-                NSNumber *number = [book objectForKey:@"noOfRequests"];
-                NSLog(@"%@", number);
-                int value = [number intValue];
-                if(value > 1) {
-                    NSLog(@"found");
-                    [self.requests addObject:book];
-                }
-            }
-            [self.tableView reloadData];
-        }
-    }];
-     */
     
 }
 

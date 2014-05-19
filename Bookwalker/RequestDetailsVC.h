@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface MyRequestVC : UIViewController
+@interface RequestDetailsVC : UIViewController
 
-@property (nonatomic, strong) PFObject *myRequestBook;
+@property (nonatomic, strong) PFObject *requestBook;
 
 @end

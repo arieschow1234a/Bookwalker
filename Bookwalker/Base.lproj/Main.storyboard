@@ -320,7 +320,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="qRQ-wH-kLf" kind="push" identifier="My request" id="PzG-8r-kki"/>
+                                    <segue destination="qRQ-wH-kLf" kind="push" identifier="showRequest" id="PzG-8r-kki"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -344,10 +344,10 @@
             </objects>
             <point key="canvasLocation" x="1025" y="-346"/>
         </scene>
-        <!--My RequestVC-->
+        <!--Request DetailsVC-->
         <scene sceneID="b4S-w8-RiV">
             <objects>
-                <viewController id="qRQ-wH-kLf" customClass="MyRequestVC" sceneMemberID="viewController">
+                <viewController id="qRQ-wH-kLf" customClass="RequestDetailsVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jma-kJ-bJS"/>
                         <viewControllerLayoutGuide type="bottom" id="Bho-9z-3mo"/>

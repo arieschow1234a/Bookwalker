@@ -24,7 +24,7 @@
 		213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF148191CA2CA003B166B /* AddBookViewController.m */; };
 		213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF152191D065D003B166B /* BookDetailsViewController.m */; };
 		21544E841925D66400C20B08 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21544E831925D66400C20B08 /* NavigationController.m */; };
-		21654AB31922274900D808F2 /* MyRequestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21654AB21922274900D808F2 /* MyRequestVC.m */; };
+		21654AB31922274900D808F2 /* RequestDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21654AB21922274900D808F2 /* RequestDetailsVC.m */; };
 		21B24F0A19289DB8002174E2 /* BookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21B24F0919289DB8002174E2 /* BookCell.m */; };
 		21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1019247BED00CA9CA1 /* BooksTVC.m */; };
 		21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */; };
@@ -79,8 +79,8 @@
 		213FF152191D065D003B166B /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		21544E821925D66400C20B08 /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		21544E831925D66400C20B08 /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
-		21654AB11922274900D808F2 /* MyRequestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRequestVC.h; sourceTree = "<group>"; };
-		21654AB21922274900D808F2 /* MyRequestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRequestVC.m; sourceTree = "<group>"; };
+		21654AB11922274900D808F2 /* RequestDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestDetailsVC.h; sourceTree = "<group>"; };
+		21654AB21922274900D808F2 /* RequestDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestDetailsVC.m; sourceTree = "<group>"; };
 		21B24F0819289DB8002174E2 /* BookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCell.h; sourceTree = "<group>"; };
 		21B24F0919289DB8002174E2 /* BookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCell.m; sourceTree = "<group>"; };
 		21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTVC.h; sourceTree = "<group>"; };
@@ -166,8 +166,8 @@
 			children = (
 				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
 				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
-				21654AB11922274900D808F2 /* MyRequestVC.h */,
-				21654AB21922274900D808F2 /* MyRequestVC.m */,
+				21654AB11922274900D808F2 /* RequestDetailsVC.h */,
+				21654AB21922274900D808F2 /* RequestDetailsVC.m */,
 			);
 			name = Request;
 			sourceTree = "<group>";
@@ -402,7 +402,7 @@
 				213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */,
 				21DE541B1917A3A7004C5591 /* main.m in Sources */,
 				21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */,
-				21654AB31922274900D808F2 /* MyRequestVC.m in Sources */,
+				21654AB31922274900D808F2 /* RequestDetailsVC.m in Sources */,
 				21B24F0A19289DB8002174E2 /* BookCell.m in Sources */,
 				213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */,
 				213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */,

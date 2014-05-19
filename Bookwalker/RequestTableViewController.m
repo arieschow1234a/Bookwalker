@@ -65,7 +65,8 @@
     
     // Configure the cell...
     PFObject *request = [self.requests objectAtIndex:indexPath.row];
-    cell.textLabel.text = [request objectForKey:@"title"];
+    //cell.textLabel.text = [NSString stringWithFormat:@"For %@, %@ sent you a request", request[@"title"], request[@""] ];
+    
     
     return cell;
 }

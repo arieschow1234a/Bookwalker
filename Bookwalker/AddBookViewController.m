@@ -21,7 +21,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    if (self.book !=nil) {
+        self.isbnField.text = [self.book objectForKey:@"isbn"];
+        self.titleField.text = [self.book objectForKey:@"title"];
+        self.authorField.text = [self.book objectForKey:@"author"];
+        self.noteField.text = [self.book objectForKey:@"note"];
+    }
 }
 
 #pragma mark - Navigation
@@ -31,44 +37,12 @@
 {
     
     if ([segue.identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]){
-        // need to change ISBN to number
-        NSString *isbn = [self.isbnField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *title = self.titleField.text;
-        NSString *author = self.authorField.text;
-        NSString *note = self.noteField.text;
-        PFUser *user = [PFUser currentUser];
+        if (self.book != nil) {
+            [self updateBook];
+        }else{
+            [self createBook];
 
-        //upload to parse
-        PFObject *book = [PFObject objectWithClassName:@"Books"];
-        [book setObject:isbn forKey:@"isbn"];
-        [book setObject:title forKey:@"title"];
-        [book setObject:author forKey:@"author"];
-        [book setObject:note forKey:@"note"];
-        [book setObject:[user objectId] forKey:@"holder"];
-        [book setObject:[user username] forKey:@"holderName"];
-        [book setObject:@0 forKey:@"noOfRequests"];
-        
-        self.book = book;
-        [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (error) {
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
-                                                                    message:@"Please try again"
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil, nil];
-                [alertView show];
-                
-            }else{
-                // Saved the book in Parse and then save the book in user's booksRelation
-                PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
-                [booksRelation addObject:book];
-                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (error) {
-                        NSLog(@"Error %@ %@", error, [error userInfo]);
-                    }
-                }];
-            }
-        }];
+        }
     }
 
 }
@@ -94,6 +68,66 @@
         return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
     }
     return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
+}
+
+
+#pragma mark - helper method
+
+- (void)updateBook
+{
+    self.book[@"note"] = self.noteField.text;
+    [self.book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"updated");
+        }else if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }
+    }];
+
+
+}
+
+
+
+- (void)createBook
+{
+    // need to change ISBN to number
+    NSString *isbn = [self.isbnField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+    PFUser *user = [PFUser currentUser];
+    
+    //upload to parse
+    PFObject *book = [PFObject objectWithClassName:@"Books"];
+    [book setObject:isbn forKey:@"isbn"];
+    [book setObject:self.titleField.text forKey:@"title"];
+    [book setObject:self.authorField.text forKey:@"author"];
+    [book setObject:self.noteField.text forKey:@"note"];
+    [book setObject:[user objectId] forKey:@"holder"];
+    [book setObject:[user username] forKey:@"holderName"];
+    [book setObject:@0 forKey:@"noOfRequests"];
+    
+    [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
+                                                                message:@"Please try again"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            
+        }else{
+            // Saved the book in Parse and then save the book in user's booksRelation
+            PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
+            [booksRelation addObject:book];
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    NSLog(@"Error %@ %@", error, [error userInfo]);
+                }
+            }];
+        }
+    }];
+
+    
 }
 
 

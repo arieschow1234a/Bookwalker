@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 Aries. All rights reserved.
 //
 
-#import "MyRequestVC.h"
+#import "RequestDetailsVC.h"
 
-@interface MyRequestVC () <UITableViewDelegate, UITableViewDataSource>
+@interface RequestDetailsVC () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic)NSArray *conversations;
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation MyRequestVC
+@implementation RequestDetailsVC
 
 
 
@@ -33,24 +33,18 @@
 {
     [super viewWillAppear:animated];
     [self retrieveRequestOfABook];
-
+    
 }
 
 
-- (PFObject *)myquest
+
+- (void)setConversations:(NSArray *)conversations
 {
-    if (!_myRequestBook) {
-        _myRequestBook = [[PFObject alloc] init];
-    }
-    return _myRequestBook;
+    _conversations = conversations;
+    [self.tableView reloadData];
 }
 
-- (NSArray *)conversations
-{
-    if (!_conversations) _conversations = [[NSArray alloc] init];
-    return _conversations;
-        
-}
+
 
 #pragma mark - UITableViewDataSource
 
@@ -80,19 +74,19 @@
     [reply setObject:user.objectId forKey:@"speakerId"];
     [reply setObject:user.username forKey:@"speakerName"];
     [reply setObject:self.replyTextView.text forKey:@"comment"];
-    [reply setObject:self.myRequestBook.objectId forKey:@"bookObjectId"];
+    [reply setObject:self.requestBook.objectId forKey:@"bookObjectId"];
     [reply saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [self.replyTextView resignFirstResponder];
             self.replyTextView.text = nil;
-            PFRelation *requestsRelation = [self.myRequestBook relationForKey:@"requestsRelation"];
+            PFRelation *requestsRelation = [self.requestBook relationForKey:@"requestsRelation"];
             [requestsRelation addObject:reply];
             // Get the NSNumber into int
-            NSNumber *number = [self.myRequestBook objectForKey:@"noOfRequest"];
+            NSNumber *number = [self.requestBook objectForKey:@"noOfRequest"];
             int value = [number intValue];
             number = [NSNumber numberWithInt:value + 1];
-            [self.myRequestBook setObject:number forKey:@"noOfRequests"];
-            [self.myRequestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [self.requestBook setObject:number forKey:@"noOfRequests"];
+            [self.requestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
                     [self retrieveRequestOfABook];
                 }else{
@@ -122,7 +116,7 @@
 - (void)retrieveRequestOfABook
 {
 
-     PFRelation *relation = [self.myRequestBook relationforKey:@"requestsRelation"];
+     PFRelation *relation = [self.requestBook relationforKey:@"requestsRelation"];
      PFQuery *query = [relation query];
      [query orderByAscending:@"createdAt"];
      [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -130,7 +124,6 @@
          // There was an error
          } else {
              self.conversations = objects;
-             [self.tableView reloadData];
          }
      }];
     

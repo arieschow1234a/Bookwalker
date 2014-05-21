@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2107A5A4192D1F2E005D4B69 /* GoogleBooksFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 2107A5A3192D1F2E005D4B69 /* GoogleBooksFetcher.m */; };
 		213FF127191C8DAD003B166B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF122191C8DAD003B166B /* LoginViewController.m */; };
 		213FF128191C8DAD003B166B /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF124191C8DAD003B166B /* SignupViewController.m */; };
 		213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */; };
@@ -55,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2107A5A2192D1F2E005D4B69 /* GoogleBooksFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleBooksFetcher.h; sourceTree = "<group>"; };
+		2107A5A3192D1F2E005D4B69 /* GoogleBooksFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleBooksFetcher.m; sourceTree = "<group>"; };
 		213FF121191C8DAD003B166B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		213FF122191C8DAD003B166B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		213FF123191C8DAD003B166B /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
@@ -197,6 +200,8 @@
 		21544E891925D99E00C20B08 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				2107A5A2192D1F2E005D4B69 /* GoogleBooksFetcher.h */,
+				2107A5A3192D1F2E005D4B69 /* GoogleBooksFetcher.m */,
 				21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */,
 				21CDCA1019247BED00CA9CA1 /* BooksTVC.m */,
 				21B24F0819289DB8002174E2 /* BookCell.h */,
@@ -404,6 +409,7 @@
 				21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */,
 				21654AB31922274900D808F2 /* RequestDetailsVC.m in Sources */,
 				21B24F0A19289DB8002174E2 /* BookCell.m in Sources */,
+				2107A5A4192D1F2E005D4B69 /* GoogleBooksFetcher.m in Sources */,
 				213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */,
 				213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */,
 				213FF128191C8DAD003B166B /* SignupViewController.m in Sources */,

@@ -7,12 +7,20 @@
 //
 
 #import "AddBookViewController.h"
+#import "GoogleBooksFetcher.h"
 
 @interface AddBookViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *isbnField;
-@property (weak, nonatomic) IBOutlet UITextField *titleField;
-@property (weak, nonatomic) IBOutlet UITextField *authorField;
+
+@property (weak, nonatomic) IBOutlet UITextField *isbnTextField;
+@property (weak, nonatomic) IBOutlet UITextView *titleTextView;
+@property (weak, nonatomic) IBOutlet UITextView *authorTextView;
 @property (weak, nonatomic) IBOutlet UITextField *noteField;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) NSURL *imageURL;
+
+
 @end
 
 @implementation AddBookViewController
@@ -23,12 +31,25 @@
     [super viewDidLoad];
     
     if (self.book !=nil) {
-        self.isbnField.text = [self.book objectForKey:@"isbn"];
-        self.titleField.text = [self.book objectForKey:@"title"];
-        self.authorField.text = [self.book objectForKey:@"author"];
+        self.isbnTextField.text = [self.book objectForKey:@"isbn"];
+        self.titleTextView.text = [self.book objectForKey:@"title"];
+        self.authorTextView.text = [self.book objectForKey:@"author"];
         self.noteField.text = [self.book objectForKey:@"note"];
     }
 }
+
+- (UIImage *)image
+{
+    return self.imageView.image;
+}
+
+- (void)setImage:(UIImage *)image
+{
+    self.imageView.image = image; // does not change the frame of the UIImageView
+    [self.imageView sizeToFit];   // update the frame of the UIImageView
+    
+}
+
 
 #pragma mark - Navigation
 #define UNWIND_SEGUE_IDENTIFIER @"Do Add Book"
@@ -50,9 +71,9 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
 {
     if ([identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]) {
-        NSString *isbn = [self.isbnField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *title = self.titleField.text;
-        NSString *author = self.authorField.text;
+        NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString *title = self.titleTextView.text;
+        NSString *author = self.authorTextView.text;
         NSString *note = self.noteField.text;
 
         //need to check if ISBN is number
@@ -92,15 +113,15 @@
 - (void)createBook
 {
     // need to change ISBN to number
-    NSString *isbn = [self.isbnField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
     PFUser *user = [PFUser currentUser];
     
     //upload to parse
     PFObject *book = [PFObject objectWithClassName:@"Books"];
     [book setObject:isbn forKey:@"isbn"];
-    [book setObject:self.titleField.text forKey:@"title"];
-    [book setObject:self.authorField.text forKey:@"author"];
+    [book setObject:self.titleTextView.text forKey:@"title"];
+    [book setObject:self.authorTextView.text forKey:@"author"];
     [book setObject:self.noteField.text forKey:@"note"];
     [book setObject:[user objectId] forKey:@"holder"];
     [book setObject:[user username] forKey:@"holderName"];
@@ -135,6 +156,94 @@
  [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     
 }
+
+- (IBAction)SeachBook
+{
+    [self.isbnTextField resignFirstResponder];
+    
+    NSString *isbn = self.isbnTextField.text;
+    
+  // for testing  NSString *isbn = @"9789867406392";
+    NSURLRequest *request = [NSURLRequest requestWithURL:[GoogleBooksFetcher URLforbookWithISBN:isbn]];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    
+    // create the session without specifying a queue to run completion handler on (thus, not main queue)
+    // we also don't specify a delegate (since completion handler is all we need)
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                    completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
+        // this handler is not executing on the main queue, so we can't do UI directly here
+        if (!error) {
+            NSData *jsonResults = [NSData dataWithContentsOfURL:localfile];
+            // convert it to a Property List (NSArray and NSDictionary)
+            NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
+                                                                                options:0
+                                                                                  error:NULL];
+            NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
+            NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
+            NSLog(@"volume: %@", volumeInfo);
+            
+            NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
+            NSString *title = [volumeInfo valueForKey:@"title"];
+            NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
+            // so we must dispatch this back to the main queue
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.titleTextView.text = title;
+                self.authorTextView.text = author;
+               self.imageURL = [NSURL URLWithString:thumbnail];
+            });
+        }
+    }];
+    [task resume]; // don't forget that all NSURLSession tasks start out suspended!
+    
+    
+    
+}
+
+#pragma mark - Setting the Image from the Image's URL
+
+- (void)setImageURL:(NSURL *)imageURL
+{
+    _imageURL = imageURL;
+    //    self.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.imageURL]]; // blocks main queue!
+    [self startDownloadingImage];
+}
+
+- (void)startDownloadingImage
+{
+    self.image = nil;
+    
+    if (self.imageURL)
+    {
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:self.imageURL];
+        
+        // another configuration option is backgroundSessionConfiguration (multitasking API required though)
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        
+        // create the session without specifying a queue to run completion handler on (thus, not main queue)
+        // we also don't specify a delegate (since completion handler is all we need)
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+        
+        NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                        completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
+                                                            // this handler is not executing on the main queue, so we can't do UI directly here
+                                                            if (!error) {
+                                                                if ([request.URL isEqual:self.imageURL]) {
+                                                                    // UIImage is an exception to the "can't do UI here"
+                                                                    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:localfile]];
+                                                                    // but calling "self.image =" is definitely not an exception to that!
+                                                                    // so we must dispatch this back to the main queue
+                                                                    dispatch_async(dispatch_get_main_queue(), ^{ self.image = image; });
+                                                                }
+                                                            }
+                                                        }];
+        [task resume]; // don't forget that all NSURLSession tasks start out suspended!
+    }
+}
+
+
 
 
 

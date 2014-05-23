@@ -134,7 +134,7 @@
     [book setObject:[user objectId] forKey:@"holder"];
     [book setObject:[user username] forKey:@"holderName"];
     [book setObject:@0 forKey:@"noOfRequests"];
-    
+    self.book = book;
     [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
@@ -236,8 +236,8 @@
 {
     [self.isbnTextField resignFirstResponder];
     
-    NSString *isbn = self.isbnTextField.text;
-    
+    NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
   // for testing  NSString *isbn = @"9789867406392";
     NSURLRequest *request = [NSURLRequest requestWithURL:[GoogleBooksFetcher URLforbookWithISBN:isbn]];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];

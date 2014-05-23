@@ -18,6 +18,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    PFUser *currentUser = [PFUser currentUser];
+    if (!currentUser) {
+        [self performSegueWithIdentifier:@"showLogin" sender:self];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated

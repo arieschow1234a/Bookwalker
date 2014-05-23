@@ -153,7 +153,7 @@
 			name = View;
 			sourceTree = "<group>";
 		};
-		21544E851925D94600C20B08 /* BookShelf */ = {
+		21544E851925D94600C20B08 /* Share */ = {
 			isa = PBXGroup;
 			children = (
 				21CDCA151924810600CA9CA1 /* BookShelfTVC.h */,
@@ -161,7 +161,7 @@
 				213FF147191CA2CA003B166B /* AddBookViewController.h */,
 				213FF148191CA2CA003B166B /* AddBookViewController.m */,
 			);
-			name = BookShelf;
+			name = Share;
 			sourceTree = "<group>";
 		};
 		21544E861925D95E00C20B08 /* Request */ = {
@@ -261,7 +261,7 @@
 				21544E881925D98D00C20B08 /* LogIn */,
 				21544E871925D97100C20B08 /* AllBooks */,
 				21544E861925D95E00C20B08 /* Request */,
-				21544E851925D94600C20B08 /* BookShelf */,
+				21544E851925D94600C20B08 /* Share */,
 				21544E891925D99E00C20B08 /* Support */,
 				21DE54261917A3A7004C5591 /* Images.xcassets */,
 				21DE54151917A3A7004C5591 /* Supporting Files */,

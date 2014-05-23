@@ -27,13 +27,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.titleLabel.text = [self.book objectForKey:@"title"];
+     self.authorLabel.text = [self.book objectForKey:@"author"];
+     self.isbnLabel.text = [self.book objectForKey:@"isbn"];
+    self.holderLabel.text = [self.book objectForKey:@"holderName"];
+    self.noteLabel.text = [self.book objectForKey:@"note"];
     
-    self.titleLabel.text = [[NSString alloc]initWithFormat:@"Title: %@", self.bookTitle];
-     self.authorLabel.text = [[NSString alloc]initWithFormat:@"Author: %@", self.author];
-     self.isbnLabel.text = [[NSString alloc]initWithFormat:@"ISBN: %@", self.isbn];
-    self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@", self.holder];
-    self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@", self.note];
-    self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
+    
+    PFFile *imagefile = [self.book objectForKey:@"file"];
+    if (imagefile) {
+        [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+            if (!error) {
+                UIImage *image = [UIImage imageWithData:imageData];
+                self.bookImageView.image = image;
+            }
+        }];
+    }else{
+        self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
+    }
+
+    
+    
     
     [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
@@ -46,17 +60,17 @@
     PFUser *user = [PFUser currentUser];
     
     PFObject *note = [PFObject objectWithClassName:@"Requests"];
-    [note setObject:self.holderId forKey:@"speakerId"];
-    [note setObject:self.holder forKey:@"speakerName"];
-    [note setObject:self.note forKey:@"comment"];
-    [note setObject:self.objectId forKey:@"bookObjectId"];
+    [note setObject:self.book[@"holder"] forKey:@"speakerId"];
+    [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
+    [note setObject:self.book[@"note"] forKey:@"comment"];
+    [note setObject:self.book.objectId forKey:@"bookObjectId"];
     [note saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             PFObject *request = [PFObject objectWithClassName:@"Requests"];
             [request setObject:user.objectId forKey:@"speakerId"];
             [request setObject:user.username forKey:@"speakerName"];
             [request setObject:self.replyTextView.text forKey:@"comment"];
-            [request setObject:self.objectId forKey:@"bookObjectId"];
+            [request setObject:self.book.objectId forKey:@"bookObjectId"];
             [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
                     [self getSavedRequestAndSaveInParse];
@@ -92,7 +106,7 @@
 {
     // Search for the messages sent by others
     PFQuery *query = [PFQuery queryWithClassName:@"Requests"];
-    [query whereKey:@"bookObjectId" equalTo:self.objectId];
+    [query whereKey:@"bookObjectId" equalTo:self.book.objectId];
     [query orderByAscending:@"createdAt"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
@@ -104,7 +118,7 @@
             self.savedRequest = objects[1];
             
             PFQuery *query = [PFQuery queryWithClassName:@"Books"];
-            [query getObjectInBackgroundWithId:self.objectId block:^(PFObject *book, NSError *error) {
+            [query getObjectInBackgroundWithId:self.book.objectId block:^(PFObject *book, NSError *error) {
                 
                 PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
                 [requestsRelation addObject:self.savedNote];

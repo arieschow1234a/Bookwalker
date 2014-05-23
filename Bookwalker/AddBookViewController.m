@@ -235,6 +235,7 @@
 - (IBAction)SeachBook
 {
     [self.isbnTextField resignFirstResponder];
+    [self.noteField resignFirstResponder];
     
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 

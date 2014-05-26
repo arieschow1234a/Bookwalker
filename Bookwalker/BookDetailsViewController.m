@@ -7,6 +7,7 @@
 //
 
 #import "BookDetailsViewController.h"
+#import "BWHelper.h"
 
 @interface BookDetailsViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
@@ -18,6 +19,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *isbnLabel;
 @property (weak, nonatomic) IBOutlet UILabel *noteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *holderLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+
+
 @property (weak, nonatomic) IBOutlet UIImageView *bookImageView;
 
 @end
@@ -28,12 +32,12 @@
 {
     [super viewDidLoad];
     self.titleLabel.text = [self.book objectForKey:@"title"];
-     self.authorLabel.text = [self.book objectForKey:@"author"];
-     self.isbnLabel.text = [self.book objectForKey:@"isbn"];
-    self.holderLabel.text = [self.book objectForKey:@"holderName"];
-    self.noteLabel.text = [self.book objectForKey:@"note"];
-    
-    
+    self.authorLabel.text = [self.book objectForKey:@"author"];
+    self.isbnLabel.text = [self.book objectForKey:@"isbn"];
+    self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
+    self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@",[self.book objectForKey:@"holderName"]];
+    self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@",[self.book objectForKey:@"note"]];
+
     PFFile *imagefile = [self.book objectForKey:@"file"];
     if (imagefile) {
         [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {

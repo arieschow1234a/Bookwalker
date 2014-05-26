@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
 
-@interface GoogleBooksFetcher : NSObject
+@interface BWHelper : NSObject
 + (NSURL *)URLforbookWithISBN:(NSString *)isbn;
++ (NSString *)statusOfBook:(PFObject *)book;
 
 @end

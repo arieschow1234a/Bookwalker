@@ -7,9 +7,11 @@
 //
 
 #import "AddBookViewController.h"
-#import "GoogleBooksFetcher.h"
+#import "BWHelper.h"
 
 @interface AddBookViewController ()
+
+@property (nonatomic, strong) NSNumber *bookStatus;
 
 @property (weak, nonatomic) IBOutlet UITextField *isbnTextField;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;
@@ -20,6 +22,8 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSURL *imageURL;
 
+@property (weak, nonatomic) IBOutlet UIView *editView;
+@property (weak, nonatomic) IBOutlet UISwitch *statusSwitch;
 
 @end
 
@@ -29,13 +33,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.isbnTextField.placeholder = @"ISBN";
     
     if (self.book !=nil) {
         self.isbnTextField.text = [self.book objectForKey:@"isbn"];
+        self.isbnTextField.enabled = NO;
         self.titleTextView.text = [self.book objectForKey:@"title"];
         self.authorTextView.text = [self.book objectForKey:@"author"];
         self.noteField.text = [self.book objectForKey:@"note"];
-    
+        self.editView.hidden = NO;
+        self.bookStatus = [self.book objectForKey:@"bookStatus"];
+        [self setInitialSstatusSwitch];
         PFFile *imagefile = [self.book objectForKey:@"file"];
         if (imagefile) {
             [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -49,6 +57,14 @@
 
 }
 
+- (NSNumber *)bookStatus
+{
+    if (!_bookStatus) {
+        _bookStatus = [[NSNumber alloc] init];
+    }
+    return _bookStatus;
+}
+
 - (UIImage *)image
 {
     return self.imageView.image;
@@ -56,7 +72,7 @@
 
 - (void)setImage:(UIImage *)image
 {
-    self.imageView.image = image; // does not change the frame of the UIImageView
+    self.imageView.image = image;
     [self.imageView sizeToFit];   // update the frame of the UIImageView
     
 }
@@ -105,12 +121,15 @@
 
 #pragma mark - helper method
 
+
+
 - (void)updateBook
 {
+
     self.book[@"note"] = self.noteField.text;
+    self.book[@"bookStatus"] = self.bookStatus;
     [self.book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            NSLog(@"updated");
         }else if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }
@@ -223,6 +242,16 @@
     return resizeImage;
 }
 
+- (void)setInitialSstatusSwitch
+{
+    if ([self.bookStatus isEqualToNumber:@1]) {
+        self.statusSwitch.on = NO;
+    }else if ([self.bookStatus isEqualToNumber:@0] || self.bookStatus == Nil){
+        self.statusSwitch.on = YES;
+    }
+}
+
+
 #pragma mark - IBAction
 
 - (IBAction)cancel:(id)sender {
@@ -230,7 +259,14 @@
     
 }
 
-
+- (IBAction)updateBookStatus:(id)sender
+{
+    if (self.statusSwitch.on == YES) {
+        self.bookStatus = @0;
+    }else{
+        self.bookStatus = @1;
+    }
+}
 
 - (IBAction)SeachBook
 {
@@ -239,47 +275,54 @@
     
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-  // for testing  NSString *isbn = @"9789867406392";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[GoogleBooksFetcher URLforbookWithISBN:isbn]];
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    
-    // create the session without specifying a queue to run completion handler on (thus, not main queue)
-    // we also don't specify a delegate (since completion handler is all we need)
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    
-    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
-                                                    completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
-        // this handler is not executing on the main queue, so we can't do UI directly here
-        if (error){
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
-                                                                message:@"Please enter valid ISBN!"
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil, nil];
-            [alertView show];
-        }else{
-            NSData *jsonResults = [NSData dataWithContentsOfURL:localfile];
-            // convert it to a Property List (NSArray and NSDictionary)
-            NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
-                                                                                options:0
-                                                                                  error:NULL];
-            NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
-            NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
-            NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
-            NSString *title = [volumeInfo valueForKey:@"title"];
-            NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
-            // so we must dispatch this back to the main queue
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.titleTextView.text = title;
-                self.authorTextView.text = author;
-               self.imageURL = [NSURL URLWithString:thumbnail];
-            });
-        }
-    }];
-    [task resume]; // don't forget that all NSURLSession tasks start out suspended!
-    
-    
-    
+    if ([isbn length] == 0){
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!"
+                                                            message:@"Please enter a valid ISBN"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+    }else{
+      // for testing  NSString *isbn = @"9789867406392";
+        NSURLRequest *request = [NSURLRequest requestWithURL:[BWHelper URLforbookWithISBN:isbn]];
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        
+        // create the session without specifying a queue to run completion handler on (thus, not main queue)
+        // we also don't specify a delegate (since completion handler is all we need)
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+        
+        NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                        completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
+            // this handler is not executing on the main queue, so we can't do UI directly here
+            if (error){
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
+                                                                    message:@"Please enter valid ISBN!"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles:nil, nil];
+                [alertView show];
+            }else{
+                NSData *jsonResults = [NSData dataWithContentsOfURL:localfile];
+                // convert it to a Property List (NSArray and NSDictionary)
+                NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
+                                                                                    options:0
+                                                                                      error:NULL];
+                NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
+                NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
+                NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
+                NSString *title = [volumeInfo valueForKey:@"title"];
+                NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
+                // so we must dispatch this back to the main queue
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.titleTextView.text = title;
+                    self.authorTextView.text = author;
+                   self.imageURL = [NSURL URLWithString:thumbnail];
+                });
+            }
+        }];
+        [task resume]; // don't forget that all NSURLSession tasks start out suspended!
+        
+    }
 }
 
 #pragma mark - Setting the Image from the Image's URL

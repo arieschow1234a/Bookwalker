@@ -153,6 +153,7 @@
     [book setObject:[user objectId] forKey:@"holder"];
     [book setObject:[user username] forKey:@"holderName"];
     [book setObject:@0 forKey:@"noOfRequests"];
+    [book setObject:@0 forKey:@"bookStatus"];
     self.book = book;
     [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
@@ -246,7 +247,7 @@
 {
     if ([self.bookStatus isEqualToNumber:@1]) {
         self.statusSwitch.on = NO;
-    }else if ([self.bookStatus isEqualToNumber:@0] || self.bookStatus == Nil){
+    }else if ([self.bookStatus isEqualToNumber:@0]){
         self.statusSwitch.on = YES;
     }
 }

@@ -49,10 +49,6 @@
     }else{
         self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
     }
-
-    
-    
-    
     [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
     self.replyTextView.editable = YES;
@@ -64,12 +60,15 @@
     PFUser *user = [PFUser currentUser];
     
     if ([user.objectId isEqualToString:self.book[@"holder"]]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
-                                                            message:@"You can't requested your book!"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil, nil];
-        [alertView show];
+        [self requestOwnBookAlert];
+      
+    }else if ([self.book[@"bookStatus"] isEqual:@1]){
+        [self bookClosedAlert];
+    
+    }else if ([self.book[@"requesterId"] isEqual:user.objectId]){
+        [self requestedAlreadyAlert];
+        
+
     }else{
         PFObject *note = [PFObject objectWithClassName:@"Requests"];
         [note setObject:self.book[@"holder"] forKey:@"speakerId"];
@@ -115,6 +114,36 @@
 
 #pragma mark - Helper methods
 
+-(void)requestOwnBookAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
+                                                        message:@"You can't requested your book!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+- (void)bookClosedAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
+                                                        message:@"This book is closed for sharing. You may contact the holder directly!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+- (void)requestedAlreadyAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
+                                                        message:@"You have requested this book already! Please check Request record."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
 - (void)getSavedRequestAndSaveInParse
 {
     // Search for the messages sent by others
@@ -139,7 +168,7 @@
                 // Get the NSNumber into int
                 NSNumber *number = [book objectForKey:@"noOfRequest"];
                 int value = [number intValue];
-                number = [NSNumber numberWithInt:value + 2];
+                number = [NSNumber numberWithInt:value + 1];
                 [book setObject:number forKey:@"noOfRequests"];
                 
                 [book setObject:[PFUser currentUser].objectId forKey:@"requesterId"];

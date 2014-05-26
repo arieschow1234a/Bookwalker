@@ -29,12 +29,12 @@ NSString *GoogleKey = @"AIzaSyDJ90e9-d3eJ4RWQtGMuwRVy1vKhrKHeSQ";
     statusNo = [book objectForKey:@"bookStatus"];
     NSString *bookStatus = [[NSString alloc] init];
 
-    if (statusNo == 0) {
-        bookStatus = @"Open";
-    }else if ([statusNo  isEqual:@1]){
+    if ([statusNo  isEqual:@1]){
         bookStatus = @"Closed";
-    }else{
+    }else if([statusNo isEqual:@2]){
         bookStatus = @"Pending";
+    }else{
+        bookStatus = @"Open";
     }
     return bookStatus;
 }

@@ -293,6 +293,27 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BWh-qO-Fg5">
+                                <rect key="frame" x="164" y="246" width="142" height="129"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gjG-ph-gvq">
+                                        <rect key="frame" x="0.0" y="32" width="51" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.10000000000000001"/>
+                                        <connections>
+                                            <action selector="updateBookStatus:" destination="0eA-Xa-Rqu" eventType="valueChanged" id="PiZ-lj-ibd"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Open Sharing?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nyP-Hn-esu">
+                                        <rect key="frame" x="7" y="3" width="115" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -312,9 +333,11 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="authorTextView" destination="6OE-hv-GMk" id="M3b-75-Z3c"/>
+                        <outlet property="editView" destination="BWh-qO-Fg5" id="p1c-8I-ZMC"/>
                         <outlet property="imageView" destination="hVd-Gn-ZFy" id="4EE-hL-bJA"/>
                         <outlet property="isbnTextField" destination="H7S-dc-iIb" id="Ew0-JJ-Uga"/>
                         <outlet property="noteField" destination="gWH-Ia-h4F" id="ibo-Qy-Hbc"/>
+                        <outlet property="statusSwitch" destination="gjG-ph-gvq" id="99B-Ff-dvQ"/>
                         <outlet property="titleTextView" destination="nPP-9k-QvY" id="MM7-KV-VsO"/>
                     </connections>
                 </viewController>

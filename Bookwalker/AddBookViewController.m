@@ -22,6 +22,8 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSURL *imageURL;
 
+@property (weak, nonatomic) IBOutlet UIView *editView;
+@property (weak, nonatomic) IBOutlet UISwitch *statusSwitch;
 
 @end
 
@@ -31,13 +33,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.isbnTextField.placeholder = @"ISBN";
     
     if (self.book !=nil) {
         self.isbnTextField.text = [self.book objectForKey:@"isbn"];
+        self.isbnTextField.enabled = NO;
         self.titleTextView.text = [self.book objectForKey:@"title"];
         self.authorTextView.text = [self.book objectForKey:@"author"];
         self.noteField.text = [self.book objectForKey:@"note"];
-    
+        self.editView.hidden = NO;
+        self.bookStatus = [self.book objectForKey:@"bookStatus"];
+        [self setInitialSstatusSwitch];
         PFFile *imagefile = [self.book objectForKey:@"file"];
         if (imagefile) {
             [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -115,12 +121,15 @@
 
 #pragma mark - helper method
 
+
+
 - (void)updateBook
 {
+
     self.book[@"note"] = self.noteField.text;
+    self.book[@"bookStatus"] = self.bookStatus;
     [self.book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            NSLog(@"updated");
         }else if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }
@@ -233,6 +242,16 @@
     return resizeImage;
 }
 
+- (void)setInitialSstatusSwitch
+{
+    if ([self.bookStatus isEqualToNumber:@1]) {
+        self.statusSwitch.on = NO;
+    }else if ([self.bookStatus isEqualToNumber:@0] || self.bookStatus == Nil){
+        self.statusSwitch.on = YES;
+    }
+}
+
+
 #pragma mark - IBAction
 
 - (IBAction)cancel:(id)sender {
@@ -240,7 +259,14 @@
     
 }
 
-
+- (IBAction)updateBookStatus:(id)sender
+{
+    if (self.statusSwitch.on == YES) {
+        self.bookStatus = @0;
+    }else{
+        self.bookStatus = @1;
+    }
+}
 
 - (IBAction)SeachBook
 {

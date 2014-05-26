@@ -35,7 +35,18 @@
         self.titleTextView.text = [self.book objectForKey:@"title"];
         self.authorTextView.text = [self.book objectForKey:@"author"];
         self.noteField.text = [self.book objectForKey:@"note"];
+    
+        PFFile *imagefile = [self.book objectForKey:@"file"];
+        if (imagefile) {
+            [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:imageData];
+                    self.image = image;
+                }
+            }];
+        }
     }
+
 }
 
 - (UIImage *)image
@@ -108,13 +119,10 @@
 
 }
 
-
-
 - (void)createBook
 {
     // need to change ISBN to number
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
     PFUser *user = [PFUser currentUser];
     
     //upload to parse
@@ -126,7 +134,7 @@
     [book setObject:[user objectId] forKey:@"holder"];
     [book setObject:[user username] forKey:@"holderName"];
     [book setObject:@0 forKey:@"noOfRequests"];
-    
+    self.book = book;
     [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
@@ -137,32 +145,100 @@
             [alertView show];
             
         }else{
-            // Saved the book in Parse and then save the book in user's booksRelation
-            PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
-            [booksRelation addObject:book];
-            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (error) {
-                    NSLog(@"Error %@ %@", error, [error userInfo]);
-                }
-            }];
+            if (self.image != nil){
+                [self uploadImageOfBook:book];
+            }else{
+                // Saved the book in Parse and then save the book in user's booksRelation
+                PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
+                [booksRelation addObject:book];
+                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        NSLog(@"Error %@ %@", error, [error userInfo]);
+                    }
+                }];
+            }
+
         }
     }];
 
-    
 }
 
+- (void)uploadImageOfBook:(PFObject *)book
+{
+    NSData *fileData;
+    NSString *fileName;
+    NSString *fileType;
+    PFUser *user = [PFUser currentUser];
+    
+    // if image, shrink it
+    //  UIImage *newImage = [self resizeImage:self.image toWidth:320.0f andHeight:480.0f]; // of iphone
+    // Upload the file itself
+    fileData = UIImagePNGRepresentation(self.image);
+    fileName = @"image.png";
+    fileType = @"image";
+    
+    PFFile *file = [PFFile fileWithName:fileName data:fileData];
+    [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
+                                                                message:@"Please try again"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            
+        }else{
+            [book setObject:file forKey:@"file"];
+            [book setObject:fileType forKey:@"fileType"];
+            
+            [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    NSLog(@"Error %@ %@", error, [error userInfo]);
+                }else{
+                    self.image = nil;
+                    // Saved the book in Parse and then save the book in user's booksRelation
+                    PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
+                    [booksRelation addObject:book];
+                    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                        if (error) {
+                            NSLog(@"Error %@ %@", error, [error userInfo]);
+                        }
+                    }];
+                }
+            }];
+            
+        }
+    }];
+}
+
+- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height
+{
+    CGSize newSize = CGSizeMake(width, height);
+    CGRect newRectangle = CGRectMake(0, 0, width, height);
+    UIGraphicsBeginImageContext(newSize);
+    [self.image drawInRect:newRectangle];
+    UIImage *resizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resizeImage;
+}
+
+#pragma mark - IBAction
 
 - (IBAction)cancel:(id)sender {
  [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     
 }
 
+
+
 - (IBAction)SeachBook
 {
     [self.isbnTextField resignFirstResponder];
+    [self.noteField resignFirstResponder];
     
-    NSString *isbn = self.isbnTextField.text;
-    
+    NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
   // for testing  NSString *isbn = @"9789867406392";
     NSURLRequest *request = [NSURLRequest requestWithURL:[GoogleBooksFetcher URLforbookWithISBN:isbn]];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
@@ -174,7 +250,14 @@
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
                                                     completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
         // this handler is not executing on the main queue, so we can't do UI directly here
-        if (!error) {
+        if (error){
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
+                                                                message:@"Please enter valid ISBN!"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+        }else{
             NSData *jsonResults = [NSData dataWithContentsOfURL:localfile];
             // convert it to a Property List (NSArray and NSDictionary)
             NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
@@ -182,8 +265,6 @@
                                                                                   error:NULL];
             NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
             NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
-            NSLog(@"volume: %@", volumeInfo);
-            
             NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
             NSString *title = [volumeInfo valueForKey:@"title"];
             NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];

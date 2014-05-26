@@ -22,8 +22,6 @@
 {
     if (!_allRequests) {
         
-      //  self.myRequests = [[NSMutableArray alloc] init];
-      //  self.requestsFromOthers = [[NSMutableArray alloc] init];
         _allRequests = [[NSMutableArray alloc] init];
     }
     return _allRequests;

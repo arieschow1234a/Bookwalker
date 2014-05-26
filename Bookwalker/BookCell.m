@@ -23,8 +23,18 @@
     
     self.titleLabel.text = [book objectForKey:@"title"];
     self.authorLabel.text = [book objectForKey:@"author"];
-    self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
-
+    
+    PFFile *imagefile = [book objectForKey:@"file"];
+    if (imagefile) {
+        [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+            if (!error) {
+                UIImage *image = [UIImage imageWithData:imageData];
+                self.bookImageView.image = image;
+            }
+        }];
+    }else{
+        self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
+    }
     
     /*
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

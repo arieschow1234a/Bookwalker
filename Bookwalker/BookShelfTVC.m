@@ -18,6 +18,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    PFUser *currentUser = [PFUser currentUser];
+    if (!currentUser) {
+        [self performSegueWithIdentifier:@"showLogin" sender:self];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -37,11 +41,15 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    PFObject *book = [self.books objectAtIndex:indexPath.row];
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.books removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
-        PFObject *book = [self.books objectAtIndex:indexPath.row];
+        if ([self.books count] == 1) {
+            self.books = nil;
+            [self.tableView reloadData];
+        }else{
+            [self.books removeObjectAtIndex:indexPath.row];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
+        }
         [book deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error) {
                 NSLog(@"Error %@ %@", error, [error userInfo]);
@@ -74,10 +82,6 @@
 {
     if ([segue.sourceViewController isKindOfClass:[AddBookViewController class]]) {
     // Add to Core data maybe
-        
-    //   AddBookViewController *abvc = (AddBookViewController *)segue.sourceViewController;
-      //  PFObject *addedBook = abvc.book;
-       // [self.books insertObject:addedBook atIndex:0];
         [self fetchMyBook];
 
     }

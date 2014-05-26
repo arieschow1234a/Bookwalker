@@ -15,14 +15,14 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="Q2q-3P-AJB" kind="relationship" relationship="viewControllers" id="fjw-8u-3bJ"/>
                         <segue destination="tew-NP-9UI" kind="relationship" relationship="viewControllers" id="2e4-Ja-bff"/>
                         <segue destination="tpx-pq-iyi" kind="relationship" relationship="viewControllers" id="lmB-3Z-lZf"/>
+                        <segue destination="Q2q-3P-AJB" kind="relationship" relationship="viewControllers" id="fjw-8u-3bJ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WXM-in-glN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-154" y="285"/>
+            <point key="canvasLocation" x="-152" y="273"/>
         </scene>
         <!--All BooksTVC - Discover-->
         <scene sceneID="zbe-Aw-nMU">
@@ -224,6 +224,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Gsy-j9-Uqq" kind="push" identifier="showLogin" id="xUn-Iv-aIf"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hhy-2E-q4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -262,21 +265,21 @@
                                 <rect key="frame" x="20" y="246" width="93" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ISBN" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="H7S-dc-iIb">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="H7S-dc-iIb">
                                 <rect key="frame" x="20" y="78" width="181" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nPP-9k-QvY">
-                                <rect key="frame" x="20" y="116" width="181" height="33"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPP-9k-QvY">
+                                <rect key="frame" x="20" y="116" width="275" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6OE-hv-GMk">
-                                <rect key="frame" x="20" y="154" width="181" height="33"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6OE-hv-GMk">
+                                <rect key="frame" x="20" y="154" width="280" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -543,7 +546,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="aZY-Ky-hZw" firstAttribute="top" secondItem="U2b-Dc-sce" secondAttribute="bottom" constant="20" id="HrX-TP-Pe7"/>
                             <constraint firstItem="T1s-AP-HlA" firstAttribute="leading" secondItem="AtF-7K-1AV" secondAttribute="leading" id="Tij-Ub-k8u"/>
@@ -585,6 +588,7 @@
                                         <rect key="frame" x="20" y="173" width="280" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <accessibility key="accessibilityConfiguration" hint=""/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="SgD-Q1-aTQ"/>
                                             <constraint firstAttribute="width" constant="280" id="bkN-KG-BVW"/>
@@ -663,7 +667,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Ogu-f7-myj" firstAttribute="leading" secondItem="hdd-oI-QKn" secondAttribute="leading" id="N2v-96-2jv"/>
                             <constraint firstAttribute="trailing" secondItem="Ogu-f7-myj" secondAttribute="trailing" id="Rau-JT-Wai"/>
@@ -754,6 +758,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="xUn-Iv-aIf"/>
         <segue reference="wtd-Yz-Y26"/>
     </inferredMetricsTieBreakers>
 </document>

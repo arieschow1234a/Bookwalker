@@ -10,17 +10,5 @@
 #import <Parse/Parse.h>
 
 @interface BookDetailsViewController : UIViewController
-@property (strong, nonatomic) NSString *bookTitle;
-@property (strong, nonatomic) NSString *author;
-@property (strong, nonatomic) NSString *isbn;
-@property (strong, nonatomic) NSString *note;
-@property (strong, nonatomic) NSString *holder;
-@property (strong, nonatomic) NSString *objectId;
-@property (strong, nonatomic) NSString *holderId;
-
-
-
-
-
-
+@property (strong, nonatomic) PFObject *book;
 @end

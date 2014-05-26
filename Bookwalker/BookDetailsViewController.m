@@ -63,33 +63,42 @@
     
     PFUser *user = [PFUser currentUser];
     
-    PFObject *note = [PFObject objectWithClassName:@"Requests"];
-    [note setObject:self.book[@"holder"] forKey:@"speakerId"];
-    [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
-    [note setObject:self.book[@"note"] forKey:@"comment"];
-    [note setObject:self.book.objectId forKey:@"bookObjectId"];
-    [note saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            PFObject *request = [PFObject objectWithClassName:@"Requests"];
-            [request setObject:user.objectId forKey:@"speakerId"];
-            [request setObject:user.username forKey:@"speakerName"];
-            [request setObject:self.replyTextView.text forKey:@"comment"];
-            [request setObject:self.book.objectId forKey:@"bookObjectId"];
-            [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    [self getSavedRequestAndSaveInParse];
-                }
-            }];
-            
-            
-            
-        }
-    }];
+    if ([user.objectId isEqualToString:self.book[@"holder"]]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
+                                                            message:@"You can't requested your book!"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil, nil];
+        [alertView show];
+    }else{
+        PFObject *note = [PFObject objectWithClassName:@"Requests"];
+        [note setObject:self.book[@"holder"] forKey:@"speakerId"];
+        [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
+        [note setObject:self.book[@"note"] forKey:@"comment"];
+        [note setObject:self.book.objectId forKey:@"bookObjectId"];
+        [note saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                PFObject *request = [PFObject objectWithClassName:@"Requests"];
+                [request setObject:user.objectId forKey:@"speakerId"];
+                [request setObject:user.username forKey:@"speakerName"];
+                [request setObject:self.replyTextView.text forKey:@"comment"];
+                [request setObject:self.book.objectId forKey:@"bookObjectId"];
+                [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        [self getSavedRequestAndSaveInParse];
+                    }
+                }];
+                
+                
+                
+            }
+        }];
+        
+        
+        // going back
+        [self.navigationController popViewControllerAnimated:YES];
     
-    
-    // going back
-    [self.navigationController popViewControllerAnimated:YES];
-    
+    }
 }
 
 

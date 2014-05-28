@@ -15,4 +15,5 @@
 + (NSURL *)AnobiiSearchURLforbookWithISBN:(NSString *)isbn;
 + (NSURL *)AnobiiImageURLforbookWithId:(NSString *)bookId;
 + (NSURL *)AnobiiSiteURLforbookWithSite:(NSString *)site;
+
 @end

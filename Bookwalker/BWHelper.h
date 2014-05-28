@@ -10,7 +10,9 @@
 #import <Parse/Parse.h>
 
 @interface BWHelper : NSObject
-+ (NSURL *)URLforbookWithISBN:(NSString *)isbn;
 + (NSString *)statusOfBook:(PFObject *)book;
-
++ (NSURL *)GoogleURLforbookWithISBN:(NSString *)isbn;
++ (NSURL *)AnobiiSearchURLforbookWithISBN:(NSString *)isbn;
++ (NSURL *)AnobiiImageURLforbookWithId:(NSString *)bookId;
++ (NSURL *)AnobiiSiteURLforbookWithSite:(NSString *)site;
 @end

@@ -45,15 +45,27 @@
         self.editView.hidden = NO;
         self.bookStatus = [self.book objectForKey:@"bookStatus"];
         [self setInitialSstatusSwitch];
-        PFFile *imagefile = [self.book objectForKey:@"file"];
-        if (imagefile) {
-            [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-                if (!error) {
-                    UIImage *image = [UIImage imageWithData:imageData];
-                    self.image = image;
+        
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
+        [query orderByDescending:@"updatedAt"];
+        [query whereKey:@"objectId" equalTo:self.book[@"bookId"]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error){
+                NSLog(@"Error %@ %@", error, [error userInfo]);
+            }else{
+                PFObject *metaBook = objects[0];
+                PFFile *imagefile = [metaBook objectForKey:@"file"];
+                if (imagefile) {
+                    [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                        if (!error) {
+                            UIImage *image = [UIImage imageWithData:imageData];
+                            self.image = image;
+                        }
+                    }];
                 }
-            }];
-        }
+            }
+        }];
     }
 
 }
@@ -87,9 +99,9 @@
     
     if ([segue.identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]){
         if (self.book != nil) {
-            [self updateBook];
+            [self updateCopy];
         }else{
-            [self createBook];
+            [self createMetaBook];
 
         }
     }
@@ -120,11 +132,9 @@
 }
 
 
-#pragma mark - helper method
+#pragma mark - database
 
-
-
-- (void)updateBook
+- (void)updateCopy
 {
     self.book[@"note"] = self.noteField.text;
     self.book[@"bookStatus"] = self.bookStatus;
@@ -138,47 +148,30 @@
 
 }
 
-- (void)createBook
+- (void)createMetaBook
 {
     // need to change ISBN to number
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    PFUser *user = [PFUser currentUser];
     
     //upload to parse
-    PFObject *book = [PFObject objectWithClassName:@"Books"];
-    [book setObject:isbn forKey:@"isbn"];
-    [book setObject:self.titleTextView.text forKey:@"title"];
-    [book setObject:self.authorTextView.text forKey:@"author"];
-    [book setObject:self.noteField.text forKey:@"note"];
-    [book setObject:[user objectId] forKey:@"holder"];
-    [book setObject:[user username] forKey:@"holderName"];
-    [book setObject:@0 forKey:@"noOfRequests"];
-    [book setObject:@0 forKey:@"bookStatus"];
+    PFObject *metaBook = [PFObject objectWithClassName:@"MetaBooks"];
+    [metaBook setObject:isbn forKey:@"isbn"];
+    [metaBook setObject:self.titleTextView.text forKey:@"title"];
+    [metaBook setObject:self.authorTextView.text forKey:@"author"];
+    
     if (self.description) {
-        [book setObject:self.description forKey:@"description"];
+        [metaBook setObject:self.description forKey:@"description"];
     }
-    self.book = book;
-    [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    self.book = metaBook;
+    [metaBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
-                                                                message:@"Please try again"
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil, nil];
-            [alertView show];
+            [self tryAgainAlert];
             
         }else{
             if (self.image != nil){
-                [self uploadImageOfBook:book];
+                [self uploadImageOfBook:metaBook];
             }else{
-                // Saved the book in Parse and then save the book in user's booksRelation
-                PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
-                [booksRelation addObject:book];
-                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (error) {
-                        NSLog(@"Error %@ %@", error, [error userInfo]);
-                    }
-                }];
+                [self createBook];
             }
 
         }
@@ -191,8 +184,7 @@
     NSData *fileData;
     NSString *fileName;
     NSString *fileType;
-    PFUser *user = [PFUser currentUser];
-    
+
     // if image, shrink it
     //  UIImage *newImage = [self resizeImage:self.image toWidth:320.0f andHeight:480.0f]; // of iphone
     // Upload the file itself
@@ -219,14 +211,10 @@
                     NSLog(@"Error %@ %@", error, [error userInfo]);
                 }else{
                     self.image = nil;
-                    // Saved the book in Parse and then save the book in user's booksRelation
-                    PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
-                    [booksRelation addObject:book];
-                    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        if (error) {
-                            NSLog(@"Error %@ %@", error, [error userInfo]);
-                        }
-                    }];
+                    
+                    // Upload copy
+                    [self createBook];
+                    
                 }
             }];
             
@@ -234,26 +222,41 @@
     }];
 }
 
-- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height
+
+- (void)createBook
 {
-    CGSize newSize = CGSizeMake(width, height);
-    CGRect newRectangle = CGRectMake(0, 0, width, height);
-    UIGraphicsBeginImageContext(newSize);
-    [self.image drawInRect:newRectangle];
-    UIImage *resizeImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    PFUser *user = [PFUser currentUser];
+    PFObject *book = [PFObject objectWithClassName:@"Books"];
+    [book setObject:self.noteField.text forKey:@"note"];
+    [book setObject:[user objectId] forKey:@"holderId"];
+    [book setObject:[user username] forKey:@"holderName"];
+    [book setObject:@0 forKey:@"noOfRequests"];
+    [book setObject:@0 forKey:@"bookStatus"];
+    [book setObject:self.book.objectId forKey:@"bookId"];
+    [book setObject:self.titleTextView.text forKey:@"title"];
+    [book setObject:self.authorTextView.text forKey:@"author"];
+    [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self saveBookInUserBooksRelation:book];
+        }
+    }];
     
-    return resizeImage;
 }
 
-- (void)setInitialSstatusSwitch
+
+- (void)saveBookInUserBooksRelation:(PFObject *)book
 {
-    if ([self.bookStatus isEqualToNumber:@1]) {
-        self.statusSwitch.on = NO;
-    }else if ([self.bookStatus isEqualToNumber:@0]){
-        self.statusSwitch.on = YES;
-    }
+    PFUser *user = [PFUser currentUser];
+    PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
+    [booksRelation addObject:book];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"Relation Error %@ %@", error, [error userInfo]);
+        }
+    }];
+    
 }
+
 
 
 #pragma mark - IBAction
@@ -490,6 +493,37 @@
     
 }
 
+
+- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height
+{
+    CGSize newSize = CGSizeMake(width, height);
+    CGRect newRectangle = CGRectMake(0, 0, width, height);
+    UIGraphicsBeginImageContext(newSize);
+    [self.image drawInRect:newRectangle];
+    UIImage *resizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resizeImage;
+}
+
+- (void)setInitialSstatusSwitch
+{
+    if ([self.bookStatus isEqualToNumber:@1]) {
+        self.statusSwitch.on = NO;
+    }else if ([self.bookStatus isEqualToNumber:@0]){
+        self.statusSwitch.on = YES;
+    }
+}
+
+- (void)tryAgainAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
+                                                        message:@"Please try again"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
 
 @end

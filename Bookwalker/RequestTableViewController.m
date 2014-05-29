@@ -172,7 +172,7 @@
     PFUser *user = [PFUser currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query orderByDescending:@"updatedAt"];
-    [query whereKey:@"holder" equalTo:user.objectId];
+    [query whereKey:@"holderId" equalTo:user.objectId];
     [query whereKeyExists:@"requesterId"];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error){

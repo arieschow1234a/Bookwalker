@@ -12,6 +12,7 @@
 @interface AddBookViewController ()
 
 @property (nonatomic, strong) NSNumber *bookStatus;
+@property (nonatomic, strong) NSString *description;
 
 @property (weak, nonatomic) IBOutlet UITextField *isbnTextField;
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;
@@ -44,15 +45,27 @@
         self.editView.hidden = NO;
         self.bookStatus = [self.book objectForKey:@"bookStatus"];
         [self setInitialSstatusSwitch];
-        PFFile *imagefile = [self.book objectForKey:@"file"];
-        if (imagefile) {
-            [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-                if (!error) {
-                    UIImage *image = [UIImage imageWithData:imageData];
-                    self.image = image;
+        
+        
+        PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
+        [query orderByDescending:@"updatedAt"];
+        [query whereKey:@"objectId" equalTo:self.book[@"bookId"]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error){
+                NSLog(@"Error %@ %@", error, [error userInfo]);
+            }else{
+                PFObject *metaBook = objects[0];
+                PFFile *imagefile = [metaBook objectForKey:@"file"];
+                if (imagefile) {
+                    [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                        if (!error) {
+                            UIImage *image = [UIImage imageWithData:imageData];
+                            self.image = image;
+                        }
+                    }];
                 }
-            }];
-        }
+            }
+        }];
     }
 
 }
@@ -73,7 +86,7 @@
 - (void)setImage:(UIImage *)image
 {
     self.imageView.image = image;
-    [self.imageView sizeToFit];   // update the frame of the UIImageView
+   // [self.imageView sizeToFit];   // update the frame of the UIImageView
     
 }
 
@@ -86,9 +99,9 @@
     
     if ([segue.identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]){
         if (self.book != nil) {
-            [self updateBook];
+            [self updateCopy];
         }else{
-            [self createBook];
+            [self createMetaBook];
 
         }
     }
@@ -119,13 +132,10 @@
 }
 
 
-#pragma mark - helper method
+#pragma mark - database
 
-
-
-- (void)updateBook
+- (void)updateCopy
 {
-
     self.book[@"note"] = self.noteField.text;
     self.book[@"bookStatus"] = self.bookStatus;
     [self.book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -138,43 +148,30 @@
 
 }
 
-- (void)createBook
+- (void)createMetaBook
 {
     // need to change ISBN to number
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    PFUser *user = [PFUser currentUser];
     
     //upload to parse
-    PFObject *book = [PFObject objectWithClassName:@"Books"];
-    [book setObject:isbn forKey:@"isbn"];
-    [book setObject:self.titleTextView.text forKey:@"title"];
-    [book setObject:self.authorTextView.text forKey:@"author"];
-    [book setObject:self.noteField.text forKey:@"note"];
-    [book setObject:[user objectId] forKey:@"holder"];
-    [book setObject:[user username] forKey:@"holderName"];
-    [book setObject:@0 forKey:@"noOfRequests"];
-    self.book = book;
-    [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    PFObject *metaBook = [PFObject objectWithClassName:@"MetaBooks"];
+    [metaBook setObject:isbn forKey:@"isbn"];
+    [metaBook setObject:self.titleTextView.text forKey:@"title"];
+    [metaBook setObject:self.authorTextView.text forKey:@"author"];
+    
+    if (self.description) {
+        [metaBook setObject:self.description forKey:@"description"];
+    }
+    self.book = metaBook;
+    [metaBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (error) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
-                                                                message:@"Please try again"
-                                                               delegate:self
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil, nil];
-            [alertView show];
+            [self tryAgainAlert];
             
         }else{
             if (self.image != nil){
-                [self uploadImageOfBook:book];
+                [self uploadImageOfBook:metaBook];
             }else{
-                // Saved the book in Parse and then save the book in user's booksRelation
-                PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
-                [booksRelation addObject:book];
-                [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (error) {
-                        NSLog(@"Error %@ %@", error, [error userInfo]);
-                    }
-                }];
+                [self createBook];
             }
 
         }
@@ -187,8 +184,7 @@
     NSData *fileData;
     NSString *fileName;
     NSString *fileType;
-    PFUser *user = [PFUser currentUser];
-    
+
     // if image, shrink it
     //  UIImage *newImage = [self resizeImage:self.image toWidth:320.0f andHeight:480.0f]; // of iphone
     // Upload the file itself
@@ -215,14 +211,10 @@
                     NSLog(@"Error %@ %@", error, [error userInfo]);
                 }else{
                     self.image = nil;
-                    // Saved the book in Parse and then save the book in user's booksRelation
-                    PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
-                    [booksRelation addObject:book];
-                    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                        if (error) {
-                            NSLog(@"Error %@ %@", error, [error userInfo]);
-                        }
-                    }];
+                    
+                    // Upload copy
+                    [self createBook];
+                    
                 }
             }];
             
@@ -230,26 +222,41 @@
     }];
 }
 
-- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height
+
+- (void)createBook
 {
-    CGSize newSize = CGSizeMake(width, height);
-    CGRect newRectangle = CGRectMake(0, 0, width, height);
-    UIGraphicsBeginImageContext(newSize);
-    [self.image drawInRect:newRectangle];
-    UIImage *resizeImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    PFUser *user = [PFUser currentUser];
+    PFObject *book = [PFObject objectWithClassName:@"Books"];
+    [book setObject:self.noteField.text forKey:@"note"];
+    [book setObject:[user objectId] forKey:@"holderId"];
+    [book setObject:[user username] forKey:@"holderName"];
+    [book setObject:@0 forKey:@"noOfRequests"];
+    [book setObject:@0 forKey:@"bookStatus"];
+    [book setObject:self.book.objectId forKey:@"bookId"];
+    [book setObject:self.titleTextView.text forKey:@"title"];
+    [book setObject:self.authorTextView.text forKey:@"author"];
+    [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [self saveBookInUserBooksRelation:book];
+        }
+    }];
     
-    return resizeImage;
 }
 
-- (void)setInitialSstatusSwitch
+
+- (void)saveBookInUserBooksRelation:(PFObject *)book
 {
-    if ([self.bookStatus isEqualToNumber:@1]) {
-        self.statusSwitch.on = NO;
-    }else if ([self.bookStatus isEqualToNumber:@0] || self.bookStatus == Nil){
-        self.statusSwitch.on = YES;
-    }
+    PFUser *user = [PFUser currentUser];
+    PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
+    [booksRelation addObject:book];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"Relation Error %@ %@", error, [error userInfo]);
+        }
+    }];
+    
 }
+
 
 
 #pragma mark - IBAction
@@ -275,62 +282,167 @@
     
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
+
     if ([isbn length] == 0){
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!"
-                                                            message:@"Please enter a valid ISBN"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil, nil];
-        [alertView show];
+        [self invalidISBNAlert];
     }else{
-      // for testing  NSString *isbn = @"9789867406392";
-        NSURLRequest *request = [NSURLRequest requestWithURL:[BWHelper URLforbookWithISBN:isbn]];
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-        
-        // create the session without specifying a queue to run completion handler on (thus, not main queue)
-        // we also don't specify a delegate (since completion handler is all we need)
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-        
-        NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
-                                                        completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
-            // this handler is not executing on the main queue, so we can't do UI directly here
-            if (error){
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
-                                                                    message:@"Please enter valid ISBN!"
-                                                                   delegate:self
-                                                          cancelButtonTitle:@"OK"
-                                                          otherButtonTitles:nil, nil];
-                [alertView show];
-            }else{
-                NSData *jsonResults = [NSData dataWithContentsOfURL:localfile];
-                // convert it to a Property List (NSArray and NSDictionary)
-                NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
-                                                                                    options:0
-                                                                                      error:NULL];
-                NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
-                NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
-                NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
-                NSString *title = [volumeInfo valueForKey:@"title"];
-                NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
-                // so we must dispatch this back to the main queue
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    self.titleTextView.text = title;
-                    self.authorTextView.text = author;
-                   self.imageURL = [NSURL URLWithString:thumbnail];
-                });
-            }
-        }];
-        [task resume]; // don't forget that all NSURLSession tasks start out suspended!
-        
+        [self fetchAnobii];
     }
 }
+
+
+#pragma mark - Fetchers
+
+- (void)fetchGoogle
+{
+    NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    //NSString *isbn = @"9789867406392";
+    NSURLRequest *request = [NSURLRequest requestWithURL:[BWHelper GoogleURLforbookWithISBN:isbn]];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    
+    // create the session without specifying a queue to run completion handler on (thus, not main queue)
+    // we also don't specify a delegate (since completion handler is all we need)
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                    completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
+                                                        // this handler is not executing on the main queue, so we can't do UI directly here
+        if (error){
+            [self invalidISBNAlert];
+        }else{
+            NSData *jsonResults = [NSData dataWithContentsOfURL:localfile];
+            // convert it to a Property List (NSArray and NSDictionary)
+            NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
+                                                                                options:0
+                                                                                  error:NULL];
+            NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
+            NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
+            NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
+            NSString *title = [volumeInfo valueForKey:@"title"];
+            NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
+            // so we must dispatch this back to the main queue
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.titleTextView.text = title;
+                self.authorTextView.text = author;
+                self.imageURL = [NSURL URLWithString:thumbnail];
+            });
+        }
+    }];
+    [task resume]; // don't forget that all NSURLSession tasks start out suspended!
+    
+}
+
+- (void)fetchAnobii
+{
+    NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    //NSString *isbn = @"9570329521";
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[BWHelper AnobiiSearchURLforbookWithISBN:isbn]];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                    completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
+         
+            if (error) {
+                [self fetchGoogle];
+            }else if (!error) {
+                
+            NSString *html = [NSString stringWithContentsOfURL:localfile encoding:NSUTF8StringEncoding error:NULL];
+            
+            //  NSLog(@"%@", html);
+            
+            
+            NSString *siteLine = [self fetchHTML:html LineContainwords:@"cover_image"];
+            
+            // Get site
+            NSString *site = [siteLine stringByReplacingOccurrencesOfString:@"<a class=\"cover_image\" href=\"" withString:@""];
+            site = [site stringByReplacingOccurrencesOfString:@"\">" withString:@""];
+            NSString *trimmedSite = [site stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSURL *siteURL = [BWHelper AnobiiSiteURLforbookWithSite:trimmedSite];
+            
+            NSLog(@"siteURL is %@", siteURL);
+            [self fetchAnobiiSite:siteURL];
+            
+            //Get bookid, image, title from site
+            NSArray *str = [site componentsSeparatedByString:@"/"];
+            NSString *aBookId = str[4];
+            NSString *title = str[2];
+            
+            //Author
+            NSString *authorLine = [self fetchHTML:html LineContainwords:@"作者為"];
+            NSString *author = [authorLine stringByReplacingOccurrencesOfString:@"</li>" withString:@""];
+            author = [author stringByReplacingOccurrencesOfString:@"作者為" withString:@""];
+            author = [author stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.titleTextView.text = title;
+                self.imageURL = [BWHelper AnobiiImageURLforbookWithId:aBookId];
+                self.authorTextView.text = author;
+            });
+            
+        }
+    }];
+    [task resume]; // don't forget that all NSURLSession tasks start out suspended!
+    
+}
+
+- (void)fetchAnobiiSite:(NSURL *)siteURL
+{
+    NSURLRequest *request = [NSURLRequest requestWithURL:siteURL];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                    completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            
+            
+            NSString *html = [NSString stringWithContentsOfURL:localfile encoding:NSUTF8StringEncoding error:NULL];
+            
+            // NSLog(@"%@", html);
+            
+            // Desciption
+            NSRange start = [html lineRangeForRange:[html rangeOfString:@"description_full"]];
+            NSRange end = [html rangeOfString:@"<!-- end of description -->"];
+            NSString *shortString = [html substringWithRange:NSMakeRange(start.location+start.length, end.location-start.location-start.length)];
+            
+            NSString *description = [shortString stringByReplacingOccurrencesOfString:@"<p>" withString:@""];
+            description = [description stringByReplacingOccurrencesOfString:@"</p>" withString:@""];
+            description = [description stringByReplacingOccurrencesOfString:@"<div>" withString:@""];
+            description = [description stringByReplacingOccurrencesOfString:@"</div>" withString:@""];
+            NSString *trimmedDescription = [description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            NSLog(@"%@", trimmedDescription);
+            self.description = trimmedDescription;
+            //Category
+            
+            
+            
+            
+        }
+    }];
+    [task resume];
+    
+}
+
+- (NSString *)fetchHTML:(NSString *)html LineContainwords:(NSString *)words
+{
+    NSRange range = [html lineRangeForRange:[html rangeOfString:words]];
+    NSString *line = [NSString stringWithFormat:@"%@",[html substringWithRange:range]];
+    return line;
+}
+
+
+
 
 #pragma mark - Setting the Image from the Image's URL
 
 - (void)setImageURL:(NSURL *)imageURL
 {
     _imageURL = imageURL;
-    //    self.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.imageURL]]; // blocks main queue!
     [self startDownloadingImage];
 }
 
@@ -368,8 +480,50 @@
 }
 
 
+# pragma mark - Helper method
+
+- (void)invalidISBNAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
+                                                        message:@"Please enter valid ISBN!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+    
+}
 
 
+- (UIImage *)resizeImage:(UIImage *)image toWidth:(float)width andHeight:(float)height
+{
+    CGSize newSize = CGSizeMake(width, height);
+    CGRect newRectangle = CGRectMake(0, 0, width, height);
+    UIGraphicsBeginImageContext(newSize);
+    [self.image drawInRect:newRectangle];
+    UIImage *resizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return resizeImage;
+}
+
+- (void)setInitialSstatusSwitch
+{
+    if ([self.bookStatus isEqualToNumber:@1]) {
+        self.statusSwitch.on = NO;
+    }else if ([self.bookStatus isEqualToNumber:@0]){
+        self.statusSwitch.on = YES;
+    }
+}
+
+- (void)tryAgainAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"An error occurred!"
+                                                        message:@"Please try again"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
 
 @end

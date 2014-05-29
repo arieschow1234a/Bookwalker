@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *noteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *holderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 
 
 @property (weak, nonatomic) IBOutlet UIImageView *bookImageView;
@@ -33,22 +34,36 @@
     [super viewDidLoad];
     self.titleLabel.text = [self.book objectForKey:@"title"];
     self.authorLabel.text = [self.book objectForKey:@"author"];
-    self.isbnLabel.text = [self.book objectForKey:@"isbn"];
     self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@",[self.book objectForKey:@"holderName"]];
     self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@",[self.book objectForKey:@"note"]];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"objectId" equalTo:self.book[@"bookId"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            PFObject *metaBook = objects[0];
+            
+            self.descriptionTextView.text = [metaBook objectForKey:@"description"];
+            self.isbnLabel.text = [metaBook objectForKey:@"isbn"];
 
-    PFFile *imagefile = [self.book objectForKey:@"file"];
-    if (imagefile) {
-        [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-            if (!error) {
-                UIImage *image = [UIImage imageWithData:imageData];
-                self.bookImageView.image = image;
+            PFFile *imagefile = [metaBook objectForKey:@"file"];
+            if (imagefile) {
+                [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                    if (!error) {
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        self.bookImageView.image = image;
+                    }
+                }];
+            }else{
+                self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
             }
-        }];
-    }else{
-        self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
-    }
+        }
+    }];
+    
     [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
     self.replyTextView.editable = YES;
@@ -59,7 +74,9 @@
     
     PFUser *user = [PFUser currentUser];
     
-    if ([user.objectId isEqualToString:self.book[@"holder"]]) {
+    NSLog(@"Reply: %lu", (unsigned long)[self.replyTextView.text length]);
+    
+    if ([user.objectId isEqualToString:self.book[@"holderId"]]) {
         [self requestOwnBookAlert];
       
     }else if ([self.book[@"bookStatus"] isEqual:@1]){
@@ -67,11 +84,10 @@
     
     }else if ([self.book[@"requesterId"] isEqual:user.objectId]){
         [self requestedAlreadyAlert];
+    }else if ([self.replyTextView.text length]){
         
-
-    }else{
         PFObject *note = [PFObject objectWithClassName:@"Requests"];
-        [note setObject:self.book[@"holder"] forKey:@"speakerId"];
+        [note setObject:self.book[@"holderId"] forKey:@"speakerId"];
         [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
         [note setObject:self.book[@"note"] forKey:@"comment"];
         [note setObject:self.book.objectId forKey:@"bookObjectId"];
@@ -87,16 +103,15 @@
                         [self getSavedRequestAndSaveInParse];
                     }
                 }];
-                
-                
-                
             }
         }];
         
-        
         // going back
         [self.navigationController popViewControllerAnimated:YES];
-    
+        
+    }else{
+        [self noInputAlert];
+
     }
 }
 
@@ -138,6 +153,16 @@
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
                                                         message:@"You have requested this book already! Please check Request record."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+- (void)noInputAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
+                                                        message:@"Please write your request!"
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil, nil];

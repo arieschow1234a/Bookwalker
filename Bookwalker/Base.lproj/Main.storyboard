@@ -398,7 +398,7 @@
         <!--Request DetailsVC-->
         <scene sceneID="b4S-w8-RiV">
             <objects>
-                <viewController id="qRQ-wH-kLf" customClass="RequestDetailsVC" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="qRQ-wH-kLf" customClass="RequestDetailsVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jma-kJ-bJS"/>
                         <viewControllerLayoutGuide type="bottom" id="Bho-9z-3mo"/>
@@ -412,7 +412,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ef-5S-XRk">
-                                        <rect key="frame" x="237" y="310" width="63" height="53"/>
+                                        <rect key="frame" x="242" y="356" width="63" height="53"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Send">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -422,7 +422,7 @@
                                         </connections>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="SLt-zt-QoF">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="226"/>
+                                        <rect key="frame" x="0.0" y="112" width="320" height="226"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
@@ -447,12 +447,32 @@
                                         <sections/>
                                     </tableView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xfm-hT-tdz">
-                                        <rect key="frame" x="13" y="243" width="229" height="124"/>
+                                        <rect key="frame" x="5" y="346" width="229" height="73"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xSR-Fy-8Bq">
+                                        <rect key="frame" x="20" y="74" width="127" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Cancel Request">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelRequestButtonPressed:" destination="qRQ-wH-kLf" eventType="touchUpInside" id="UGp-nl-Z4i"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i0Y-7S-Nks">
+                                        <rect key="frame" x="155" y="74" width="150" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Confirm Giving">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="confirmGivingButtonPressed:" destination="qRQ-wH-kLf" eventType="touchUpInside" id="5Lo-WG-wZT"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -462,6 +482,7 @@
                     <navigationItem key="navigationItem" id="nyv-MK-fMw"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="confirmGivingButton" destination="i0Y-7S-Nks" id="J3a-Jf-XOj"/>
                         <outlet property="replyTextView" destination="Xfm-hT-tdz" id="ALH-4h-x4W"/>
                         <outlet property="tableView" destination="SLt-zt-QoF" id="mI6-75-LVI"/>
                     </connections>
@@ -797,7 +818,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="xUn-Iv-aIf"/>
         <segue reference="wtd-Yz-Y26"/>
+        <segue reference="TMq-MX-CKy"/>
     </inferredMetricsTieBreakers>
 </document>

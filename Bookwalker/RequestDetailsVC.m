@@ -8,11 +8,13 @@
 
 #import "RequestDetailsVC.h"
 
-@interface RequestDetailsVC () <UITableViewDelegate, UITableViewDataSource>
+@interface RequestDetailsVC () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic)NSArray *conversations;
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
+@property (weak, nonatomic) IBOutlet UIButton *confirmGivingButton;
 
+@property (nonatomic, strong) NSString *requesterId;
 
 @end
 
@@ -27,6 +29,14 @@
     self.tableView.dataSource = self;
     [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
+    
+    //If the user is the requester
+    PFUser *user = [PFUser currentUser];
+    if ([self.requestBook[@"holderId"] isEqualToString:user.objectId]) {
+        self.confirmGivingButton.hidden = NO;
+    }else{
+        self.confirmGivingButton.hidden = YES;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -36,7 +46,13 @@
     
 }
 
-
+- (NSString *)requesterId
+{
+    if (!_requesterId) {
+        _requesterId = [[NSString alloc]initWithString:self.requestBook[@"requesterId"]];
+    }
+    return _requesterId;
+}
 
 - (void)setConversations:(NSArray *)conversations
 {
@@ -81,18 +97,13 @@
             self.replyTextView.text = nil;
             PFRelation *requestsRelation = [self.requestBook relationForKey:@"requestsRelation"];
             [requestsRelation addObject:reply];
-            // Get the NSNumber into int
-            NSNumber *number = [self.requestBook objectForKey:@"noOfRequest"];
-            int value = [number intValue];
-            number = [NSNumber numberWithInt:value + 1];
-            [self.requestBook setObject:number forKey:@"noOfRequests"];
             [self.requestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
+                if (!error) {
+                    NSLog(@"replied");
                     [self retrieveRequestOfABook];
-                }else{
-                    NSLog(@"Error %@ %@", error, [error userInfo]);
                 }
             }];
+            
         }else{
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }
@@ -111,25 +122,179 @@
 */
 
 
+
+# pragma mark - IBAction
+
+- (IBAction)confirmGivingButtonPressed:(id)sender {
+    
+    UIAlertView *confrimAlertView = [[UIAlertView alloc] initWithTitle:@"Warning!!"
+                                                               message:@"Please do it after giving out the book!"
+                                                              delegate:self
+                                                     cancelButtonTitle:@"Cancel"
+                                                     otherButtonTitles:@"Yes, I did", nil];
+    
+    confrimAlertView.tag = 2;
+
+    [confrimAlertView show];
+    
+}
+
+- (IBAction)cancelRequestButtonPressed:(id)sender {
+    
+    UIAlertView *cancelAlert = [[UIAlertView alloc] initWithTitle:@"Warning!!"
+                                                              message:@"It will cancel the request! Are you sure?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                                    otherButtonTitles:@"Yes", nil];
+    
+    cancelAlert.tag = 1;
+    [cancelAlert show];
+}
+
+
+
+
+
 # pragma mark - Helper methods
 
 - (void)retrieveRequestOfABook
 {
-
-     PFRelation *relation = [self.requestBook relationforKey:@"requestsRelation"];
-     PFQuery *query = [relation query];
-     [query orderByAscending:@"createdAt"];
-     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-         if (error) {
-         // There was an error
-         } else {
-             self.conversations = objects;
-         }
-     }];
-    
-    
+    PFRelation *relation = [self.requestBook relationforKey:@"requestsRelation"];
+    PFQuery *query = [relation query];
+    [query orderByAscending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            // There was an error
+        } else {
+            self.conversations = objects;
+        }
+    }];
 }
 
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag == 1) {
+        if (buttonIndex == 1) {
+            [self cancelRequest];
+        }
+    }else if (alertView.tag == 2){
+        if (buttonIndex == 1) {
+            [self confirmGiving];
+        }
+    }
+}
+
+- (void)cancelRequest
+{
+    
+    NSNull *null = [NSNull null];
+    
+    [self.requestBook setObject:null forKey:@"requesterId"];
+    [self.requestBook setObject:null forKey:@"requesterName"];
+    [self.requestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            // going back
+            [self.navigationController popViewControllerAnimated:YES];
+            [self removeRequestConversation];
+        }
+        
+    }];
+ 
+}
+
+
+- (void)confirmGiving
+{
+    //After confirming,
+    //1. update the info of book
+    //2. The book is removed from old holder's booksrelation
+    //3. the book is added to new holder's bookrelation
+    NSNull *null = [NSNull null];
+    NSString *requesterId = self.requestBook[@"requesterId"];
+    NSString *requesterName = self.requestBook[@"requesterName"];
+    NSString *holderId = self.requestBook[@"holderId"];
+    NSString *holderName = self.requestBook[@"holderName"];
+    
+    [self.requestBook setObject:requesterId forKey:@"holderId"];
+    [self.requestBook setObject:requesterName forKey:@"holderName"];
+    [self.requestBook addObject:holderId forKey:@"previousHolderId"];
+    [self.requestBook addObject:holderName forKey:@"previousHolderName"];
+    [self.requestBook setObject:null forKey:@"note"];
+    
+    NSNumber *number = [self.requestBook objectForKey:@"noOfTransfer"];
+    int value = [number intValue];
+    number = [NSNumber numberWithInt:value + 1];
+    [self.requestBook setObject:number forKey:@"noOfTransfer"];
+    
+    [self.requestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+            // remove old holder's booksrelation
+            [self removeHolderBooksRelation];
+        }
+    }];
+    
+
+}
+
+- (void)removeRequestConversation
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Requests"];
+    [query whereKey:@"bookObjectId" equalTo:self.requestBook.objectId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            if (objects) {
+                for (PFObject *request in objects) {
+                    [request deleteInBackground];
+                }
+            }
+        }
+    }];
+}
+
+- (void)removeHolderBooksRelation
+{
+    PFUser *user = [PFUser currentUser];
+    PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
+    [booksRelation removeObject:self.requestBook];
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"Relation Error %@ %@", error, [error userInfo]);
+        }else{
+            NSLog(@"remove old holder");
+            // add requester as new holder
+            [self addNewHolderBooksRelation];
+        }
+            
+    }];
+
+}
+
+- (void)addNewHolderBooksRelation
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"User"];
+    [query whereKey:@"objectId" equalTo:self.requesterId];
+    
+    PFUser *newHolder = [PFQuery getUserObjectWithId:self.requesterId];
+    PFRelation *booksRelation = [newHolder relationForKey:@"booksRelation"];
+    [booksRelation addObject:self.requestBook];
+    [newHolder saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"Relation Error %@ %@", error, [error userInfo]);
+        }else{
+            NSLog(@"newholder");
+        }
+    }];
+    
+    
+    
+    }
 
 @end

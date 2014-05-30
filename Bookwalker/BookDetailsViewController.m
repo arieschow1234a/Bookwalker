@@ -93,10 +93,10 @@
         [note setObject:self.book[@"holderId"] forKey:@"speakerId"];
         [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
         [note setObject:self.book.objectId forKey:@"bookObjectId"];
-        if (!self.book[@"note"]) {
-            [note setObject:null forKey:@"comment"];
-        }else{
+        if ([self.book[@"note"] isKindOfClass:[NSString class]]) {
             [note setObject:self.book[@"note"] forKey:@"comment"];
+        }else{
+            [note setObject:null forKey:@"comment"];
         }
         [note saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {

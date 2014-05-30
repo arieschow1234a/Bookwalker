@@ -210,8 +210,7 @@
 {
     //After confirming,
     //1. update the info of book
-    //2. The book is removed from old holder's booksrelation
-    //3. the book is added to new holder's bookrelation
+    //2. delete converstaion?
     NSNull *null = [NSNull null];
     NSString *requesterId = self.requestBook[@"requesterId"];
     NSString *requesterName = self.requestBook[@"requesterName"];
@@ -234,8 +233,7 @@
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
             [self.navigationController popViewControllerAnimated:YES];
-            // remove old holder's booksrelation
-            [self removeHolderBooksRelation];
+
         }
     }];
     
@@ -258,43 +256,5 @@
         }
     }];
 }
-
-- (void)removeHolderBooksRelation
-{
-    PFUser *user = [PFUser currentUser];
-    PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
-    [booksRelation removeObject:self.requestBook];
-    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            NSLog(@"Relation Error %@ %@", error, [error userInfo]);
-        }else{
-            NSLog(@"remove old holder");
-            // add requester as new holder
-            [self addNewHolderBooksRelation];
-        }
-            
-    }];
-
-}
-
-- (void)addNewHolderBooksRelation
-{
-    PFQuery *query = [PFQuery queryWithClassName:@"User"];
-    [query whereKey:@"objectId" equalTo:self.requesterId];
-    
-    PFUser *newHolder = [PFQuery getUserObjectWithId:self.requesterId];
-    PFRelation *booksRelation = [newHolder relationForKey:@"booksRelation"];
-    [booksRelation addObject:self.requestBook];
-    [newHolder saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            NSLog(@"Relation Error %@ %@", error, [error userInfo]);
-        }else{
-            NSLog(@"newholder");
-        }
-    }];
-    
-    
-    
-    }
 
 @end

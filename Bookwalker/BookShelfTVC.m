@@ -91,15 +91,15 @@
 
 - (void)fetchMyBook
 {
-    PFRelation *booksRelation = [[PFUser currentUser] objectForKey:@"booksRelation"];
-    PFQuery *query = [booksRelation query];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query orderByDescending:@"createdAt"];
+    [query whereKey:@"holderId" equalTo:[PFUser currentUser].objectId];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
             self.books = [[NSMutableArray alloc] initWithArray:objects];
-            
         }
     }];
     

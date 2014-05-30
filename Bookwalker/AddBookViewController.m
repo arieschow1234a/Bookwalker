@@ -41,10 +41,16 @@
         self.isbnTextField.enabled = NO;
         self.titleTextView.text = [self.book objectForKey:@"title"];
         self.authorTextView.text = [self.book objectForKey:@"author"];
-        self.noteField.text = [self.book objectForKey:@"note"];
         self.editView.hidden = NO;
         self.bookStatus = [self.book objectForKey:@"bookStatus"];
-        [self setInitialSstatusSwitch];
+        
+        if ([self.book[@"note"] isKindOfClass:[NSString class]]){
+            self.noteField.text  = [NSString stringWithFormat:@"Note: %@",self.book[@"note"]];
+        }else{
+             self.noteField.text = @"No note from holder";
+        }
+
+        [self setInitialStatusSwitch];
         
         
         PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
@@ -237,26 +243,10 @@
     [book setObject:self.authorTextView.text forKey:@"author"];
     [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [self saveBookInUserBooksRelation:book];
         }
     }];
     
 }
-
-
-- (void)saveBookInUserBooksRelation:(PFObject *)book
-{
-    PFUser *user = [PFUser currentUser];
-    PFRelation *booksRelation = [user relationForKey:@"booksRelation"];
-    [booksRelation addObject:book];
-    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (error) {
-            NSLog(@"Relation Error %@ %@", error, [error userInfo]);
-        }
-    }];
-    
-}
-
 
 
 #pragma mark - IBAction
@@ -506,7 +496,7 @@
     return resizeImage;
 }
 
-- (void)setInitialSstatusSwitch
+- (void)setInitialStatusSwitch
 {
     if ([self.bookStatus isEqualToNumber:@1]) {
         self.statusSwitch.on = NO;

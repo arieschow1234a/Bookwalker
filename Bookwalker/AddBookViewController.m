@@ -259,6 +259,12 @@
     [book setObject:self.metaBook.objectId forKey:@"bookId"];
     [book setObject:self.titleTextView.text forKey:@"title"];
     [book setObject:self.authorTextView.text forKey:@"author"];
+    if (self.isbn10) {
+        [book setObject:self.isbn10 forKey:@"isbn10"];
+    }
+    if (self.isbn13) {
+        [book setObject:self.isbn13 forKey:@"isbn13"];
+    }
     [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
         }

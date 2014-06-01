@@ -32,37 +32,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="r9o-6u-zFY">
+                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="Ks7-HP-f6K" id="1d0-wb-2EF"/>
+                            </connections>
+                        </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BookCell" id="77Y-mo-V3N" customClass="BookCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="90"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BookCell" rowHeight="90" id="77Y-mo-V3N" customClass="BookCell">
+                                <rect key="frame" x="0.0" y="130" width="320" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="77Y-mo-V3N" id="G7Z-cP-JY6">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="89"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="titleLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsM-Ba-6ll">
-                                            <rect key="frame" x="92" y="9" width="188" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="authorLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sFV-Ma-VNA">
+                                            <rect key="frame" x="88" y="43" width="218" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="authorLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rV9-Bj-Q7L">
-                                            <rect key="frame" x="92" y="38" width="218" height="21"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="titleLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rSO-uA-V4M">
+                                            <rect key="frame" x="88" y="14" width="218" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y2U-Zt-hcb">
-                                            <rect key="frame" x="20" y="4" width="57" height="82"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ki1-Se-pal">
+                                            <rect key="frame" x="20" y="5" width="60" height="75"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="authorLabel" destination="rV9-Bj-Q7L" id="Wzq-NL-rhe"/>
-                                    <outlet property="bookImageView" destination="Y2U-Zt-hcb" id="IPh-II-BuY"/>
-                                    <outlet property="titleLabel" destination="fsM-Ba-6ll" id="44B-lf-o7J"/>
+                                    <outlet property="authorLabel" destination="sFV-Ma-VNA" id="LOm-05-xvV"/>
+                                    <outlet property="bookImageView" destination="ki1-Se-pal" id="yq1-ag-Kp8"/>
+                                    <outlet property="titleLabel" destination="rSO-uA-V4M" id="boW-R8-bhp"/>
                                     <segue destination="FKe-r4-jJz" kind="push" identifier="show Details" id="A43-6Y-MLN"/>
                                 </connections>
                             </tableViewCell>
@@ -73,8 +81,20 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Discover" id="lmn-nn-VIZ"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="ZY8-EB-LhB" id="sEF-9j-erP"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QoV-lg-6e9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="ZY8-EB-LhB">
+                    <connections>
+                        <outlet property="delegate" destination="Ks7-HP-f6K" id="zLD-9Y-Lr0"/>
+                        <outlet property="searchBar" destination="r9o-6u-zFY" id="Bvt-kK-aEM"/>
+                        <outlet property="searchContentsController" destination="Ks7-HP-f6K" id="3AP-z7-Ndk"/>
+                        <outlet property="searchResultsDataSource" destination="Ks7-HP-f6K" id="Mop-VN-xnZ"/>
+                        <outlet property="searchResultsDelegate" destination="Ks7-HP-f6K" id="F8W-po-YXw"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1037" y="280"/>
         </scene>
@@ -189,7 +209,7 @@
         <scene sceneID="kMu-4c-1MG">
             <objects>
                 <tableViewController id="1ri-1f-seN" customClass="BookShelfTVC" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="92" sectionHeaderHeight="22" sectionFooterHeight="22" id="b0i-MQ-xxm">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="22" sectionFooterHeight="22" id="b0i-MQ-xxm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -202,28 +222,28 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="titleLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="biQ-xU-u5L">
-                                            <rect key="frame" x="92" y="9" width="188" height="21"/>
+                                            <rect key="frame" x="88" y="14" width="218" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DcG-ar-5TJ">
+                                            <rect key="frame" x="20" y="5" width="60" height="75"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="authorLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSa-0p-TDK">
-                                            <rect key="frame" x="92" y="38" width="218" height="21"/>
+                                            <rect key="frame" x="88" y="43" width="218" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DcG-ar-5TJ">
-                                            <rect key="frame" x="20" y="4" width="57" height="82"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="authorLabel" destination="eSa-0p-TDK" id="DNf-5A-gul"/>
+                                    <outlet property="authorLabel" destination="eSa-0p-TDK" id="XtI-SV-0pe"/>
                                     <outlet property="bookImageView" destination="DcG-ar-5TJ" id="hiX-G1-yBg"/>
-                                    <outlet property="titleLabel" destination="biQ-xU-u5L" id="RIH-sx-Yaf"/>
+                                    <outlet property="titleLabel" destination="biQ-xU-u5L" id="kiV-d9-1Iv"/>
                                     <segue destination="VUw-ef-rWl" kind="modal" identifier="edit" id="wtd-Yz-Y26"/>
                                 </connections>
                             </tableViewCell>
@@ -345,6 +365,7 @@
                         <outlet property="imageView" destination="hVd-Gn-ZFy" id="4EE-hL-bJA"/>
                         <outlet property="isbnTextField" destination="H7S-dc-iIb" id="Ew0-JJ-Uga"/>
                         <outlet property="noteField" destination="gWH-Ia-h4F" id="ibo-Qy-Hbc"/>
+                        <outlet property="searchButton" destination="kKC-hZ-k5M" id="W0L-e1-L1b"/>
                         <outlet property="statusSwitch" destination="gjG-ph-gvq" id="99B-Ff-dvQ"/>
                         <outlet property="titleTextView" destination="nPP-9k-QvY" id="MM7-KV-VsO"/>
                     </connections>
@@ -352,7 +373,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aDc-Ru-bYL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="PvV-cN-4Sh" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1977" y="872"/>
+            <point key="canvasLocation" x="1977" y="844"/>
         </scene>
         <!--Request Table View Controller - Request-->
         <scene sceneID="UGq-DV-u6P">
@@ -818,7 +839,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="wtd-Yz-Y26"/>
-        <segue reference="TMq-MX-CKy"/>
+        <segue reference="xUn-Iv-aIf"/>
+        <segue reference="XjY-4T-GLX"/>
     </inferredMetricsTieBreakers>
 </document>

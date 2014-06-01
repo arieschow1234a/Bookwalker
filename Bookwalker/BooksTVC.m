@@ -16,12 +16,13 @@
 @end
 
 @implementation BooksTVC
-
+{
+    NSArray *searchResults;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
 }
 
 - (void)setBooks:(NSMutableArray *)books
@@ -43,26 +44,76 @@
 {
     // Return the number of rows in the section.
     return [self.books count];
-}
+    /*
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        return [searchResults count];
+    } else {
+        return [self.books count];
+    }
 
+    */
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 90;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BookCell *cell = [tableView dequeueReusableCellWithIdentifier:@"BookCell" forIndexPath:indexPath];
+    static NSString *CellIdentifier = @"BookCell";
+    BookCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    // Configure the cell...
+    if (cell == nil) {
+        cell = [[BookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
     PFObject *book = [self.books objectAtIndex:indexPath.row];
     [cell configureCellForBook:book];
 
     
-    //cell.textLabel.text = [book objectForKey:@"title"];
-    //cell.detailTextLabel.text = [book objectForKey:@"author"];
-    
+    /*
+    // Configure the cell...
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        PFObject *book = [searchResults objectAtIndex:indexPath.row];
+        [cell configureCellForBook:book];
+    } else {
+        PFObject *book = [self.books objectAtIndex:indexPath.row];
+        [cell configureCellForBook:book];
+    }
+   
+   
+        */
     return cell;
 }
 
 
 
+/*
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"title" containsString:searchText];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            searchResults = objects;
+            NSLog(@"found %@", searchResults);
+        }
+    }];
+}
+ 
+ 
+
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString
+                               scope:[[self.searchDisplayController.searchBar scopeButtonTitles]objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    return YES;
+}
+
+*/
 /*
 #pragma mark - Navigation
 

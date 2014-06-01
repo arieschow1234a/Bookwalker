@@ -190,7 +190,7 @@
         if (error) {
             [self tryAgainAlert];
         }else{
-            self.book = metaBook;
+            self.metaBook = metaBook;
             if (self.image != nil){
                 [self uploadImageOfBook:metaBook];
             }else{
@@ -248,13 +248,14 @@
 
 - (void)createBook
 {
+    
     PFUser *user = [PFUser currentUser];
     PFObject *book = [PFObject objectWithClassName:@"Books"];
-    [book setObject:self.noteField.text forKey:@"note"];
     [book setObject:[user objectId] forKey:@"holderId"];
     [book setObject:[user username] forKey:@"holderName"];
     [book setObject:@0 forKey:@"noOfRequests"];
     [book setObject:@0 forKey:@"bookStatus"];
+    [book setObject:self.noteField.text forKey:@"note"];
     [book setObject:self.metaBook.objectId forKey:@"bookId"];
     [book setObject:self.titleTextView.text forKey:@"title"];
     [book setObject:self.authorTextView.text forKey:@"author"];
@@ -308,7 +309,7 @@
         if (error) {
             [self fetchAnobii];
         }else{
-            NSLog(@"fetch metabook");
+           // NSLog(@"fetch metabook");
             self.metaBookExist = YES;
             self.metaBook = metaBook;
             self.titleTextView.text = metaBook[@"title"];
@@ -453,7 +454,6 @@
             detail = [detail stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             NSArray *details = [[NSArray alloc] initWithArray:[detail componentsSeparatedByString:@"</strong>"]];
             NSMutableArray *detailsArray = [[NSMutableArray alloc]init];
-            NSLog(@"%lu", (unsigned long)[details count]);
             for (NSString *string in details) {
                 if ([string length]) {
                     NSRange start = [string rangeOfString:@"<strong>"];

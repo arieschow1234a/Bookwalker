@@ -36,8 +36,12 @@
     self.authorLabel.text = [self.book objectForKey:@"author"];
     self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@",[self.book objectForKey:@"holderName"]];
-    self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@",[self.book objectForKey:@"note"]];
     
+    if ([self.book[@"note"] isKindOfClass:[NSString class]]){
+        self.noteLabel.text = [NSString stringWithFormat:@"Note: %@",self.book[@"note"]];
+    }else{
+        self.noteLabel.text = @"No note from holder";
+    }
     PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
     [query orderByDescending:@"updatedAt"];
     [query whereKey:@"objectId" equalTo:self.book[@"bookId"]];
@@ -73,9 +77,7 @@
 - (IBAction)sendRequest:(id)sender {
     
     PFUser *user = [PFUser currentUser];
-    
-    NSLog(@"Reply: %lu", (unsigned long)[self.replyTextView.text length]);
-    
+        
     if ([user.objectId isEqualToString:self.book[@"holderId"]]) {
         [self requestOwnBookAlert];
       
@@ -86,11 +88,16 @@
         [self requestedAlreadyAlert];
     }else if ([self.replyTextView.text length]){
         
+        NSNull *null = [NSNull null];
         PFObject *note = [PFObject objectWithClassName:@"Requests"];
         [note setObject:self.book[@"holderId"] forKey:@"speakerId"];
         [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
-        [note setObject:self.book[@"note"] forKey:@"comment"];
         [note setObject:self.book.objectId forKey:@"bookObjectId"];
+        if ([self.book[@"note"] isKindOfClass:[NSString class]]) {
+            [note setObject:self.book[@"note"] forKey:@"comment"];
+        }else{
+            [note setObject:null forKey:@"comment"];
+        }
         [note saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 PFObject *request = [PFObject objectWithClassName:@"Requests"];
@@ -126,6 +133,51 @@
 }
 
 */
+
+// Saved the coversation into requestsRelation
+- (void)getSavedRequestAndSaveInParse
+{
+    PFUser *user = [PFUser currentUser];
+    // Search for the messages sent by others
+    PFQuery *query = [PFQuery queryWithClassName:@"Requests"];
+    [query whereKey:@"bookObjectId" equalTo:self.book.objectId];
+    [query orderByAscending:@"createdAt"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog (@"Error: %@ %@", error, [error userInfo]);
+        }else{
+            // We found request!!
+            
+           self.savedNote = objects[0];
+            self.savedRequest = objects[1];
+            
+            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+            [query getObjectInBackgroundWithId:self.book.objectId block:^(PFObject *book, NSError *error) {
+                
+                PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
+                [requestsRelation addObject:self.savedNote];
+                [requestsRelation addObject:self.savedRequest];
+                // Get the NSNumber into int
+                NSNumber *number = [book objectForKey:@"noOfRequests"];
+                int value = [number intValue];
+                number = [NSNumber numberWithInt:value + 1];
+                [book setObject:number forKey:@"noOfRequests"];
+                
+                [book setObject:user.objectId forKey:@"requesterId"];
+                [book setObject:user.username forKey:@"requesterName"];
+
+
+                [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        NSLog(@"Error %@ %@", error, [error userInfo]);
+                    }
+                }];
+            }];
+        
+        }
+       
+    }];
+}
 
 #pragma mark - Helper methods
 
@@ -168,48 +220,6 @@
                                               otherButtonTitles:nil, nil];
     [alertView show];
 }
-
-- (void)getSavedRequestAndSaveInParse
-{
-    // Search for the messages sent by others
-    PFQuery *query = [PFQuery queryWithClassName:@"Requests"];
-    [query whereKey:@"bookObjectId" equalTo:self.book.objectId];
-    [query orderByAscending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (error) {
-            NSLog (@"Error: %@ %@", error, [error userInfo]);
-        }else{
-            // We found request!!
-            
-           self.savedNote = objects[0];
-            self.savedRequest = objects[1];
-            
-            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
-            [query getObjectInBackgroundWithId:self.book.objectId block:^(PFObject *book, NSError *error) {
-                
-                PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
-                [requestsRelation addObject:self.savedNote];
-                [requestsRelation addObject:self.savedRequest];
-                // Get the NSNumber into int
-                NSNumber *number = [book objectForKey:@"noOfRequest"];
-                int value = [number intValue];
-                number = [NSNumber numberWithInt:value + 1];
-                [book setObject:number forKey:@"noOfRequests"];
-                
-                [book setObject:[PFUser currentUser].objectId forKey:@"requesterId"];
-
-                [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (error) {
-                        NSLog(@"Error %@ %@", error, [error userInfo]);
-                    }
-                }];
-            }];
-        
-        }
-       
-    }];
-}
-
 
 
 

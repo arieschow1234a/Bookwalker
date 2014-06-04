@@ -9,14 +9,38 @@
 #import "BookCell.h"
 
 @interface BookCell ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *authorLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *bookImageView;
 
 
 
 @end
 @implementation BookCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
+    {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        _bookImageView = [[UIImageView alloc] initWithFrame:(CGRectMake(20, 5, 60, 75))];
+        
+        _titleLabel = [[UILabel alloc] initWithFrame:(CGRectMake(88, 14, 218, 21))];
+        _titleLabel.font = [UIFont systemFontOfSize:18];
+        _titleLabel.textAlignment = NSTextAlignmentNatural;
+        
+        _authorLabel = [[UILabel alloc] initWithFrame:(CGRectMake(88, 43, 218, 21))];
+        _authorLabel.font = [UIFont systemFontOfSize:15];
+        _authorLabel.textAlignment = NSTextAlignmentNatural;
+        
+        [self.contentView addSubview:_bookImageView];
+        [self.contentView addSubview:_titleLabel];
+        [self.contentView addSubview:_authorLabel];
+    }
+    
+    return self;
+}
+
+
 
 - (void)configureCellForBook:(PFObject *)book
 {

@@ -29,25 +29,6 @@
 }
 
 
-
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if([segue.identifier isEqualToString:@"show Details"]){
-        BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
-        // set up the vc to run here
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        PFObject *book = [self.books objectAtIndex:indexPath.row];
-        
-        bdvc.book = book;
-        
-        bdvc.title = [book objectForKey:@"title"];
-        
-    }
-}
-
-
 #pragma mark - helper method
 
 - (void)fetchAllBooks

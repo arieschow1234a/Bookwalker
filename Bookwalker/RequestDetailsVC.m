@@ -209,8 +209,34 @@
 - (void)confirmGiving
 {
     //After confirming,
-    //1. update the info of book
-    //2. delete converstaion
+    //1. create record
+    //2. update the info of book
+    //3. delete converstaion
+    NSString *requesterId = self.requestBook[@"requesterId"];
+    NSString *requesterName = self.requestBook[@"requesterName"];
+    NSString *holderId = self.requestBook[@"holderId"];
+    NSString *holderName = self.requestBook[@"holderName"];
+    
+    PFObject *record = [PFObject objectWithClassName:@"Records"];
+    [record setObject:holderId forKey:@"giverId"];
+    [record setObject:holderName forKey:@"giverName"];
+    [record setObject:requesterId forKey:@"receiverId"];
+    [record setObject:requesterName forKey:@"receiverName"];
+    [record setObject:self.requestBook.objectId forKey:@"bookObjectId"];
+    [record setObject:self.requestBook[@"title"] forKey:@"bookTitle"];
+    [record saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (error) {
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            [self updateBookInfo];
+        }
+    }];
+
+
+}
+
+- (void)updateBookInfo
+{
     NSNull *null = [NSNull null];
     NSString *requesterId = self.requestBook[@"requesterId"];
     NSString *requesterName = self.requestBook[@"requesterName"];
@@ -222,6 +248,8 @@
     [self.requestBook addObject:holderId forKey:@"previousHolderId"];
     [self.requestBook addObject:holderName forKey:@"previousHolderName"];
     [self.requestBook setObject:null forKey:@"note"];
+    [self.requestBook setObject:null forKey:@"requesterId"];
+    [self.requestBook setObject:null forKey:@"requesterName"];
     
     NSNumber *number = [self.requestBook objectForKey:@"noOfTransfer"];
     int value = [number intValue];
@@ -236,9 +264,11 @@
             [self removeRequestConversation];
         }
     }];
-    
 
+    
 }
+
+
 
 - (void)removeRequestConversation
 {
@@ -256,8 +286,6 @@
         }
     }];
 }
-
-
 
 
 

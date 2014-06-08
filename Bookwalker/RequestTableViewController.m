@@ -169,11 +169,13 @@
 
 - (void)retrieveRequestsFromOthers
 {
+    NSNull *null = [NSNull null];
     PFUser *user = [PFUser currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query orderByDescending:@"updatedAt"];
     [query whereKey:@"holderId" equalTo:user.objectId];
     [query whereKeyExists:@"requesterId"];
+    [query whereKey:@"requesterId" notEqualTo:null];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);

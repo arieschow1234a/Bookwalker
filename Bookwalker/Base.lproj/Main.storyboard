@@ -410,6 +410,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Request" id="uw5-KS-Gf3">
+                        <barButtonItem key="leftBarButtonItem" title="Record" id="P5L-7f-bgX">
+                            <connections>
+                                <segue destination="F2t-3p-sud" kind="push" identifier="show Record" id="UpY-hb-5xe"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Log Out" id="urW-xQ-TIY">
                             <connections>
                                 <action selector="logout:" destination="zYI-Mb-Vfh" id="BeR-yV-Gn0"/>
@@ -519,6 +524,47 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHk-le-Jiw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1529" y="-340"/>
+        </scene>
+        <!--RecordTVC-->
+        <scene sceneID="mT6-bZ-wHc">
+            <objects>
+                <tableViewController id="F2t-3p-sud" customClass="RecordTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="XCa-Nk-9AU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="record" rowHeight="60" id="i6E-FN-UQx" customClass="RecordCell">
+                                <rect key="frame" x="0.0" y="86" width="320" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i6E-FN-UQx" id="tkt-eH-uTp">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFZ-hj-deZ">
+                                            <rect key="frame" x="55" y="0.0" width="253" height="50"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="recordTextView" destination="HFZ-hj-deZ" id="w7r-hT-6A8"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="F2t-3p-sud" id="0ay-4W-RAJ"/>
+                            <outlet property="delegate" destination="F2t-3p-sud" id="TSF-HG-fhS"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="5aO-xG-8pd"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y05-93-Xrf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="985" y="-943"/>
         </scene>
         <!--Navigation Controller - Request-->
         <scene sceneID="3bV-1f-csS">
@@ -847,7 +893,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="xUn-Iv-aIf"/>
         <segue reference="wtd-Yz-Y26"/>
+        <segue reference="TMq-MX-CKy"/>
     </inferredMetricsTieBreakers>
 </document>

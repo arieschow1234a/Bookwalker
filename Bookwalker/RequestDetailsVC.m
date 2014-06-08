@@ -210,7 +210,7 @@
 {
     //After confirming,
     //1. update the info of book
-    //2. delete converstaion?
+    //2. delete converstaion
     NSNull *null = [NSNull null];
     NSString *requesterId = self.requestBook[@"requesterId"];
     NSString *requesterName = self.requestBook[@"requesterName"];
@@ -233,7 +233,7 @@
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
             [self.navigationController popViewControllerAnimated:YES];
-
+            [self removeRequestConversation];
         }
     }];
     
@@ -256,5 +256,10 @@
         }
     }];
 }
+
+
+
+
+
 
 @end

@@ -30,6 +30,7 @@
 		21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1019247BED00CA9CA1 /* BooksTVC.m */; };
 		21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */; };
 		21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA161924810600CA9CA1 /* BookShelfTVC.m */; };
+		21D2BCA719442D3C00E0B7E1 /* RecordTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */; };
 		21DE540F1917A3A7004C5591 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE540E1917A3A7004C5591 /* Foundation.framework */; };
 		21DE54111917A3A7004C5591 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54101917A3A7004C5591 /* CoreGraphics.framework */; };
 		21DE54131917A3A7004C5591 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54121917A3A7004C5591 /* UIKit.framework */; };
@@ -92,6 +93,8 @@
 		21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllBooksTVC.m; sourceTree = "<group>"; };
 		21CDCA151924810600CA9CA1 /* BookShelfTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelfTVC.h; sourceTree = "<group>"; };
 		21CDCA161924810600CA9CA1 /* BookShelfTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookShelfTVC.m; sourceTree = "<group>"; };
+		21D2BCA519442D3C00E0B7E1 /* RecordTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordTVC.h; sourceTree = "<group>"; };
+		21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordTVC.m; sourceTree = "<group>"; };
 		21DE540B1917A3A7004C5591 /* Bookwalker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookwalker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DE540E1917A3A7004C5591 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		21DE54101917A3A7004C5591 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -169,6 +172,8 @@
 			children = (
 				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
 				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
+				21D2BCA519442D3C00E0B7E1 /* RecordTVC.h */,
+				21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */,
 				21654AB11922274900D808F2 /* RequestDetailsVC.h */,
 				21654AB21922274900D808F2 /* RequestDetailsVC.m */,
 			);
@@ -400,6 +405,7 @@
 			files = (
 				213FF127191C8DAD003B166B /* LoginViewController.m in Sources */,
 				21DE541F1917A3A7004C5591 /* AppDelegate.m in Sources */,
+				21D2BCA719442D3C00E0B7E1 /* RecordTVC.m in Sources */,
 				213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				21544E841925D66400C20B08 /* NavigationController.m in Sources */,
 				21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */,

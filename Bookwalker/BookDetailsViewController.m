@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *noteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *holderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *preHolderLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 
 
@@ -42,6 +43,13 @@
     }else{
         self.noteLabel.text = @"No note from holder";
     }
+    if (self.book[@"previousHolderName"]) {
+        NSArray *preHolders = self.book[@"previousHolderName"];
+        NSString *result = [[preHolders valueForKey:@"description"] componentsJoinedByString:@", "];
+        
+        self.preHolderLabel.text = [NSString stringWithFormat:@"Prev: %@", result];
+    }
+    
     PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
     [query orderByDescending:@"updatedAt"];
     [query whereKey:@"objectId" equalTo:self.book[@"bookId"]];

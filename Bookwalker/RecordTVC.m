@@ -97,7 +97,6 @@
         }else{
             self.records = [[NSMutableArray alloc] initWithArray:objects];
             [self.tableView reloadData];
-            NSLog(@"%@", self.records);
         }
     }];
 }

@@ -24,9 +24,9 @@
     PFUser *user = [PFUser currentUser];
     
     if ([book[@"giverId"] isEqualToString:user.objectId]) {
-        self.recordTextView.text = [NSString stringWithFormat:@"You gave %@ to %@", book[@"bookTitle"], book[@"receiverName"]];
+        self.recordTextView.text = [NSString stringWithFormat:@"You shared %@ with %@", book[@"bookTitle"], book[@"receiverName"]];
     }else if ([book[@"receiverId"] isEqualToString:user.objectId]){
-       self.recordTextView.text = [NSString stringWithFormat:@"%@ gave %@ to you", book[@"giverName"], book[@"bookTitle"]];
+       self.recordTextView.text = [NSString stringWithFormat:@"%@ shared %@ with you", book[@"giverName"], book[@"bookTitle"]];
     }
 
 }

@@ -98,7 +98,7 @@
             </objects>
             <point key="canvasLocation" x="1037" y="280"/>
         </scene>
-        <!--Book Details View Controller-->
+        <!--Book Details View Controller - BookWalker-->
         <scene sceneID="J3a-Sf-SfX">
             <objects>
                 <viewController id="FKe-r4-jJz" customClass="BookDetailsViewController" sceneMemberID="viewController">
@@ -125,22 +125,8 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ISBN" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BaJ-XU-8mh">
-                                        <rect key="frame" x="135" y="188" width="185" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Holder" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOs-0g-pKa">
                                         <rect key="frame" x="135" y="130" width="185" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Note" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="zZa-MR-IOT">
-                                        <rect key="frame" x="20" y="201" width="280" height="49"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -176,13 +162,6 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Description" translatesAutoresizingMaskIntoConstraints="NO" id="ago-4O-dEk" userLabel="Text View - description">
-                                        <rect key="frame" x="14" y="357" width="280" height="128"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Prev" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y8X-nH-qFl">
                                         <rect key="frame" x="135" y="159" width="165" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -190,21 +169,78 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a8H-gr-iTo">
+                                        <rect key="frame" x="20" y="250" width="280" height="129"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Note" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="zZa-MR-IOT">
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="49"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xYS-fb-4VU">
+                                        <rect key="frame" x="20" y="250" width="280" height="129"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Description" translatesAutoresizingMaskIntoConstraints="NO" id="ago-4O-dEk" userLabel="Text View - description">
+                                                <rect key="frame" x="0.0" y="1" width="280" height="74"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ISBN 10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BaJ-XU-8mh">
+                                                <rect key="frame" x="0.0" y="83" width="260" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ISBN 13" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8qE-8L-YVu">
+                                                <rect key="frame" x="0.0" y="108" width="260" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Xym-c7-6wI">
+                                        <rect key="frame" x="72" y="201" width="176" height="29"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <segments>
+                                            <segment title="Note" width="80"/>
+                                            <segment title="Info" width="80"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="switchSegment:" destination="FKe-r4-jJz" eventType="valueChanged" id="c9r-Hc-ysu"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="8dB-3w-3ZM"/>
+                    <navigationItem key="navigationItem" title="BookWalker" id="8dB-3w-3ZM"/>
                     <connections>
                         <outlet property="authorLabel" destination="IVc-Gc-O25" id="Eh1-tp-mtg"/>
                         <outlet property="bookImageView" destination="ixc-Ly-ALZ" id="ayY-c1-czL"/>
                         <outlet property="descriptionTextView" destination="ago-4O-dEk" id="sma-Df-8c0"/>
                         <outlet property="holderLabel" destination="wOs-0g-pKa" id="gBT-Ec-iEb"/>
-                        <outlet property="isbnLabel" destination="BaJ-XU-8mh" id="SUn-gm-Bcm"/>
+                        <outlet property="infoView" destination="xYS-fb-4VU" id="N0O-al-9Kp"/>
+                        <outlet property="isbn10Label" destination="BaJ-XU-8mh" id="red-r7-rbz"/>
+                        <outlet property="isbn13Label" destination="8qE-8L-YVu" id="tMQ-cX-BvU"/>
                         <outlet property="noteLabel" destination="zZa-MR-IOT" id="Gq1-P3-ZAd"/>
+                        <outlet property="noteView" destination="a8H-gr-iTo" id="Xim-Um-dLI"/>
                         <outlet property="preHolderLabel" destination="y8X-nH-qFl" id="Fbr-lu-TDz"/>
                         <outlet property="replyTextView" destination="bwD-iI-3Gn" id="eMs-ld-Th9"/>
+                        <outlet property="segmentedControl" destination="Xym-c7-6wI" id="S6n-Xx-m24"/>
                         <outlet property="statusLabel" destination="mA2-Zi-Xs3" id="AkI-Io-hgG"/>
                         <outlet property="titleLabel" destination="XU4-Jv-Paa" id="bqf-3V-gTN"/>
                     </connections>
@@ -639,12 +675,12 @@
                                             <action selector="login:" destination="Gsy-j9-Uqq" eventType="touchUpInside" id="E1K-jE-RGb"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Don't have an account?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xaD-lx-AxH">
-                                        <rect key="frame" x="40" y="416" width="183" height="44"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xaD-lx-AxH">
+                                        <rect key="frame" x="20" y="416" width="183" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="183" id="4IB-lZ-4wa"/>
-                                            <constraint firstAttribute="height" constant="44" id="Gba-vV-67w"/>
+                                            <constraint firstAttribute="width" constant="183" id="AU3-yA-VZ0"/>
+                                            <constraint firstAttribute="height" constant="44" id="hrn-zA-ral"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -654,6 +690,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="SLh-yz-Lkw" secondAttribute="bottom" priority="1" constant="4" id="353-tX-vL7"/>
                                     <constraint firstItem="SLh-yz-Lkw" firstAttribute="top" secondItem="Wss-EQ-CvF" secondAttribute="bottom" id="CSr-Ww-YAI"/>
+                                    <constraint firstItem="xaD-lx-AxH" firstAttribute="top" secondItem="T1s-AP-HlA" secondAttribute="top" constant="416" id="Irc-Vb-437"/>
                                     <constraint firstItem="Wss-EQ-CvF" firstAttribute="leading" secondItem="T1s-AP-HlA" secondAttribute="leading" constant="20" id="Mx9-Nd-L47"/>
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SLh-yz-Lkw" secondAttribute="bottom" constant="4" id="PQS-wh-S4p"/>
                                     <constraint firstAttribute="trailing" secondItem="jVW-6O-MS8" secondAttribute="trailing" constant="20" id="R9x-QN-B9z"/>
@@ -662,6 +699,8 @@
                                     <constraint firstAttribute="trailing" secondItem="Wss-EQ-CvF" secondAttribute="trailing" constant="20" id="Yc5-Bi-xwC"/>
                                     <constraint firstItem="SLh-yz-Lkw" firstAttribute="leading" secondItem="T1s-AP-HlA" secondAttribute="leading" constant="40" id="d3Q-dg-gkZ"/>
                                     <constraint firstItem="jVW-6O-MS8" firstAttribute="leading" secondItem="T1s-AP-HlA" secondAttribute="leading" constant="20" id="mfc-hO-EXB"/>
+                                    <constraint firstItem="xaD-lx-AxH" firstAttribute="leading" secondItem="Wss-EQ-CvF" secondAttribute="leading" id="nur-B9-QNV"/>
+                                    <constraint firstAttribute="bottom" secondItem="xaD-lx-AxH" secondAttribute="bottom" constant="20" symbolic="YES" id="s7K-qP-Y58"/>
                                     <constraint firstAttribute="trailing" secondItem="SLh-yz-Lkw" secondAttribute="trailing" constant="40" id="tAt-Kb-Ajs"/>
                                 </constraints>
                             </scrollView>

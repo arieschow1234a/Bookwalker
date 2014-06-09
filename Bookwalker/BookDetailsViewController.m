@@ -16,15 +16,18 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;
-@property (weak, nonatomic) IBOutlet UILabel *isbnLabel;
+@property (weak, nonatomic) IBOutlet UILabel *isbn10Label;
+@property (weak, nonatomic) IBOutlet UILabel *isbn13Label;
 @property (weak, nonatomic) IBOutlet UILabel *noteLabel;
 @property (weak, nonatomic) IBOutlet UILabel *holderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *preHolderLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
-
-
 @property (weak, nonatomic) IBOutlet UIImageView *bookImageView;
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet UIView *noteView;
+@property (weak, nonatomic) IBOutlet UIView *infoView;
 
 @end
 
@@ -33,6 +36,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.infoView.hidden = YES;
+    
     self.titleLabel.text = [self.book objectForKey:@"title"];
     self.authorLabel.text = [self.book objectForKey:@"author"];
     self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
@@ -53,15 +58,14 @@
     PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
     [query orderByDescending:@"updatedAt"];
     [query whereKey:@"objectId" equalTo:self.book[@"bookId"]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (error){
+    
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *metaBook, NSError *error) {
+        if (error) {
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
-            PFObject *metaBook = objects[0];
-            
             self.descriptionTextView.text = [metaBook objectForKey:@"description"];
-            self.isbnLabel.text = [metaBook objectForKey:@"isbn"];
-
+            self.isbn10Label.text = [NSString stringWithFormat:@"ISBN-10: %@", [metaBook objectForKey:@"isbn10"]];
+            self.isbn13Label.text = [NSString stringWithFormat:@"ISBN-13: %@", [metaBook objectForKey:@"isbn13"]];
             PFFile *imagefile = [metaBook objectForKey:@"file"];
             if (imagefile) {
                 [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -186,6 +190,28 @@
        
     }];
 }
+
+#pragma mark - IBActions
+
+- (IBAction)switchSegment:(id)sender {
+    switch (self.segmentedControl.selectedSegmentIndex) {
+        case 0:
+            self.noteView.hidden = NO;
+            self.infoView.hidden = YES;
+            break;
+        case 1:
+            self.infoView.hidden = NO;
+            self.noteView.hidden = YES;
+            break;
+        default:
+            self.infoView.hidden = YES;
+            self.noteView.hidden = NO;
+            break;
+    }
+}
+
+
+
 
 #pragma mark - Helper methods
 

@@ -135,7 +135,6 @@
             book = [self.books objectAtIndex:indexPath.row];
         }
         bdvc.book = book;
-        bdvc.title = [book objectForKey:@"title"];
     }
 }
 

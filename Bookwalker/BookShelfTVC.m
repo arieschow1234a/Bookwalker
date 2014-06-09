@@ -91,7 +91,6 @@
 
 - (void)fetchMyBook
 {
-    
     PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query orderByDescending:@"createdAt"];
     [query whereKey:@"holderId" equalTo:[PFUser currentUser].objectId];

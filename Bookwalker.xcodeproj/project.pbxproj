@@ -45,6 +45,7 @@
 		21DE54301917A3A8004C5591 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54121917A3A7004C5591 /* UIKit.framework */; };
 		21DE54381917A3A8004C5591 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 21DE54361917A3A8004C5591 /* InfoPlist.strings */; };
 		21DE543A1917A3A8004C5591 /* BookwalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DE54391917A3A8004C5591 /* BookwalkerTests.m */; };
+		21F91CE81945CD1A00B2A5C4 /* SendRequestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +116,8 @@
 		21DE54351917A3A8004C5591 /* BookwalkerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BookwalkerTests-Info.plist"; sourceTree = "<group>"; };
 		21DE54371917A3A8004C5591 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		21DE54391917A3A8004C5591 /* BookwalkerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookwalkerTests.m; sourceTree = "<group>"; };
+		21F91CE61945CD1A00B2A5C4 /* SendRequestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRequestVC.h; sourceTree = "<group>"; };
+		21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendRequestVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,6 +195,8 @@
 				21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */,
 				213FF151191D065D003B166B /* BookDetailsViewController.h */,
 				213FF152191D065D003B166B /* BookDetailsViewController.m */,
+				21F91CE61945CD1A00B2A5C4 /* SendRequestVC.h */,
+				21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */,
 			);
 			name = AllBooks;
 			sourceTree = "<group>";
@@ -424,6 +429,7 @@
 				213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */,
 				213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */,
 				21D2BCAA19443E7400E0B7E1 /* RecordCell.m in Sources */,
+				21F91CE81945CD1A00B2A5C4 /* SendRequestVC.m in Sources */,
 				213FF128191C8DAD003B166B /* SignupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

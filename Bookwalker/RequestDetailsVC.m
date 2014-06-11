@@ -7,6 +7,7 @@
 //
 
 #import "RequestDetailsVC.h"
+#import "RequestCell.h"
 
 @interface RequestDetailsVC () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -71,16 +72,25 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"comment"];
-    
+    RequestCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"comment"];
     
     PFObject *reply = [self.conversations objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = [NSString stringWithFormat: @"%@: %@",[reply objectForKey:@"speakerName"], [reply objectForKey:@"comment"]];
+    [cell configureCellForReply:reply];
     return cell;
     
 }
 
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    PFObject *reply = [self.conversations objectAtIndex:indexPath.row];
+
+    return [RequestCell heightForReplyText:reply[@"comment"]];
+}
+
+
+# pragma mark - IBAction
 
 - (IBAction)sendReply:(id)sender
 {
@@ -110,20 +120,6 @@
     }];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-
-
-# pragma mark - IBAction
 
 - (IBAction)confirmGivingButtonPressed:(id)sender {
     

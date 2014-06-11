@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2107A5A4192D1F2E005D4B69 /* BWHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2107A5A3192D1F2E005D4B69 /* BWHelper.m */; };
+		2116D8E21948101F004669D3 /* RequestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116D8E11948101F004669D3 /* RequestCell.m */; };
 		213FF127191C8DAD003B166B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF122191C8DAD003B166B /* LoginViewController.m */; };
 		213FF128191C8DAD003B166B /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF124191C8DAD003B166B /* SignupViewController.m */; };
 		213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */; };
@@ -61,6 +62,8 @@
 /* Begin PBXFileReference section */
 		2107A5A2192D1F2E005D4B69 /* BWHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWHelper.h; sourceTree = "<group>"; };
 		2107A5A3192D1F2E005D4B69 /* BWHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHelper.m; sourceTree = "<group>"; };
+		2116D8E01948101F004669D3 /* RequestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestCell.h; sourceTree = "<group>"; };
+		2116D8E11948101F004669D3 /* RequestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestCell.m; sourceTree = "<group>"; };
 		213FF121191C8DAD003B166B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		213FF122191C8DAD003B166B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		213FF123191C8DAD003B166B /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 				21D2BCA919443E7400E0B7E1 /* RecordCell.m */,
 				21654AB11922274900D808F2 /* RequestDetailsVC.h */,
 				21654AB21922274900D808F2 /* RequestDetailsVC.m */,
+				2116D8E01948101F004669D3 /* RequestCell.h */,
+				2116D8E11948101F004669D3 /* RequestCell.m */,
 			);
 			name = Request;
 			sourceTree = "<group>";
@@ -431,6 +436,7 @@
 				21D2BCAA19443E7400E0B7E1 /* RecordCell.m in Sources */,
 				21F91CE81945CD1A00B2A5C4 /* SendRequestVC.m in Sources */,
 				213FF128191C8DAD003B166B /* SignupViewController.m in Sources */,
+				2116D8E21948101F004669D3 /* RequestCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,7 +11,6 @@
 
 @interface RequestCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *speakerLabel;
-@property (weak, nonatomic) IBOutlet UILabel *replyLabel;
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
 
 - (void)configureCellForReply:(PFObject *)reply;

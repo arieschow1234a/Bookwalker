@@ -88,8 +88,9 @@
                 }
             }];
             // going back
-            [self.navigationController popViewControllerAnimated:YES];
-        
+          [self.navigationController popViewControllerAnimated:YES];
+        BookDetailsViewController *bdvc = segue.destinationViewController;
+        bdvc.book[@"requesterId"] = user.objectId;
     }
 }
 

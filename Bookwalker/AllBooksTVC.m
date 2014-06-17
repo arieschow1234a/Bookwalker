@@ -14,7 +14,6 @@
 @interface AllBooksTVC ()
 {
     AppDelegate *appdelegate;
-
 }
 
 @end
@@ -31,11 +30,7 @@
 {
     [super viewWillAppear:animated];
     [self checkInternet];
-    [self fetchAllBooks];
-    
-    
-
-    
+    [self fetchAllBooks];    
 }
 
 

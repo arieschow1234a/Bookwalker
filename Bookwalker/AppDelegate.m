@@ -8,6 +8,13 @@
 
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "Reachability.h"
+
+@interface AppDelegate ()
+{
+    Reachability *reach;
+}
+@end
 
 
 @implementation AppDelegate
@@ -19,8 +26,52 @@
     [Parse setApplicationId:@"3USHvE8uSRF3ekzCCyslwSUtkeSjl2BFbgRwtxpW"
                   clientKey:@"s1OW5azdCV69gD999VJBJxLoulJKdQs7yIuq3KAk"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    
+    
+    // Allocate a reachability object
+    reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // Here we set up a NSNotification observer. The Reachability that caused the notification
+    // is passed in the object parameter
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name:kReachabilityChangedNotification
+                                               object:nil];
+    
+    [reach startNotifier];
+    
     return YES;
 }
+
+-(void) reachabilityChanged:(NSNotification *)notice
+{
+    // called after network status changes
+    NetworkStatus internetStatus = [reach currentReachabilityStatus];
+    switch (internetStatus)
+    {
+        case NotReachable:
+        {
+            _isInternetAvailable = NO;
+            NSLog(@"The internet is down.");
+            break;
+        }
+        case ReachableViaWiFi:
+        {
+            _isInternetAvailable = YES;
+            NSLog(@"The internet is working via WIFI.");
+            break;
+        }
+        case ReachableViaWWAN:
+        {
+            _isInternetAvailable = YES;
+            NSLog(@"The internet is working via WWAN.");
+            break;
+        }
+    }
+}
+
+
 
 // Set the navigation bar
 - (void)setupAppearance

@@ -23,7 +23,9 @@
 {
     self.speakerLabel.text = [NSString stringWithFormat:@"%@:", [reply objectForKey:@"speakerName"]];
     self.replyTextView.text = [NSString stringWithFormat: @"%@", [reply objectForKey:@"comment"]];
+    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 }
+
 
 
 + (CGFloat)heightForReplyText:(NSString *)replyText

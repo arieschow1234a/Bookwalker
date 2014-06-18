@@ -295,7 +295,7 @@
     
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
-    if ([isbn length] == 0){
+    if ([isbn length] == 11 || [isbn length] == 12 || [isbn length] < 10 || [isbn length] > 13 ){
         [self invalidISBNAlert];
     }else{
         [self fetchMetabook];
@@ -393,41 +393,40 @@
                 [self fetchGoogle];
             }else if (!error) {
                 
-            NSString *html = [NSString stringWithContentsOfURL:localfile encoding:NSUTF8StringEncoding error:NULL];
-            
-            //  NSLog(@"%@", html);
-            
-            
-            NSString *siteLine = [self fetchHTML:html LineContainwords:@"cover_image"];
-            
-            // Get site
-            NSString *site = [siteLine stringByReplacingOccurrencesOfString:@"<a class=\"cover_image\" href=\"" withString:@""];
-            site = [site stringByReplacingOccurrencesOfString:@"\">" withString:@""];
-            NSString *trimmedSite = [site stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSURL *siteURL = [BWHelper AnobiiSiteURLforbookWithSite:trimmedSite];
-            
-            [self fetchAnobiiSite:siteURL];
-            
-            //Get bookid, image, title from site
-            NSArray *str = [site componentsSeparatedByString:@"/"];
-            NSString *aBookId = str[4];
-            NSString *title = str[2];
-            NSRange underscore = [title rangeOfString:@"_"];
-            if (underscore.location) {
-                title = [title stringByReplacingOccurrencesOfString:@"_" withString:@" "];
-            }
-            //Author
-            NSString *authorLine = [self fetchHTML:html LineContainwords:@"作者為"];
-            NSString *author = [authorLine stringByReplacingOccurrencesOfString:@"</li>" withString:@""];
-            author = [author stringByReplacingOccurrencesOfString:@"作者為" withString:@""];
-            author = [author stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.titleTextView.text = title;
-                self.imageURL = [BWHelper AnobiiImageURLforbookWithId:aBookId];
-                self.authorTextView.text = author;
-            });
-            
+                NSString *html = [NSString stringWithContentsOfURL:localfile encoding:NSUTF8StringEncoding error:NULL];
+                if ([self fetchHTML:html LineContainwords:@"無效的ISBN"]) {
+                    [self invalidISBNAlert];
+                }else{
+                    NSString *siteLine = [self fetchHTML:html LineContainwords:@"cover_image"];
+                    
+                    // Get site
+                    NSString *site = [siteLine stringByReplacingOccurrencesOfString:@"<a class=\"cover_image\" href=\"" withString:@""];
+                    site = [site stringByReplacingOccurrencesOfString:@"\">" withString:@""];
+                    NSString *trimmedSite = [site stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    NSURL *siteURL = [BWHelper AnobiiSiteURLforbookWithSite:trimmedSite];
+                    
+                    [self fetchAnobiiSite:siteURL];
+                    
+                    //Get bookid, image, title from site
+                    NSArray *str = [site componentsSeparatedByString:@"/"];
+                    NSString *aBookId = str[4];
+                    NSString *title = str[2];
+                    NSRange underscore = [title rangeOfString:@"_"];
+                    if (underscore.location) {
+                        title = [title stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+                    }
+                    //Author
+                    NSString *authorLine = [self fetchHTML:html LineContainwords:@"作者為"];
+                    NSString *author = [authorLine stringByReplacingOccurrencesOfString:@"</li>" withString:@""];
+                    author = [author stringByReplacingOccurrencesOfString:@"作者為" withString:@""];
+                    author = [author stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.titleTextView.text = title;
+                        self.imageURL = [BWHelper AnobiiImageURLforbookWithId:aBookId];
+                        self.authorTextView.text = author;
+                    });
+                }
         }
     }];
     [task resume]; // don't forget that all NSURLSession tasks start out suspended!
@@ -481,7 +480,8 @@
             description = [description stringByReplacingOccurrencesOfString:@"</p>" withString:@""];
             description = [description stringByReplacingOccurrencesOfString:@"<div>" withString:@""];
             description = [description stringByReplacingOccurrencesOfString:@"</div>" withString:@""];
-            description = [description stringByReplacingOccurrencesOfString:@"</br>" withString:@""];
+            description = [description stringByReplacingOccurrencesOfString:@"<br>" withString:@""];
+            description = [description stringByReplacingOccurrencesOfString:@"<br />" withString:@""];
             NSString *trimmedDescription = [description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             self.description = trimmedDescription;
             //Category

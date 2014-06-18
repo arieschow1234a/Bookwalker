@@ -22,7 +22,7 @@
 - (void)configureCellForBook:(PFObject *)book
 {
     PFUser *user = [PFUser currentUser];
-    
+    [self setSelectionStyle:UITableViewCellSelectionStyleNone];
     if ([book[@"giverId"] isEqualToString:user.objectId]) {
         self.recordTextView.text = [NSString stringWithFormat:@"You shared %@ with %@", book[@"bookTitle"], book[@"receiverName"]];
     }else if ([book[@"receiverId"] isEqualToString:user.objectId]){

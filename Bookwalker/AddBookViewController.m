@@ -392,11 +392,9 @@
             if (error) {
                 [self fetchGoogle];
             }else if (!error) {
-                
                 NSString *html = [NSString stringWithContentsOfURL:localfile encoding:NSUTF8StringEncoding error:NULL];
-                if ([self fetchHTML:html LineContainwords:@"無效的ISBN"]) {
-                    [self invalidISBNAlert];
-                }else{
+                
+                if ([html rangeOfString:@"<div class=\"error_message\">"].location == NSNotFound) {
                     NSString *siteLine = [self fetchHTML:html LineContainwords:@"cover_image"];
                     
                     // Get site
@@ -426,6 +424,9 @@
                         self.imageURL = [BWHelper AnobiiImageURLforbookWithId:aBookId];
                         self.authorTextView.text = author;
                     });
+
+                }else {
+                    [self invalidISBNAlert];
                 }
         }
     }];

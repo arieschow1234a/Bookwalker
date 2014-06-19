@@ -47,20 +47,33 @@
     
     self.titleLabel.text = [book objectForKey:@"title"];
     self.authorLabel.text = [book objectForKey:@"author"];
-
-    PFFile *imagefile = [book objectForKey:@"file"];
-    if (imagefile) {
-        [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-            if (!error) {
-                UIImage *image = [UIImage imageWithData:imageData];
-                self.bookImageView.image = image;
-            }
-        }];
-    }else{
-        self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
-    }
     
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"objectId" equalTo:book[@"bookId"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            PFObject *metaBook = objects[0];
+            PFFile *imagefile = [metaBook objectForKey:@"file"];
+            if (imagefile) {
+                [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                    if (!error) {
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        self.bookImageView.image = image;
+                    }
+                }];
+            }else{
+                self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
+            }
 
+        }
+    }];
+    
+    
+    
     
     
     

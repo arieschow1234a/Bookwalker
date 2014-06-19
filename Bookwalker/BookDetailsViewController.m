@@ -52,17 +52,6 @@
         
         self.preHolderLabel.text = [NSString stringWithFormat:@"Prev: %@", result];
     }
-    PFFile *imagefile = [self.book objectForKey:@"file"];
-    if (imagefile) {
-        [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-            if (!error) {
-                UIImage *image = [UIImage imageWithData:imageData];
-                self.bookImageView.image = image;
-            }
-        }];
-    }else{
-        self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
-    }
     
     PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
     [query orderByDescending:@"updatedAt"];
@@ -75,6 +64,17 @@
             self.descriptionTextView.text = [metaBook objectForKey:@"description"];
             self.isbn10Label.text = [NSString stringWithFormat:@"ISBN-10: %@", [metaBook objectForKey:@"isbn10"]];
             self.isbn13Label.text = [NSString stringWithFormat:@"ISBN-13: %@", [metaBook objectForKey:@"isbn13"]];
+            PFFile *imagefile = [metaBook objectForKey:@"file"];
+            if (imagefile) {
+                [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                    if (!error) {
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        self.bookImageView.image = image;
+                    }
+                }];
+            }else{
+                self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
+            }
         }
     }];
 

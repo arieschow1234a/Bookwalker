@@ -66,7 +66,7 @@
     if (cell == nil) {
         cell = [[BookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     // Configure the cell...
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         PFObject *book = [searchResults objectAtIndex:indexPath.row];
@@ -78,7 +78,13 @@
     return cell;
 }
 
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.searchDisplayController.active) {
+        
+        [self performSegueWithIdentifier:@"show Details" sender:self];
+    }
+}
 
 
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope

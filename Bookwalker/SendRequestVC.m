@@ -22,6 +22,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]
+                                           initWithTarget:self
+                                           action:@selector(hideKeyBoard)];
+    
+    [self.view addGestureRecognizer:tapGesture];
+    
     [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
     self.replyTextView.editable = YES;
@@ -32,7 +39,9 @@
     }
 }
 
-
+-(void)hideKeyBoard {
+    [self.view endEditing:YES];
+}
 
 #pragma mark - Navigation
 

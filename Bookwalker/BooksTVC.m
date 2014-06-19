@@ -122,7 +122,7 @@
 {
     if([segue.identifier isEqualToString:@"show Details"]){
         BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
-        self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+        
         NSIndexPath *indexPath = nil;
         PFObject *book = nil;
         

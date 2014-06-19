@@ -61,25 +61,15 @@
 
         [self setInitialStatusSwitch];
         
-        // Get meta book info
-        PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
-        [query orderByDescending:@"updatedAt"];
-        [query whereKey:@"objectId" equalTo:self.book[@"bookId"]];
-        [query getFirstObjectInBackgroundWithBlock:^(PFObject *metaBook, NSError *error) {
-            if (error){
-                NSLog(@"Error %@ %@", error, [error userInfo]);
-            }else{
-                PFFile *imagefile = [metaBook objectForKey:@"file"];
-                if (imagefile) {
-                    [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-                        if (!error) {
-                            UIImage *image = [UIImage imageWithData:imageData];
-                            self.image = image;
-                        }
-                    }];
+        PFFile *imagefile = [self.book objectForKey:@"file"];
+        if (imagefile) {
+            [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:imageData];
+                    self.image = image;
                 }
-            }
-        }];
+            }];
+        }
     }
 
 }
@@ -193,6 +183,7 @@
             self.metaBook = metaBook;
             if (self.image != nil){
                 [self uploadImageOfBook:metaBook];
+                [self createBook];
             }else{
                 [self createBook];
             }
@@ -233,10 +224,6 @@
                 if (error) {
                     NSLog(@"Error %@ %@", error, [error userInfo]);
                 }else{
-                    self.image = nil;
-                    
-                    // Upload copy
-                    [self createBook];
                     
                 }
             }];
@@ -267,6 +254,7 @@
     }
     [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
+            [self uploadImageOfBook:book];
         }
     }];
     
@@ -308,8 +296,7 @@
 - (void)fetchMetabook
 {
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"isbn13 = %@ OR isbn10 = %@", isbn, isbn];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isbn13 = %@ OR isbn10 = %@", isbn, isbn];
     PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks" predicate:predicate];
     [query getFirstObjectInBackgroundWithBlock:^(PFObject *metaBook, NSError *error) {
         if (error) {

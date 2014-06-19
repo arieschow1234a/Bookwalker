@@ -127,7 +127,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"showRequest"]){
-        
+        self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
         RequestDetailsVC *rdvc = (RequestDetailsVC *)segue.destinationViewController;
         // set up the vc to run here
         

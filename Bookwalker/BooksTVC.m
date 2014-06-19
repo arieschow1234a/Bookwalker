@@ -82,7 +82,7 @@
 {
     if (self.searchDisplayController.active) {
         
-        [self performSegueWithIdentifier:@"show Details" sender:self];
+        [self performSegueWithIdentifier:@"Show Details" sender:self];
     }
 }
 
@@ -126,7 +126,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([segue.identifier isEqualToString:@"show Details"]){
+    if([segue.identifier isEqualToString:@"Show Details"]){
         BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
         self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
         NSIndexPath *indexPath = nil;

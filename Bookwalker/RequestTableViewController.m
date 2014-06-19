@@ -66,7 +66,7 @@
     [super viewDidLoad];
     PFUser *currentUser = [PFUser currentUser];
     if (!currentUser) {
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
+        [self performSegueWithIdentifier:@"Show Login" sender:self];
     }
 }
 
@@ -126,7 +126,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([segue.identifier isEqualToString:@"showRequest"]){
+    if([segue.identifier isEqualToString:@"Show Request"]){
         self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
         RequestDetailsVC *rdvc = (RequestDetailsVC *)segue.destinationViewController;
         // set up the vc to run here
@@ -144,7 +144,7 @@
 - (IBAction)logout:(id)sender
 {
     [PFUser logOut];
-    [self performSegueWithIdentifier:@"showLogin" sender:self];
+    [self performSegueWithIdentifier:@"Show Login" sender:self];
 }
 
 

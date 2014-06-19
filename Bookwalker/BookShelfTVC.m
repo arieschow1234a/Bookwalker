@@ -20,7 +20,7 @@
     [super viewDidLoad];
     PFUser *currentUser = [PFUser currentUser];
     if (!currentUser) {
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
+        [self performSegueWithIdentifier:@"Show Login" sender:self];
     }
 }
 
@@ -67,7 +67,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"edit"]){
+    if ([segue.identifier isEqualToString:@"Edit"]){
         UITableViewCell *cell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         UINavigationController *navigationController = segue.destinationViewController;

@@ -71,7 +71,7 @@
                                     <outlet property="authorLabel" destination="sFV-Ma-VNA" id="LOm-05-xvV"/>
                                     <outlet property="bookImageView" destination="ki1-Se-pal" id="yq1-ag-Kp8"/>
                                     <outlet property="titleLabel" destination="rSO-uA-V4M" id="boW-R8-bhp"/>
-                                    <segue destination="FKe-r4-jJz" kind="push" identifier="show Details" id="A43-6Y-MLN"/>
+                                    <segue destination="FKe-r4-jJz" kind="push" identifier="Show Details" id="A43-6Y-MLN"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -328,7 +328,7 @@
                                     <outlet property="authorLabel" destination="eSa-0p-TDK" id="XtI-SV-0pe"/>
                                     <outlet property="bookImageView" destination="DcG-ar-5TJ" id="hiX-G1-yBg"/>
                                     <outlet property="titleLabel" destination="biQ-xU-u5L" id="kiV-d9-1Iv"/>
-                                    <segue destination="VUw-ef-rWl" kind="modal" identifier="edit" id="wtd-Yz-Y26"/>
+                                    <segue destination="VUw-ef-rWl" kind="modal" identifier="Edit" id="wtd-Yz-Y26"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -345,7 +345,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="Gsy-j9-Uqq" kind="push" identifier="showLogin" id="xUn-Iv-aIf"/>
+                        <segue destination="Gsy-j9-Uqq" kind="push" identifier="Show Login" id="xUn-Iv-aIf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hhy-2E-q4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -476,7 +476,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="qRQ-wH-kLf" kind="push" identifier="showRequest" id="PzG-8r-kki"/>
+                                    <segue destination="qRQ-wH-kLf" kind="push" identifier="Show Request" id="PzG-8r-kki"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -488,7 +488,7 @@
                     <navigationItem key="navigationItem" title="Request" id="uw5-KS-Gf3">
                         <barButtonItem key="leftBarButtonItem" title="Record" id="P5L-7f-bgX">
                             <connections>
-                                <segue destination="F2t-3p-sud" kind="push" identifier="show Record" id="UpY-hb-5xe"/>
+                                <segue destination="F2t-3p-sud" kind="push" identifier="Show Record" id="UpY-hb-5xe"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Log Out" id="urW-xQ-TIY">
@@ -498,7 +498,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="Gsy-j9-Uqq" kind="push" identifier="showLogin" id="TMq-MX-CKy"/>
+                        <segue destination="Gsy-j9-Uqq" kind="push" identifier="Show Login" id="TMq-MX-CKy"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HbT-5N-pfc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -608,7 +608,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="nyv-MK-fMw"/>
+                    <navigationItem key="navigationItem" id="nyv-MK-fMw">
+                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="RHm-2U-rU1"/>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="confirmGivingButton" destination="i0Y-7S-Nks" id="J3a-Jf-XOj"/>
@@ -618,7 +620,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHk-le-Jiw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1456" y="928"/>
+            <point key="canvasLocation" x="1519" y="922"/>
         </scene>
         <!--RecordTVC - Record-->
         <scene sceneID="mT6-bZ-wHc">
@@ -1013,7 +1015,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="wtd-Yz-Y26"/>
+        <segue reference="XjY-4T-GLX"/>
         <segue reference="TMq-MX-CKy"/>
     </inferredMetricsTieBreakers>
 </document>

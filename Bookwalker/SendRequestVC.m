@@ -11,7 +11,8 @@
 
 @interface SendRequestVC ()
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
-@property (weak, nonatomic) IBOutlet UILabel *noteLabel;
+@property (weak, nonatomic) IBOutlet UITextView *noteTextView;
+@property (weak, nonatomic) IBOutlet UILabel *holderLabel;
 @property (strong, nonatomic) PFObject *savedNote;
 @property (strong, nonatomic) PFObject *savedRequest;
 
@@ -32,10 +33,11 @@
     [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
     self.replyTextView.editable = YES;
+    self.holderLabel.text = [NSString stringWithFormat:@"Holder: %@",self.book[@"holderName"]];
     if ([self.book[@"note"] isKindOfClass:[NSString class]]){
-        self.noteLabel.text = [NSString stringWithFormat:@"Note: %@",self.book[@"note"]];
+        self.noteTextView.text = [NSString stringWithFormat:@"Note: %@",self.book[@"note"]];
     }else{
-        self.noteLabel.text = @"No note from holder";
+        self.noteTextView.text = @"No note from holder";
     }
 }
 
@@ -77,7 +79,8 @@
             [note setObject:self.book[@"holderId"] forKey:@"speakerId"];
             [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
             [note setObject:self.book.objectId forKey:@"bookObjectId"];
-        
+            [note addObject:self.book[@"holderId"] forKey:@"participants"];
+            [note addObject:user.objectId forKey:@"participants"];
             if ([self.book[@"note"] isKindOfClass:[NSString class]]) {
                 [note setObject:self.book[@"note"] forKey:@"comment"];
             }else{
@@ -90,6 +93,8 @@
                     [request setObject:user.username forKey:@"speakerName"];
                     [request setObject:self.replyTextView.text forKey:@"comment"];
                     [request setObject:self.book.objectId forKey:@"bookObjectId"];
+                    [request addObject:self.book[@"holderId"] forKey:@"participants"];
+                    [request addObject:user.objectId forKey:@"participants"];
                     [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                         if (succeeded) {
                             [self getSavedRequestAndSaveInParse];

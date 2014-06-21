@@ -16,7 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *isbn10Label;
 @property (weak, nonatomic) IBOutlet UILabel *isbn13Label;
-@property (weak, nonatomic) IBOutlet UILabel *noteLabel;
+@property (weak, nonatomic) IBOutlet UITextView *noteTextView;
 @property (weak, nonatomic) IBOutlet UILabel *holderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *preHolderLabel;
@@ -42,9 +42,9 @@
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@",[self.book objectForKey:@"holderName"]];
     
     if ([self.book[@"note"] isKindOfClass:[NSString class]]){
-        self.noteLabel.text = [NSString stringWithFormat:@"%@",self.book[@"note"]];
+        self.noteTextView.text = [NSString stringWithFormat:@"%@",self.book[@"note"]];
     }else{
-        self.noteLabel.text = @"No note from holder";
+        self.noteTextView.text = @"No note from holder";
     }
     if (self.book[@"previousHolderName"]) {
         NSArray *preHolders = self.book[@"previousHolderName"];
@@ -111,6 +111,9 @@
         }else if ([self.book[@"requesterId"] isEqual:user.objectId]){
             [self requestedAlreadyAlert];
             return NO;
+        }else if ([self.book[@"requesterId"] isKindOfClass:[NSString class]]){
+            [self someoneRequestedAlert];
+            return NO;
         }
         return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
     }
@@ -150,8 +153,8 @@
 
 -(void)requestOwnBookAlert
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
-                                                        message:@"You can't requested your book!"
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                        message:@"You can't request your own books!"
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil, nil];
@@ -160,7 +163,7 @@
 
 - (void)bookClosedAlert
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
                                                         message:@"This book is closed for sharing. You may contact the holder directly!"
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
@@ -170,15 +173,23 @@
 
 - (void)requestedAlreadyAlert
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!!"
-                                                        message:@"You have requested this book already! Please check Request record."
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"You have requested this book already! Please check Request."
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil, nil];
     [alertView show];
 }
 
-
+- (void)someoneRequestedAlert
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                                message:@"Someone have requested this book but we can notify you when the book is available."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Put into Wishlist"
+                                                      otherButtonTitles:@"Cancel", nil];
+            [alertView show];
+        }
 
 
 @end

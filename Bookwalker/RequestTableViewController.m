@@ -18,6 +18,28 @@
 
 @implementation RequestTableViewController
 
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    PFUser *currentUser = [PFUser currentUser];
+    if (!currentUser) {
+        [self performSegueWithIdentifier:@"Show Login" sender:self];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    
+    [super viewWillAppear:animated];
+    [self retrieveMyRequests];
+    [self retrieveRequestsFromOthers];
+    [self.navigationController.navigationBar setHidden:NO];
+
+    
+}
+
 - (NSMutableArray *)allRequests
 {
     if (!_allRequests) {
@@ -51,36 +73,15 @@
     }else if ([self.myRequests count] && [self.allRequests count] == 1){
         [self.allRequests addObject:requestsFromOthers];
     }else if ([self.allRequests count] == 2){
-       [self.allRequests replaceObjectAtIndex:1 withObject:requestsFromOthers];
+        [self.allRequests replaceObjectAtIndex:1 withObject:requestsFromOthers];
     }else{
         [self.allRequests replaceObjectAtIndex:0 withObject:requestsFromOthers];
-
+        
     }
     
     [self.tableView reloadData];
-
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    PFUser *currentUser = [PFUser currentUser];
-    if (!currentUser) {
-        [self performSegueWithIdentifier:@"Show Login" sender:self];
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    
-    [super viewWillAppear:animated];
-    [self retrieveMyRequests];
-    [self retrieveRequestsFromOthers];
-    [self.navigationController.navigationBar setHidden:NO];
-
     
 }
-
 
 #pragma mark - Table view data source
 

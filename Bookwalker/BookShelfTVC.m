@@ -28,6 +28,8 @@
 {
     [super viewWillAppear:animated];
     [self fetchMyBook];
+    [self.navigationController.navigationBar setHidden:NO];
+
 }
 
 #pragma mark - tableview delegate

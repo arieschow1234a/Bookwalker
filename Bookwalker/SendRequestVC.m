@@ -77,6 +77,7 @@
             [note setObject:self.book[@"holderId"] forKey:@"speakerId"];
             [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
             [note setObject:self.book.objectId forKey:@"bookObjectId"];
+        
             if ([self.book[@"note"] isKindOfClass:[NSString class]]) {
                 [note setObject:self.book[@"note"] forKey:@"comment"];
             }else{

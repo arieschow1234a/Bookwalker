@@ -42,7 +42,7 @@
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@",[self.book objectForKey:@"holderName"]];
     
     if ([self.book[@"note"] isKindOfClass:[NSString class]]){
-        self.noteLabel.text = [NSString stringWithFormat:@"Note: %@",self.book[@"note"]];
+        self.noteLabel.text = [NSString stringWithFormat:@"%@",self.book[@"note"]];
     }else{
         self.noteLabel.text = @"No note from holder";
     }

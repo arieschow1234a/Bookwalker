@@ -43,8 +43,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.isbnTextField.placeholder = @"ISBN";
-    
     if (self.book !=nil) {
         self.isbnTextField.hidden = YES;
         self.searchButton.hidden = YES;

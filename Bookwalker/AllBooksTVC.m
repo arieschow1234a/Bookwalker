@@ -22,6 +22,7 @@
 
 - (void)viewDidLoad
 {
+    //reachaibility
     appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [super viewDidLoad];
 }

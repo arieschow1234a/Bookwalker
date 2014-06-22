@@ -680,10 +680,10 @@
             </objects>
             <point key="canvasLocation" x="1037" y="1537"/>
         </scene>
-        <!--View Controller-->
+        <!--AccountVC-->
         <scene sceneID="4ZA-E3-SzO">
             <objects>
-                <viewController id="rKb-lA-lLQ" sceneMemberID="viewController">
+                <viewController id="rKb-lA-lLQ" customClass="AccountVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Tni-RY-aGV"/>
                         <viewControllerLayoutGuide type="bottom" id="0qk-P5-u6w"/>
@@ -691,9 +691,18 @@
                     <view key="view" contentMode="scaleToFill" id="pIA-Rj-A9G">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="atT-bH-kkJ">
+                                <rect key="frame" x="56" y="101" width="156" height="129"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="5lv-T9-AYy"/>
+                    <connections>
+                        <outlet property="headerImageView" destination="atT-bH-kkJ" id="4rD-RS-flq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aXN-rY-XZi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1202,11 +1211,11 @@
             </objects>
             <point key="canvasLocation" x="1882" y="-292"/>
         </scene>
-        <!--Navigation Controller - Item-->
+        <!--Navigation Controller - Account-->
         <scene sceneID="EJQ-nA-JjT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oX2-KM-Za6" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="8DO-hP-qgt"/>
+                    <tabBarItem key="tabBarItem" title="Account" id="8DO-hP-qgt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CeB-Lk-rQP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

@@ -34,6 +34,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *editView;
 @property (weak, nonatomic) IBOutlet UISwitch *statusSwitch;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -278,7 +279,7 @@
 {
     [self.isbnTextField resignFirstResponder];
     [self.noteField resignFirstResponder];
-    
+    [self.activityIndicator startAnimating];
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
     if ([isbn length] == 11 || [isbn length] == 12 || [isbn length] < 10 || [isbn length] > 13 ){
@@ -300,6 +301,7 @@
         if (error) {
             [self fetchAnobii];
         }else{
+            [self.activityIndicator stopAnimating];
            // NSLog(@"fetch metabook");
             self.metaBookExist = YES;
             self.metaBook = metaBook;
@@ -351,6 +353,7 @@
             NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
             // so we must dispatch this back to the main queue
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.activityIndicator stopAnimating];
                 self.titleTextView.text = title;
                 self.authorTextView.text = author;
                 self.imageURL = [NSURL URLWithString:thumbnail];
@@ -405,6 +408,7 @@
                     author = [author stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.activityIndicator stopAnimating];
                         self.titleTextView.text = title;
                         self.imageURL = [BWHelper AnobiiImageURLforbookWithId:aBookId];
                         self.authorTextView.text = author;

@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *confirmGivingButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelRequestButton;
 
+
 @property (nonatomic, strong) NSString *requesterId;
 
 @end

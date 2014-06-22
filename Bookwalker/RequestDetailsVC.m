@@ -14,6 +14,7 @@
 @property (strong, nonatomic)NSArray *conversations;
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmGivingButton;
+@property (weak, nonatomic) IBOutlet UIButton *cancelRequestButton;
 
 @property (nonatomic, strong) NSString *requesterId;
 
@@ -31,13 +32,22 @@
     [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
     [self.replyTextView.layer setBorderWidth:1.0f];
     
-    //If the user is the requester
+    //Check whether the user is holder or requester
     PFUser *user = [PFUser currentUser];
     if ([self.requestBook[@"holderId"] isEqualToString:user.objectId]) {
         self.confirmGivingButton.hidden = NO;
+        [self.cancelRequestButton setTitle:@"Decline Request" forState:UIControlStateNormal];
     }else{
         self.confirmGivingButton.hidden = YES;
     }
+    
+    
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]
+                                           initWithTarget:self
+                                           action:@selector(hideKeyBoard)];
+    
+    [self.view addGestureRecognizer:tapGesture];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -151,6 +161,10 @@
 
 
 # pragma mark - Helper methods
+
+-(void)hideKeyBoard {
+    [self.view endEditing:YES];
+}
 
 - (void)retrieveRequestOfABook
 {

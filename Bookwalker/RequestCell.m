@@ -30,14 +30,14 @@
 
 + (CGFloat)heightForReplyText:(NSString *)replyText
  {
- const CGFloat topMargin = 5.0f;
- const CGFloat bottomMargin = 5.0f;
- const CGFloat minHeight = 40.0f;
- UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
- 
- CGRect boundingBox = [replyText boundingRectWithSize:CGSizeMake(207, CGFLOAT_MAX) options:(NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName: font} context:nil];
- 
- return MAX(minHeight, CGRectGetHeight(boundingBox) + topMargin + bottomMargin);
+     const CGFloat topMargin = 5.0f;
+     const CGFloat bottomMargin = 10.0f;
+     const CGFloat minHeight = 55.0f;
+     UIFont *font = [UIFont systemFontOfSize:19.0f];
+         
+     CGRect boundingBox = [replyText boundingRectWithSize:CGSizeMake(207, CGFLOAT_MAX) options:(NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin) attributes:@{NSFontAttributeName: font} context:nil];
+     
+     return MAX(minHeight, CGRectGetHeight(boundingBox) + topMargin + bottomMargin);
  
  }
  

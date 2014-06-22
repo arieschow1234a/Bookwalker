@@ -544,11 +544,11 @@
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="comment" rowHeight="59" id="Xx8-Fm-1Cy" customClass="RequestCell">
-                                                <rect key="frame" x="0.0" y="22" width="320" height="59"/>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="comment" rowHeight="55" id="Xx8-Fm-1Cy" customClass="RequestCell">
+                                                <rect key="frame" x="0.0" y="22" width="320" height="55"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xx8-Fm-1Cy" id="56b-1Q-2Be">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="58"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Speaker label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2al-v4-QRO">
@@ -559,20 +559,21 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Reply Text View" translatesAutoresizingMaskIntoConstraints="NO" id="3sp-yk-bZe" userLabel="Text View - Reply text view">
-                                                            <rect key="frame" x="98" y="5" width="207" height="48"/>
+                                                            <rect key="frame" x="98" y="5" width="207" height="49"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="207" id="ZGd-BU-XnB"/>
+                                                                <constraint firstAttribute="width" constant="207" id="RJ9-Rt-Hst"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         </textView>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstItem="3sp-yk-bZe" firstAttribute="leading" secondItem="56b-1Q-2Be" secondAttribute="leading" constant="98" id="TtV-9c-8C9"/>
-                                                        <constraint firstItem="3sp-yk-bZe" firstAttribute="top" secondItem="56b-1Q-2Be" secondAttribute="top" constant="5" id="jmQ-wz-C7W"/>
-                                                        <constraint firstAttribute="bottom" secondItem="3sp-yk-bZe" secondAttribute="bottom" constant="5" id="mMa-QH-Y9X"/>
+                                                        <constraint firstItem="3sp-yk-bZe" firstAttribute="leading" secondItem="56b-1Q-2Be" secondAttribute="leading" constant="98" id="0yk-Ww-8AI"/>
+                                                        <constraint firstAttribute="trailing" secondItem="3sp-yk-bZe" secondAttribute="trailing" constant="15" id="1Z5-5e-ABG"/>
+                                                        <constraint firstAttribute="bottom" secondItem="3sp-yk-bZe" secondAttribute="bottom" id="BEd-WD-dl5"/>
+                                                        <constraint firstItem="3sp-yk-bZe" firstAttribute="top" secondItem="56b-1Q-2Be" secondAttribute="top" constant="5" id="QsQ-Cp-N3J"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
@@ -621,6 +622,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="cancelRequestButton" destination="xSR-Fy-8Bq" id="DIe-ic-Zdd"/>
                         <outlet property="confirmGivingButton" destination="i0Y-7S-Nks" id="J3a-Jf-XOj"/>
                         <outlet property="replyTextView" destination="Xfm-hT-tdz" id="ALH-4h-x4W"/>
                         <outlet property="tableView" destination="SLt-zt-QoF" id="mI6-75-LVI"/>
@@ -1027,6 +1029,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="XjY-4T-GLX"/>
-        <segue reference="xUn-Iv-aIf"/>
+        <segue reference="TMq-MX-CKy"/>
     </inferredMetricsTieBreakers>
 </document>

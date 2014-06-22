@@ -513,10 +513,10 @@
             </objects>
             <point key="canvasLocation" x="1001" y="922"/>
         </scene>
-        <!--Request DetailsVC-->
+        <!--Request MessagesVC-->
         <scene sceneID="b4S-w8-RiV">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="qRQ-wH-kLf" customClass="RequestDetailsVC" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="qRQ-wH-kLf" customClass="RequestMessagesVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jma-kJ-bJS"/>
                         <viewControllerLayoutGuide type="bottom" id="Bho-9z-3mo"/>
@@ -883,6 +883,13 @@
                                             <action selector="signup:" destination="jQd-wm-HlF" eventType="touchUpInside" id="lur-2F-ft8"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BookWalker" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTF-V2-cHm">
+                                        <rect key="frame" x="50" y="104" width="221" height="52"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="ElG-ha-x7A" secondAttribute="trailing" constant="20" id="0S6-ib-YbS"/>

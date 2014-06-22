@@ -6,10 +6,10 @@
 //  Copyright (c) 2014年 Aries. All rights reserved.
 //
 
-#import "RequestDetailsVC.h"
+#import "RequestMessagesVC.h"
 #import "RequestCell.h"
 
-@interface RequestDetailsVC () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
+@interface RequestMessagesVC () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic)NSArray *conversations;
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation RequestDetailsVC
+@implementation RequestMessagesVC
 
 
 

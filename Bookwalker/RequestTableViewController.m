@@ -7,7 +7,7 @@
 //
 
 #import "RequestTableViewController.h"
-#import "RequestDetailsVC.h"
+#import "RequestMessagesVC.h"
 #import <Parse/Parse.h>
 
 @interface RequestTableViewController ()
@@ -129,7 +129,7 @@
 {
     if([segue.identifier isEqualToString:@"Show Request"]){
         self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
-        RequestDetailsVC *rdvc = (RequestDetailsVC *)segue.destinationViewController;
+        RequestMessagesVC *rdvc = (RequestMessagesVC *)segue.destinationViewController;
         // set up the vc to run here
         
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];

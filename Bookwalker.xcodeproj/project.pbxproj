@@ -27,7 +27,7 @@
 		213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF152191D065D003B166B /* BookDetailsViewController.m */; };
 		21544E841925D66400C20B08 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21544E831925D66400C20B08 /* NavigationController.m */; };
 		21609EFA1949A9A10077717E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 21609EF91949A9A10077717E /* Reachability.m */; };
-		21654AB31922274900D808F2 /* RequestDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21654AB21922274900D808F2 /* RequestDetailsVC.m */; };
+		21654AB31922274900D808F2 /* RequestMessagesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21654AB21922274900D808F2 /* RequestMessagesVC.m */; };
 		21B24F0A19289DB8002174E2 /* BookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21B24F0919289DB8002174E2 /* BookCell.m */; };
 		21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1019247BED00CA9CA1 /* BooksTVC.m */; };
 		21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */; };
@@ -91,8 +91,8 @@
 		21544E831925D66400C20B08 /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		21609EF81949A9A10077717E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		21609EF91949A9A10077717E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		21654AB11922274900D808F2 /* RequestDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestDetailsVC.h; sourceTree = "<group>"; };
-		21654AB21922274900D808F2 /* RequestDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestDetailsVC.m; sourceTree = "<group>"; };
+		21654AB11922274900D808F2 /* RequestMessagesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestMessagesVC.h; sourceTree = "<group>"; };
+		21654AB21922274900D808F2 /* RequestMessagesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestMessagesVC.m; sourceTree = "<group>"; };
 		21B24F0819289DB8002174E2 /* BookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCell.h; sourceTree = "<group>"; };
 		21B24F0919289DB8002174E2 /* BookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCell.m; sourceTree = "<group>"; };
 		21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTVC.h; sourceTree = "<group>"; };
@@ -188,8 +188,8 @@
 				21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */,
 				21D2BCA819443E7400E0B7E1 /* RecordCell.h */,
 				21D2BCA919443E7400E0B7E1 /* RecordCell.m */,
-				21654AB11922274900D808F2 /* RequestDetailsVC.h */,
-				21654AB21922274900D808F2 /* RequestDetailsVC.m */,
+				21654AB11922274900D808F2 /* RequestMessagesVC.h */,
+				21654AB21922274900D808F2 /* RequestMessagesVC.m */,
 				2116D8E01948101F004669D3 /* RequestCell.h */,
 				2116D8E11948101F004669D3 /* RequestCell.m */,
 			);
@@ -436,7 +436,7 @@
 				213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */,
 				21DE541B1917A3A7004C5591 /* main.m in Sources */,
 				21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */,
-				21654AB31922274900D808F2 /* RequestDetailsVC.m in Sources */,
+				21654AB31922274900D808F2 /* RequestMessagesVC.m in Sources */,
 				21B24F0A19289DB8002174E2 /* BookCell.m in Sources */,
 				2107A5A4192D1F2E005D4B69 /* BWHelper.m in Sources */,
 				213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */,

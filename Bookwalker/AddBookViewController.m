@@ -433,34 +433,51 @@
     NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
                                                     completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
         if (!error) {
-            
-            
+        
             NSString *html = [NSString stringWithContentsOfURL:localfile encoding:NSUTF8StringEncoding error:NULL];
             
-            // NSLog(@"%@", html);
+             NSLog(@"%@", html);
             
             //ISBN10, 13, publisher, publishDate
-            NSRange AStart = [html lineRangeForRange:[html rangeOfString:@"ISBN-10:"]];
+            NSRange AStart = [html lineRangeForRange:[html rangeOfString:@"<span class=\"pages\">"]];
             NSRange AEnd = [html rangeOfString:@"</div><!-- end of book detail -->"];
             NSString *detail = [html substringWithRange:NSMakeRange(AStart.location+AStart.length, AEnd.location-AStart.location-AStart.length)];
-          
-            detail = [detail stringByReplacingOccurrencesOfString:@"</li>" withString:@" "];
-            detail = [detail stringByReplacingOccurrencesOfString:@"</ul>" withString:@" "];
+            detail = [detail stringByReplacingOccurrencesOfString:@"</li>" withString:@""];
+            detail = [detail stringByReplacingOccurrencesOfString:@"</ul>" withString:@""];
+            detail = [detail stringByReplacingOccurrencesOfString:@"</strong>" withString:@""];
+            detail = [detail stringByReplacingOccurrencesOfString:@"<strong>" withString:@""];
+            detail = [detail stringByReplacingOccurrencesOfString:@"<span>" withString:@""];
             detail = [detail stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSArray *details = [[NSArray alloc] initWithArray:[detail componentsSeparatedByString:@"</strong>"]];
-            NSMutableArray *detailsArray = [[NSMutableArray alloc]init];
+            NSLog(@"%@", detail);
+            
+            NSArray *details = [[NSArray alloc] initWithArray:[detail componentsSeparatedByString:@"<li>"]];
+            NSLog(@"%@", details);
             for (NSString *string in details) {
                 if ([string length]) {
-                    NSRange start = [string rangeOfString:@"<strong>"];
-                    NSString *shortString = [string substringWithRange:NSMakeRange(start.location+start.length, [string length]-start.length-start.location)];
-                    [detailsArray addObject:shortString];
+                    NSRange spanRange = [string rangeOfString:@"</span>"];
+                    
+                    if ([string rangeOfString:@"ISBN-10:"].location != NSNotFound) {
+                        self.isbn10 = [self getResultfromString:string andSeparatedBySpanRange:spanRange];
+                        NSLog(@"%@", self.isbn10);
+                    }
+                    
+                    if ([string rangeOfString:@"ISBN-13:"].location != NSNotFound) {
+                        self.isbn13 = [self getResultfromString:string andSeparatedBySpanRange:spanRange];
+                        NSLog(@"%@", self.isbn13);
+                    }
+                    
+                    if ([string rangeOfString:@"Publisher:"].location != NSNotFound) {
+                        self.publisher = [self getResultfromString:string andSeparatedBySpanRange:spanRange];
+                        NSLog(@"%@", self.publisher);
+                    }
+                    if ([string rangeOfString:@"Publish date:"].location != NSNotFound) {
+                        self.publishDate = [self getResultfromString:string andSeparatedBySpanRange:spanRange];
+                        NSLog(@"%@", self.publishDate);
+                    }
+
                 }
             }
-            self.isbn10 = detailsArray[0];
-            self.isbn13 = detailsArray[1];
-            self.publisher = detailsArray[2];
-            self.publishDate = detailsArray[3];
-            
+          
             // Desciption
             NSRange start = [html lineRangeForRange:[html rangeOfString:@"description_full"]];
             NSRange end = [html rangeOfString:@"<!-- end of description -->"];
@@ -580,6 +597,13 @@
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil, nil];
     [alertView show];
+}
+
+- (NSString *)getResultfromString:(NSString *)string andSeparatedBySpanRange:(NSRange)spanRange
+{
+   NSString *result  = [string substringWithRange:NSMakeRange(spanRange.location+spanRange.length, [string length]-spanRange.location-spanRange.length)];
+    result = [result stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return result;
 }
 
 

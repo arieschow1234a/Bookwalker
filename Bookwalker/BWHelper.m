@@ -13,7 +13,7 @@
 @implementation BWHelper
 NSString *GoogleKey = @"AIzaSyDJ90e9-d3eJ4RWQtGMuwRVy1vKhrKHeSQ";
 
-+ (NSURL *)URLforbookWithISBN:(NSString *)isbn
++ (NSURL *)GoogleURLforbookWithISBN:(NSString *)isbn
 {
 
     NSString *query = [NSString stringWithFormat:@"https://www.googleapis.com/books/v1/volumes?q=isbn:%@&key=%@", isbn, GoogleKey];
@@ -22,6 +22,39 @@ NSString *GoogleKey = @"AIzaSyDJ90e9-d3eJ4RWQtGMuwRVy1vKhrKHeSQ";
     
     return url;
 }
+
+#pragma mark - Anobii fetcher
+
++ (NSURL *)AnobiiSearchURLforbookWithISBN:(NSString *)isbn
+{
+    
+    NSString *query = [NSString stringWithFormat:@"http://www.anobii.com/search?s=1&keyword=%@", isbn];
+    
+    NSURL *url = [NSURL URLWithString:query];
+    
+    return url;
+}
+
+
++ (NSURL *)AnobiiImageURLforbookWithId:(NSString *)bookId
+{
+    
+    NSString *query = [NSString stringWithFormat:@"http://image.anobii.com/anobi/image_book.php?&item_id=%@", bookId];
+    
+    NSURL *url = [NSURL URLWithString:query];
+    
+    return url;
+}
+
++ (NSURL *)AnobiiSiteURLforbookWithSite:(NSString *)site
+{
+    NSString *query = [NSString stringWithFormat:@"http://www.anobii.com%@", site];
+    NSString *queryWithUnicode = [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = [NSURL URLWithString:queryWithUnicode];
+    
+    return url;
+}
+
 
 + (NSString *)statusOfBook:(PFObject *)book
 {

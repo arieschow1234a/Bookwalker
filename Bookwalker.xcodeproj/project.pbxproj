@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2107A5A4192D1F2E005D4B69 /* BWHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2107A5A3192D1F2E005D4B69 /* BWHelper.m */; };
+		2116D8E21948101F004669D3 /* RequestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116D8E11948101F004669D3 /* RequestCell.m */; };
+		213D54FC1956DABF0009BB3B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213D54FB1956DABF0009BB3B /* FacebookSDK.framework */; };
+		213D54FF1956E3A80009BB3B /* FBLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D54FE1956E3A80009BB3B /* FBLoginVC.m */; };
+		213D55021956E8110009BB3B /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D55011956E8110009BB3B /* UserDetailsViewController.m */; };
+		213D55061957023B0009BB3B /* AccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D55051957023B0009BB3B /* AccountVC.m */; };
 		213FF127191C8DAD003B166B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF122191C8DAD003B166B /* LoginViewController.m */; };
 		213FF128191C8DAD003B166B /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF124191C8DAD003B166B /* SignupViewController.m */; };
 		213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */; };
@@ -25,11 +30,14 @@
 		213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF148191CA2CA003B166B /* AddBookViewController.m */; };
 		213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF152191D065D003B166B /* BookDetailsViewController.m */; };
 		21544E841925D66400C20B08 /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21544E831925D66400C20B08 /* NavigationController.m */; };
-		21654AB31922274900D808F2 /* RequestDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21654AB21922274900D808F2 /* RequestDetailsVC.m */; };
+		21609EFA1949A9A10077717E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 21609EF91949A9A10077717E /* Reachability.m */; };
+		21654AB31922274900D808F2 /* RequestMessagesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21654AB21922274900D808F2 /* RequestMessagesVC.m */; };
 		21B24F0A19289DB8002174E2 /* BookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21B24F0919289DB8002174E2 /* BookCell.m */; };
 		21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1019247BED00CA9CA1 /* BooksTVC.m */; };
 		21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */; };
 		21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA161924810600CA9CA1 /* BookShelfTVC.m */; };
+		21D2BCA719442D3C00E0B7E1 /* RecordTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */; };
+		21D2BCAA19443E7400E0B7E1 /* RecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21D2BCA919443E7400E0B7E1 /* RecordCell.m */; };
 		21DE540F1917A3A7004C5591 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE540E1917A3A7004C5591 /* Foundation.framework */; };
 		21DE54111917A3A7004C5591 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54101917A3A7004C5591 /* CoreGraphics.framework */; };
 		21DE54131917A3A7004C5591 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54121917A3A7004C5591 /* UIKit.framework */; };
@@ -43,6 +51,7 @@
 		21DE54301917A3A8004C5591 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54121917A3A7004C5591 /* UIKit.framework */; };
 		21DE54381917A3A8004C5591 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 21DE54361917A3A8004C5591 /* InfoPlist.strings */; };
 		21DE543A1917A3A8004C5591 /* BookwalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DE54391917A3A8004C5591 /* BookwalkerTests.m */; };
+		21F91CE81945CD1A00B2A5C4 /* SendRequestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +67,15 @@
 /* Begin PBXFileReference section */
 		2107A5A2192D1F2E005D4B69 /* BWHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWHelper.h; sourceTree = "<group>"; };
 		2107A5A3192D1F2E005D4B69 /* BWHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHelper.m; sourceTree = "<group>"; };
+		2116D8E01948101F004669D3 /* RequestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestCell.h; sourceTree = "<group>"; };
+		2116D8E11948101F004669D3 /* RequestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestCell.m; sourceTree = "<group>"; };
+		213D54FB1956DABF0009BB3B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		213D54FD1956E3A80009BB3B /* FBLoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLoginVC.h; sourceTree = "<group>"; };
+		213D54FE1956E3A80009BB3B /* FBLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLoginVC.m; sourceTree = "<group>"; };
+		213D55001956E8110009BB3B /* UserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsViewController.h; sourceTree = "<group>"; };
+		213D55011956E8110009BB3B /* UserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsViewController.m; sourceTree = "<group>"; };
+		213D55041957023B0009BB3B /* AccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountVC.h; sourceTree = "<group>"; };
+		213D55051957023B0009BB3B /* AccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountVC.m; sourceTree = "<group>"; };
 		213FF121191C8DAD003B166B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		213FF122191C8DAD003B166B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		213FF123191C8DAD003B166B /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
@@ -82,8 +100,10 @@
 		213FF152191D065D003B166B /* BookDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailsViewController.m; sourceTree = "<group>"; };
 		21544E821925D66400C20B08 /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		21544E831925D66400C20B08 /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
-		21654AB11922274900D808F2 /* RequestDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestDetailsVC.h; sourceTree = "<group>"; };
-		21654AB21922274900D808F2 /* RequestDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestDetailsVC.m; sourceTree = "<group>"; };
+		21609EF81949A9A10077717E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		21609EF91949A9A10077717E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		21654AB11922274900D808F2 /* RequestMessagesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestMessagesVC.h; sourceTree = "<group>"; };
+		21654AB21922274900D808F2 /* RequestMessagesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestMessagesVC.m; sourceTree = "<group>"; };
 		21B24F0819289DB8002174E2 /* BookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCell.h; sourceTree = "<group>"; };
 		21B24F0919289DB8002174E2 /* BookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCell.m; sourceTree = "<group>"; };
 		21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTVC.h; sourceTree = "<group>"; };
@@ -92,6 +112,10 @@
 		21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllBooksTVC.m; sourceTree = "<group>"; };
 		21CDCA151924810600CA9CA1 /* BookShelfTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookShelfTVC.h; sourceTree = "<group>"; };
 		21CDCA161924810600CA9CA1 /* BookShelfTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookShelfTVC.m; sourceTree = "<group>"; };
+		21D2BCA519442D3C00E0B7E1 /* RecordTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordTVC.h; sourceTree = "<group>"; };
+		21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordTVC.m; sourceTree = "<group>"; };
+		21D2BCA819443E7400E0B7E1 /* RecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordCell.h; sourceTree = "<group>"; };
+		21D2BCA919443E7400E0B7E1 /* RecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordCell.m; sourceTree = "<group>"; };
 		21DE540B1917A3A7004C5591 /* Bookwalker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookwalker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DE540E1917A3A7004C5591 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		21DE54101917A3A7004C5591 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -109,6 +133,8 @@
 		21DE54351917A3A8004C5591 /* BookwalkerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BookwalkerTests-Info.plist"; sourceTree = "<group>"; };
 		21DE54371917A3A8004C5591 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		21DE54391917A3A8004C5591 /* BookwalkerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookwalkerTests.m; sourceTree = "<group>"; };
+		21F91CE61945CD1A00B2A5C4 /* SendRequestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRequestVC.h; sourceTree = "<group>"; };
+		21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendRequestVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +155,7 @@
 				21DE54111917A3A7004C5591 /* CoreGraphics.framework in Frameworks */,
 				21DE54131917A3A7004C5591 /* UIKit.framework in Frameworks */,
 				21DE540F1917A3A7004C5591 /* Foundation.framework in Frameworks */,
+				213D54FC1956DABF0009BB3B /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +172,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		213D55031957020C0009BB3B /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				213D55041957023B0009BB3B /* AccountVC.h */,
+				213D55051957023B0009BB3B /* AccountVC.m */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
 		213FF14A191CD725003B166B /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,8 +205,14 @@
 			children = (
 				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
 				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
-				21654AB11922274900D808F2 /* RequestDetailsVC.h */,
-				21654AB21922274900D808F2 /* RequestDetailsVC.m */,
+				21D2BCA519442D3C00E0B7E1 /* RecordTVC.h */,
+				21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */,
+				21D2BCA819443E7400E0B7E1 /* RecordCell.h */,
+				21D2BCA919443E7400E0B7E1 /* RecordCell.m */,
+				21654AB11922274900D808F2 /* RequestMessagesVC.h */,
+				21654AB21922274900D808F2 /* RequestMessagesVC.m */,
+				2116D8E01948101F004669D3 /* RequestCell.h */,
+				2116D8E11948101F004669D3 /* RequestCell.m */,
 			);
 			name = Request;
 			sourceTree = "<group>";
@@ -182,6 +224,8 @@
 				21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */,
 				213FF151191D065D003B166B /* BookDetailsViewController.h */,
 				213FF152191D065D003B166B /* BookDetailsViewController.m */,
+				21F91CE61945CD1A00B2A5C4 /* SendRequestVC.h */,
+				21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */,
 			);
 			name = AllBooks;
 			sourceTree = "<group>";
@@ -193,6 +237,10 @@
 				213FF122191C8DAD003B166B /* LoginViewController.m */,
 				213FF123191C8DAD003B166B /* SignupViewController.h */,
 				213FF124191C8DAD003B166B /* SignupViewController.m */,
+				213D54FD1956E3A80009BB3B /* FBLoginVC.h */,
+				213D54FE1956E3A80009BB3B /* FBLoginVC.m */,
+				213D55001956E8110009BB3B /* UserDetailsViewController.h */,
+				213D55011956E8110009BB3B /* UserDetailsViewController.m */,
 			);
 			name = LogIn;
 			sourceTree = "<group>";
@@ -208,6 +256,8 @@
 				21B24F0919289DB8002174E2 /* BookCell.m */,
 				213FF125191C8DAD003B166B /* TPKeyboardAvoidingScrollView.h */,
 				213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */,
+				21609EF81949A9A10077717E /* Reachability.h */,
+				21609EF91949A9A10077717E /* Reachability.m */,
 				21544E821925D66400C20B08 /* NavigationController.h */,
 				21544E831925D66400C20B08 /* NavigationController.m */,
 			);
@@ -237,6 +287,7 @@
 		21DE540D1917A3A7004C5591 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				213D54FB1956DABF0009BB3B /* FacebookSDK.framework */,
 				213FF13C191C95E1003B166B /* Parse.framework */,
 				213FF12A191C930C003B166B /* AudioToolbox.framework */,
 				213FF12B191C930C003B166B /* CFNetwork.framework */,
@@ -258,10 +309,11 @@
 		21DE54141917A3A7004C5591 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				213D55031957020C0009BB3B /* Account */,
 				21544E881925D98D00C20B08 /* LogIn */,
 				21544E871925D97100C20B08 /* AllBooks */,
-				21544E861925D95E00C20B08 /* Request */,
 				21544E851925D94600C20B08 /* Share */,
+				21544E861925D95E00C20B08 /* Request */,
 				21544E891925D99E00C20B08 /* Support */,
 				21DE54261917A3A7004C5591 /* Images.xcassets */,
 				21DE54151917A3A7004C5591 /* Supporting Files */,
@@ -348,6 +400,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Aries;
 				TargetAttributes = {
+					21DE540A1917A3A7004C5591 = {
+						DevelopmentTeam = 27UP482W8T;
+					};
 					21DE542B1917A3A8004C5591 = {
 						TestTargetID = 21DE540A1917A3A7004C5591;
 					};
@@ -400,19 +455,27 @@
 			files = (
 				213FF127191C8DAD003B166B /* LoginViewController.m in Sources */,
 				21DE541F1917A3A7004C5591 /* AppDelegate.m in Sources */,
+				21D2BCA719442D3C00E0B7E1 /* RecordTVC.m in Sources */,
 				213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				21544E841925D66400C20B08 /* NavigationController.m in Sources */,
 				21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */,
 				21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */,
+				213D55061957023B0009BB3B /* AccountVC.m in Sources */,
 				213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */,
+				213D55021956E8110009BB3B /* UserDetailsViewController.m in Sources */,
+				213D54FF1956E3A80009BB3B /* FBLoginVC.m in Sources */,
 				21DE541B1917A3A7004C5591 /* main.m in Sources */,
 				21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */,
-				21654AB31922274900D808F2 /* RequestDetailsVC.m in Sources */,
+				21654AB31922274900D808F2 /* RequestMessagesVC.m in Sources */,
 				21B24F0A19289DB8002174E2 /* BookCell.m in Sources */,
 				2107A5A4192D1F2E005D4B69 /* BWHelper.m in Sources */,
 				213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */,
+				21609EFA1949A9A10077717E /* Reachability.m in Sources */,
 				213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */,
+				21D2BCAA19443E7400E0B7E1 /* RecordCell.m in Sources */,
+				21F91CE81945CD1A00B2A5C4 /* SendRequestVC.m in Sources */,
 				213FF128191C8DAD003B166B /* SignupViewController.m in Sources */,
+				2116D8E21948101F004669D3 /* RequestCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,14 +601,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/Aries/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bookwalker/Bookwalker-Prefix.pch";
 				INFOPLIST_FILE = "Bookwalker/Bookwalker-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -555,14 +622,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/Aries/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bookwalker/Bookwalker-Prefix.pch";
 				INFOPLIST_FILE = "Bookwalker/Bookwalker-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

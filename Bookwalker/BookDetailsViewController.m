@@ -8,21 +8,24 @@
 
 #import "BookDetailsViewController.h"
 #import "BWHelper.h"
+#import "SendRequestVC.h"
 
 @interface BookDetailsViewController ()
-@property (weak, nonatomic) IBOutlet UITextView *replyTextView;
-@property (strong, nonatomic) PFObject *savedNote;
-@property (strong, nonatomic) PFObject *savedRequest;
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;
-@property (weak, nonatomic) IBOutlet UILabel *isbnLabel;
-@property (weak, nonatomic) IBOutlet UILabel *noteLabel;
+@property (weak, nonatomic) IBOutlet UILabel *isbn10Label;
+@property (weak, nonatomic) IBOutlet UILabel *isbn13Label;
+@property (weak, nonatomic) IBOutlet UITextView *noteTextView;
 @property (weak, nonatomic) IBOutlet UILabel *holderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-
-
+@property (weak, nonatomic) IBOutlet UILabel *preHolderLabel;
+@property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UIImageView *bookImageView;
+
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+@property (weak, nonatomic) IBOutlet UIView *noteView;
+@property (weak, nonatomic) IBOutlet UIView *infoView;
 
 @end
 
@@ -31,13 +34,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.infoView.hidden = YES;
+    
     self.titleLabel.text = [self.book objectForKey:@"title"];
     self.authorLabel.text = [self.book objectForKey:@"author"];
-    self.isbnLabel.text = [self.book objectForKey:@"isbn"];
     self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
     self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@",[self.book objectForKey:@"holderName"]];
-    self.noteLabel.text = [[NSString alloc]initWithFormat:@"Note: %@",[self.book objectForKey:@"note"]];
-
+    
+    if ([self.book[@"note"] isKindOfClass:[NSString class]]){
+        self.noteTextView.text = [NSString stringWithFormat:@"%@",self.book[@"note"]];
+    }else{
+        self.noteTextView.text = @"No note from holder";
+    }
+    if (self.book[@"previousHolderName"]) {
+        NSArray *preHolders = self.book[@"previousHolderName"];
+        NSString *result = [[preHolders valueForKey:@"description"] componentsJoinedByString:@", "];
+        
+        self.preHolderLabel.text = [NSString stringWithFormat:@"Prev: %@", result];
+    }
     PFFile *imagefile = [self.book objectForKey:@"file"];
     if (imagefile) {
         [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -49,106 +63,133 @@
     }else{
         self.bookImageView.image = [UIImage imageNamed:@"bookcover"];
     }
-
     
+    PFQuery *query = [PFQuery queryWithClassName:@"MetaBooks"];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"objectId" equalTo:self.book[@"bookId"]];
     
-    
-    [self.replyTextView.layer setBorderColor: [[UIColor lightGrayColor] CGColor]];
-    [self.replyTextView.layer setBorderWidth:1.0f];
-    self.replyTextView.editable = YES;
-    
-}
-
-- (IBAction)sendRequest:(id)sender {
-    
-    PFUser *user = [PFUser currentUser];
-    
-    PFObject *note = [PFObject objectWithClassName:@"Requests"];
-    [note setObject:self.book[@"holder"] forKey:@"speakerId"];
-    [note setObject:self.book[@"holderName"] forKey:@"speakerName"];
-    [note setObject:self.book[@"note"] forKey:@"comment"];
-    [note setObject:self.book.objectId forKey:@"bookObjectId"];
-    [note saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            PFObject *request = [PFObject objectWithClassName:@"Requests"];
-            [request setObject:user.objectId forKey:@"speakerId"];
-            [request setObject:user.username forKey:@"speakerName"];
-            [request setObject:self.replyTextView.text forKey:@"comment"];
-            [request setObject:self.book.objectId forKey:@"bookObjectId"];
-            [request saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    [self getSavedRequestAndSaveInParse];
-                }
-            }];
-            
-            
-            
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *metaBook, NSError *error) {
+        if (error) {
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            self.descriptionTextView.text = [metaBook objectForKey:@"description"];
+            self.isbn10Label.text = [NSString stringWithFormat:@"ISBN-10: %@", [metaBook objectForKey:@"isbn10"]];
+            self.isbn13Label.text = [NSString stringWithFormat:@"ISBN-13: %@", [metaBook objectForKey:@"isbn13"]];
         }
     }];
-    
-    
-    // going back
-    [self.navigationController popViewControllerAnimated:YES];
+
     
 }
 
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+
+#pragma mark - navigation
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-  
+    if([segue.identifier isEqualToString:@"Request Book"]){
+        UINavigationController *navigationController = segue.destinationViewController;
+        SendRequestVC *srvc = (SendRequestVC *)navigationController.topViewController;
+        srvc.book = self.book;
+    }
 }
 
-*/
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"Request Book"]) {
+        PFUser *user = [PFUser currentUser];
+        
+        if ([user.objectId isEqualToString:self.book[@"holderId"]]) {
+            [self requestOwnBookAlert];
+            return NO;
+            
+        }else if ([self.book[@"bookStatus"] isEqual:@1]){
+            [self bookClosedAlert];
+            return NO;
+            
+        }else if ([self.book[@"requesterId"] isEqual:user.objectId]){
+            [self requestedAlreadyAlert];
+            return NO;
+        }else if ([self.book[@"requesterId"] isKindOfClass:[NSString class]]){
+            [self someoneRequestedAlert];
+            return NO;
+        }
+        return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
+    }
+    return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
+}
+
+- (IBAction)sentRequest:(UIStoryboardSegue *)segue
+{
+    if ([segue.sourceViewController isKindOfClass:[SendRequestVC class]]) {
+      
+    }
+}
+
+#pragma mark - IBActions
+
+- (IBAction)switchSegment:(id)sender {
+    switch (self.segmentedControl.selectedSegmentIndex) {
+        case 0:
+            self.noteView.hidden = NO;
+            self.infoView.hidden = YES;
+            break;
+        case 1:
+            self.infoView.hidden = NO;
+            self.noteView.hidden = YES;
+            break;
+        default:
+            self.infoView.hidden = YES;
+            self.noteView.hidden = NO;
+            break;
+    }
+}
+
+
+
 
 #pragma mark - Helper methods
 
-- (void)getSavedRequestAndSaveInParse
+-(void)requestOwnBookAlert
 {
-    // Search for the messages sent by others
-    PFQuery *query = [PFQuery queryWithClassName:@"Requests"];
-    [query whereKey:@"bookObjectId" equalTo:self.book.objectId];
-    [query orderByAscending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (error) {
-            NSLog (@"Error: %@ %@", error, [error userInfo]);
-        }else{
-            // We found request!!
-            
-           self.savedNote = objects[0];
-            self.savedRequest = objects[1];
-            
-            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
-            [query getObjectInBackgroundWithId:self.book.objectId block:^(PFObject *book, NSError *error) {
-                
-                PFRelation *requestsRelation = [book relationForKey:@"requestsRelation"];
-                [requestsRelation addObject:self.savedNote];
-                [requestsRelation addObject:self.savedRequest];
-                // Get the NSNumber into int
-                NSNumber *number = [book objectForKey:@"noOfRequest"];
-                int value = [number intValue];
-                number = [NSNumber numberWithInt:value + 2];
-                [book setObject:number forKey:@"noOfRequests"];
-                
-                [book setObject:[PFUser currentUser].objectId forKey:@"requesterId"];
-
-                [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (error) {
-                        NSLog(@"Error %@ %@", error, [error userInfo]);
-                    }
-                }];
-            }];
-        
-        }
-       
-    }];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                        message:@"You can't request your own books!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
 }
 
+- (void)bookClosedAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                        message:@"This book is closed for sharing. You may contact the holder directly!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
+- (void)requestedAlreadyAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:@"You have requested this book already! Please check Request."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
+- (void)someoneRequestedAlert
+        {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                                message:@"Someone have requested this book but we can notify you when the book is available."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Put into Wishlist"
+                                                      otherButtonTitles:@"Cancel", nil];
+            [alertView show];
+        }
 
 
 @end

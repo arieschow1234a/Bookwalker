@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface RequestDetailsVC : UIViewController
+@interface RequestMessagesVC : UIViewController
 
 @property (nonatomic, strong) PFObject *requestBook;
 

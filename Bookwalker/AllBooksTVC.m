@@ -8,9 +8,13 @@
 
 #import "AllBooksTVC.h"
 #import "BookDetailsViewController.h"
-
+#import "Reachability.h"
+#import "AppDelegate.h"
 
 @interface AllBooksTVC ()
+{
+    AppDelegate *appdelegate;
+}
 
 @end
 
@@ -18,49 +22,45 @@
 
 - (void)viewDidLoad
 {
+    //reachaibility
+    appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self checkInternet];
     [self fetchAllBooks];
-    
+
 }
 
 
-
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if([segue.identifier isEqualToString:@"show Details"]){
-        BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
-        // set up the vc to run here
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        PFObject *book = [self.books objectAtIndex:indexPath.row];
-        
-        bdvc.book = book;
-        
-        bdvc.title = [book objectForKey:@"title"];
-        
-    }
-}
 
 
 #pragma mark - helper method
 
 - (void)fetchAllBooks
 {
-    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
-    [query orderByDescending:@"createdAt"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (error){
-            NSLog(@"Error %@ %@", error, [error userInfo]);
-        }else{
-            self.books = [[NSMutableArray alloc] initWithArray:objects];
-        }
-    }];
+        PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+        [query orderByDescending:@"createdAt"];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error){
+                NSLog(@"Error %@ %@", error, [error userInfo]);
+            }else{
+                self.books = [[NSMutableArray alloc] initWithArray:objects];
+            }
+        }];
+    
 }
+
+- (void)checkInternet
+{
+    if (appdelegate.isInternetAvailable == NO) {
+        NSLog(@"");
+    }
+}
+
+
 
 @end

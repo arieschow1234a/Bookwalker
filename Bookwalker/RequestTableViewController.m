@@ -7,7 +7,7 @@
 //
 
 #import "RequestTableViewController.h"
-#import "RequestDetailsVC.h"
+#import "RequestMessagesVC.h"
 #import <Parse/Parse.h>
 
 @interface RequestTableViewController ()
@@ -17,6 +17,28 @@
 @end
 
 @implementation RequestTableViewController
+
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    PFUser *currentUser = [PFUser currentUser];
+    if (!currentUser) {
+        [self performSegueWithIdentifier:@"Show Login" sender:self];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    
+    [super viewWillAppear:animated];
+    [self retrieveMyRequests];
+    [self retrieveRequestsFromOthers];
+    [self.navigationController.navigationBar setHidden:NO];
+
+    
+}
 
 - (NSMutableArray *)allRequests
 {
@@ -51,36 +73,15 @@
     }else if ([self.myRequests count] && [self.allRequests count] == 1){
         [self.allRequests addObject:requestsFromOthers];
     }else if ([self.allRequests count] == 2){
-       [self.allRequests replaceObjectAtIndex:1 withObject:requestsFromOthers];
+        [self.allRequests replaceObjectAtIndex:1 withObject:requestsFromOthers];
     }else{
         [self.allRequests replaceObjectAtIndex:0 withObject:requestsFromOthers];
-
+        
     }
     
     [self.tableView reloadData];
-
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    PFUser *currentUser = [PFUser currentUser];
-    if (!currentUser) {
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    
-    [super viewWillAppear:animated];
-    [self retrieveMyRequests];
-    [self retrieveRequestsFromOthers];
-    [self.navigationController.navigationBar setHidden:NO];
-
     
 }
-
 
 #pragma mark - Table view data source
 
@@ -126,9 +127,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([segue.identifier isEqualToString:@"showRequest"]){
-        
-        RequestDetailsVC *rdvc = (RequestDetailsVC *)segue.destinationViewController;
+    if([segue.identifier isEqualToString:@"Show Request"]){
+        self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+        RequestMessagesVC *rdvc = (RequestMessagesVC *)segue.destinationViewController;
         // set up the vc to run here
         
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
@@ -144,7 +145,7 @@
 - (IBAction)logout:(id)sender
 {
     [PFUser logOut];
-    [self performSegueWithIdentifier:@"showLogin" sender:self];
+    [self performSegueWithIdentifier:@"Show Login" sender:self];
 }
 
 
@@ -169,11 +170,13 @@
 
 - (void)retrieveRequestsFromOthers
 {
+    NSNull *null = [NSNull null];
     PFUser *user = [PFUser currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query orderByDescending:@"updatedAt"];
-    [query whereKey:@"holder" equalTo:user.objectId];
+    [query whereKey:@"holderId" equalTo:user.objectId];
     [query whereKeyExists:@"requesterId"];
+    [query whereKey:@"requesterId" notEqualTo:null];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);

@@ -20,7 +20,7 @@
     [super viewDidLoad];
     PFUser *currentUser = [PFUser currentUser];
     if (!currentUser) {
-        [self performSegueWithIdentifier:@"showLogin" sender:self];
+        [self performSegueWithIdentifier:@"Show Login" sender:self];
     }
 }
 
@@ -28,6 +28,8 @@
 {
     [super viewWillAppear:animated];
     [self fetchMyBook];
+    [self.navigationController.navigationBar setHidden:NO];
+
 }
 
 #pragma mark - tableview delegate
@@ -67,7 +69,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"edit"]){
+    if ([segue.identifier isEqualToString:@"Edit"]){
         UITableViewCell *cell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
         UINavigationController *navigationController = segue.destinationViewController;
@@ -91,15 +93,14 @@
 
 - (void)fetchMyBook
 {
-    PFRelation *booksRelation = [[PFUser currentUser] objectForKey:@"booksRelation"];
-    PFQuery *query = [booksRelation query];
+    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
     [query orderByDescending:@"createdAt"];
+    [query whereKey:@"holderId" equalTo:[PFUser currentUser].objectId];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
             self.books = [[NSMutableArray alloc] initWithArray:objects];
-            
         }
     }];
     

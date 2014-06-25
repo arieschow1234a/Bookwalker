@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		2107A5A4192D1F2E005D4B69 /* BWHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2107A5A3192D1F2E005D4B69 /* BWHelper.m */; };
 		2116D8E21948101F004669D3 /* RequestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116D8E11948101F004669D3 /* RequestCell.m */; };
+		213D54FC1956DABF0009BB3B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213D54FB1956DABF0009BB3B /* FacebookSDK.framework */; };
+		213D54FF1956E3A80009BB3B /* FBLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D54FE1956E3A80009BB3B /* FBLoginVC.m */; };
+		213D55021956E8110009BB3B /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D55011956E8110009BB3B /* UserDetailsViewController.m */; };
+		213D55061957023B0009BB3B /* AccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D55051957023B0009BB3B /* AccountVC.m */; };
 		213FF127191C8DAD003B166B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF122191C8DAD003B166B /* LoginViewController.m */; };
 		213FF128191C8DAD003B166B /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF124191C8DAD003B166B /* SignupViewController.m */; };
 		213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */; };
@@ -65,6 +69,13 @@
 		2107A5A3192D1F2E005D4B69 /* BWHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHelper.m; sourceTree = "<group>"; };
 		2116D8E01948101F004669D3 /* RequestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestCell.h; sourceTree = "<group>"; };
 		2116D8E11948101F004669D3 /* RequestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestCell.m; sourceTree = "<group>"; };
+		213D54FB1956DABF0009BB3B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		213D54FD1956E3A80009BB3B /* FBLoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLoginVC.h; sourceTree = "<group>"; };
+		213D54FE1956E3A80009BB3B /* FBLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLoginVC.m; sourceTree = "<group>"; };
+		213D55001956E8110009BB3B /* UserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsViewController.h; sourceTree = "<group>"; };
+		213D55011956E8110009BB3B /* UserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsViewController.m; sourceTree = "<group>"; };
+		213D55041957023B0009BB3B /* AccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountVC.h; sourceTree = "<group>"; };
+		213D55051957023B0009BB3B /* AccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountVC.m; sourceTree = "<group>"; };
 		213FF121191C8DAD003B166B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		213FF122191C8DAD003B166B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		213FF123191C8DAD003B166B /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
@@ -144,6 +155,7 @@
 				21DE54111917A3A7004C5591 /* CoreGraphics.framework in Frameworks */,
 				21DE54131917A3A7004C5591 /* UIKit.framework in Frameworks */,
 				21DE540F1917A3A7004C5591 /* Foundation.framework in Frameworks */,
+				213D54FC1956DABF0009BB3B /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +172,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		213D55031957020C0009BB3B /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				213D55041957023B0009BB3B /* AccountVC.h */,
+				213D55051957023B0009BB3B /* AccountVC.m */,
+			);
+			name = Account;
+			sourceTree = "<group>";
+		};
 		213FF14A191CD725003B166B /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -216,6 +237,10 @@
 				213FF122191C8DAD003B166B /* LoginViewController.m */,
 				213FF123191C8DAD003B166B /* SignupViewController.h */,
 				213FF124191C8DAD003B166B /* SignupViewController.m */,
+				213D54FD1956E3A80009BB3B /* FBLoginVC.h */,
+				213D54FE1956E3A80009BB3B /* FBLoginVC.m */,
+				213D55001956E8110009BB3B /* UserDetailsViewController.h */,
+				213D55011956E8110009BB3B /* UserDetailsViewController.m */,
 			);
 			name = LogIn;
 			sourceTree = "<group>";
@@ -262,6 +287,7 @@
 		21DE540D1917A3A7004C5591 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				213D54FB1956DABF0009BB3B /* FacebookSDK.framework */,
 				213FF13C191C95E1003B166B /* Parse.framework */,
 				213FF12A191C930C003B166B /* AudioToolbox.framework */,
 				213FF12B191C930C003B166B /* CFNetwork.framework */,
@@ -283,6 +309,7 @@
 		21DE54141917A3A7004C5591 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				213D55031957020C0009BB3B /* Account */,
 				21544E881925D98D00C20B08 /* LogIn */,
 				21544E871925D97100C20B08 /* AllBooks */,
 				21544E851925D94600C20B08 /* Share */,
@@ -433,7 +460,10 @@
 				21544E841925D66400C20B08 /* NavigationController.m in Sources */,
 				21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */,
 				21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */,
+				213D55061957023B0009BB3B /* AccountVC.m in Sources */,
 				213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */,
+				213D55021956E8110009BB3B /* UserDetailsViewController.m in Sources */,
+				213D54FF1956E3A80009BB3B /* FBLoginVC.m in Sources */,
 				21DE541B1917A3A7004C5591 /* main.m in Sources */,
 				21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */,
 				21654AB31922274900D808F2 /* RequestMessagesVC.m in Sources */,
@@ -576,6 +606,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/Aries/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bookwalker/Bookwalker-Prefix.pch";
@@ -596,6 +627,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/Aries/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bookwalker/Bookwalker-Prefix.pch";

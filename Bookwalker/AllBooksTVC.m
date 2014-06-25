@@ -22,6 +22,7 @@
 
 - (void)viewDidLoad
 {
+    //reachaibility
     appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [super viewDidLoad];
 }
@@ -30,7 +31,8 @@
 {
     [super viewWillAppear:animated];
     [self checkInternet];
-    [self fetchAllBooks];    
+    [self fetchAllBooks];
+
 }
 
 

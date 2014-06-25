@@ -81,7 +81,13 @@
                             <outlet property="delegate" destination="Ks7-HP-f6K" id="ePL-Rt-lcf"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Discover" id="lmn-nn-VIZ"/>
+                    <navigationItem key="navigationItem" title="Discover" id="lmn-nn-VIZ">
+                        <barButtonItem key="rightBarButtonItem" title="Category" id="SfT-2B-ZCy">
+                            <connections>
+                                <segue destination="7n1-Zh-xIH" kind="push" identifier="show Category" id="hAL-Es-zIc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchDisplayController" destination="ZY8-EB-LhB" id="sEF-9j-erP"/>
                     </connections>
@@ -97,7 +103,48 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1001" y="-292"/>
+            <point key="canvasLocation" x="930" y="-297"/>
+        </scene>
+        <!--CategoriesTVC - Category-->
+        <scene sceneID="X7x-vd-ykX">
+            <objects>
+                <tableViewController title="Category" id="7n1-Zh-xIH" customClass="CategoriesTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ufw-25-7Hq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="categoryCell" textLabel="wff-DK-dhD" style="IBUITableViewCellStyleDefault" id="tc7-7b-HKK">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tc7-7b-HKK" id="xhz-cG-Dz4">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wff-DK-dhD">
+                                            <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="Ks7-HP-f6K" kind="push" identifier="Show Books in Category" id="VkW-z2-a66"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="7n1-Zh-xIH" id="zja-Ew-NxY"/>
+                            <outlet property="delegate" destination="7n1-Zh-xIH" id="SnR-nD-XXx"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Category" id="EUy-kp-OQD"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EqW-k4-XHB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1450" y="-860"/>
         </scene>
         <!--Book Details View Controller - BookWalker-->
         <scene sceneID="J3a-Sf-SfX">
@@ -1255,6 +1302,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="5UV-wp-tSI"/>
         <segue reference="XjY-4T-GLX"/>
         <segue reference="TMq-MX-CKy"/>
     </inferredMetricsTieBreakers>

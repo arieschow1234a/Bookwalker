@@ -147,7 +147,7 @@
             [alertView show];
             return NO;
         }
-        if ([self.details count] == 0){
+        if (!self.categories){
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!"
                                                                 message:@"Some information are processing. Please wait for 1 minutes"
                                                                delegate:nil
@@ -220,6 +220,8 @@
     }
     if (self.categories) {
         [metaBook setObject:self.categories forKey:@"categories"];
+    }else{
+        [metaBook setObject:@"No Categories" forKey:@"categories"];
     }
     
     [metaBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -292,6 +294,7 @@
     [book setObject:self.metaBook.objectId forKey:@"bookId"];
     [book setObject:self.titleTextView.text forKey:@"title"];
     [book setObject:self.authorTextView.text forKey:@"author"];
+    [book setObject:self.categories forKey:@"categories"];
     if (self.isbn10) {
         [book setObject:self.isbn10 forKey:@"isbn10"];
     }
@@ -354,6 +357,7 @@
             self.metaBook = metaBook;
             self.titleTextView.text = metaBook[@"title"];
             self.authorTextView.text = metaBook[@"author"];
+            self.categories = metaBook[@"categories"];
             PFFile *imagefile = [metaBook objectForKey:@"file"];
             if (imagefile) {
                 [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -512,11 +516,9 @@
                     NSRange ahrefLine = [string lineRangeForRange:ahref];
                     NSString *newString = [string substringFromIndex:ahrefLine.location+ahrefLine.length];
                     newString = [newString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-                    NSLog(@"%@", newString);
                     [self.categories addObject:newString];
                 }
             }
-            NSLog(@"%@", self.categories);
         }
     }];
     [task resume];

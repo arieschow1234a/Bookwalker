@@ -31,7 +31,11 @@
 {
     [super viewWillAppear:animated];
     [self checkInternet];
-    [self fetchAllBooks];
+    if (self.category == nil) {
+        [self fetchAllBooks];
+    }else{
+        [self fetchCategoryBooks];
+    }
 
 }
 
@@ -43,7 +47,7 @@
 - (void)fetchAllBooks
 {
         PFQuery *query = [PFQuery queryWithClassName:@"Books"];
-        [query orderByDescending:@"createdAt"];
+        [query orderByDescending:@"updatedAt"];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error){
                 NSLog(@"Error %@ %@", error, [error userInfo]);
@@ -53,6 +57,22 @@
         }];
     
 }
+
+- (void)fetchCategoryBooks
+{
+    PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+    [query orderByDescending:@"updatedAt"];
+    [query whereKey:@"categories" equalTo:self.category];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }else{
+            self.books = [[NSMutableArray alloc] initWithArray:objects];
+        }
+    }];
+    
+}
+
 
 - (void)checkInternet
 {

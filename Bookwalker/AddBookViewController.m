@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSString *isbn13;
 @property (nonatomic, strong) NSString *publisher;
 @property (nonatomic, strong) NSString *publishDate;
+@property (nonatomic, strong) NSMutableArray *categories;
+@property (nonatomic, strong) NSArray *details;
 
 
 @property (nonatomic) BOOL metaBookExist;
@@ -81,6 +83,22 @@
     return _bookStatus;
 }
 
+- (NSMutableArray *)categories
+{
+    if (!_categories) {
+        _categories = [[NSMutableArray alloc] init];
+    }
+    return _categories;
+}
+
+- (NSArray *)details
+{
+    if (!_details) {
+        _details = [[NSMutableArray alloc] init];
+    }
+    return _details;
+}
+
 - (UIImage *)image
 {
     return self.imageView.image;
@@ -120,15 +138,26 @@
         NSString *title = self.titleTextView.text;
         NSString *author = self.authorTextView.text;
         
-        if ([note length] == 0 ||[title length] == 0 || [author length] == 0 ){
+        if ([note length] == 0 ||[title length] == 0 || [author length] == 0){
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!"
-                                                                message:@"Make sure you enter a information"
+                                                                message:@"Make sure you enter all information"
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil, nil];
             [alertView show];
             return NO;
         }
+        if (!self.categories){
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!"
+                                                                message:@"Some information are processing. Please wait for 1 minutes"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil, nil];
+            [alertView show];
+            return NO;
+        }
+        
+        
         return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
     }
     return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
@@ -167,12 +196,32 @@
     }
     if (self.isbn13) {
         [metaBook setObject:self.isbn13 forKey:@"isbn13"];
+        NSString *ISBN = [self.isbn13 substringToIndex:6];
+        //978-957 978-986	Taiwan
+        //978-962 978-988 hk
+        //978-7 China
+        
+        if ([ISBN isEqualToString: @"978957"] || [ISBN isEqualToString:@"978986"] || [ISBN isEqualToString:@"978962"] || [ISBN isEqualToString:@"978988"]) {
+            [metaBook setObject:@"繁體中文" forKey:@"language"];
+        }else if ([ISBN rangeOfString:@"9787"].location != NSNotFound){
+            [metaBook setObject:@"簡體中文" forKey:@"language"];
+        }else if ([ISBN rangeOfString:@"9780"].location != NSNotFound || [ISBN rangeOfString:@"9781"].location != NSNotFound){
+            [metaBook setObject:@"English" forKey:@"language"];
+        }else{
+            [metaBook setObject:@"Other" forKey:@"language"];
+        }
+
     }
     if (self.publishDate) {
         [metaBook setObject:self.publishDate forKey:@"publishDate"];
     }
     if (self.publisher) {
         [metaBook setObject:self.publisher forKey:@"publisher"];
+    }
+    if (self.categories) {
+        [metaBook setObject:self.categories forKey:@"categories"];
+    }else{
+        [metaBook setObject:@"No Categories" forKey:@"categories"];
     }
     
     [metaBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -245,6 +294,7 @@
     [book setObject:self.metaBook.objectId forKey:@"bookId"];
     [book setObject:self.titleTextView.text forKey:@"title"];
     [book setObject:self.authorTextView.text forKey:@"author"];
+    [book setObject:self.categories forKey:@"categories"];
     if (self.isbn10) {
         [book setObject:self.isbn10 forKey:@"isbn10"];
     }
@@ -307,6 +357,7 @@
             self.metaBook = metaBook;
             self.titleTextView.text = metaBook[@"title"];
             self.authorTextView.text = metaBook[@"author"];
+            self.categories = metaBook[@"categories"];
             PFFile *imagefile = [metaBook objectForKey:@"file"];
             if (imagefile) {
                 [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -322,47 +373,6 @@
 }
 
 
-
-
-- (void)fetchGoogle
-{
-    NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    //NSString *isbn = @"9789867406392";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[BWHelper GoogleURLforbookWithISBN:isbn]];
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
-    
-    // create the session without specifying a queue to run completion handler on (thus, not main queue)
-    // we also don't specify a delegate (since completion handler is all we need)
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
-    
-    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
-                                                    completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
-                                                        // this handler is not executing on the main queue, so we can't do UI directly here
-        if (error){
-            [self invalidISBNAlert];
-        }else{
-            NSData *jsonResults = [NSData dataWithContentsOfURL:localfile];
-            // convert it to a Property List (NSArray and NSDictionary)
-            NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
-                                                                                options:0
-                                                                                  error:NULL];
-            NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
-            NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
-            NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
-            NSString *title = [volumeInfo valueForKey:@"title"];
-            NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
-            // so we must dispatch this back to the main queue
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.activityIndicator stopAnimating];
-                self.titleTextView.text = title;
-                self.authorTextView.text = author;
-                self.imageURL = [NSURL URLWithString:thumbnail];
-            });
-        }
-    }];
-    [task resume]; // don't forget that all NSURLSession tasks start out suspended!
-    
-}
 
 - (void)fetchAnobii
 {
@@ -435,9 +445,8 @@
         if (!error) {
         
             NSString *html = [NSString stringWithContentsOfURL:localfile encoding:NSUTF8StringEncoding error:NULL];
-            
-             NSLog(@"%@", html);
-            
+            // NSLog(@"%@", html);
+
             //ISBN10, 13, publisher, publishDate
             NSRange AStart = [html lineRangeForRange:[html rangeOfString:@"<span class=\"pages\">"]];
             NSRange AEnd = [html rangeOfString:@"</div><!-- end of book detail -->"];
@@ -448,31 +457,25 @@
             detail = [detail stringByReplacingOccurrencesOfString:@"<strong>" withString:@""];
             detail = [detail stringByReplacingOccurrencesOfString:@"<span>" withString:@""];
             detail = [detail stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSLog(@"%@", detail);
             
-            NSArray *details = [[NSArray alloc] initWithArray:[detail componentsSeparatedByString:@"<li>"]];
-            NSLog(@"%@", details);
-            for (NSString *string in details) {
+            self.details = [detail componentsSeparatedByString:@"<li>"];
+            for (NSString *string in self.details) {
                 if ([string length]) {
                     NSRange spanRange = [string rangeOfString:@"</span>"];
                     
                     if ([string rangeOfString:@"ISBN-10:"].location != NSNotFound) {
                         self.isbn10 = [self getResultfromString:string andSeparatedBySpanRange:spanRange];
-                        NSLog(@"%@", self.isbn10);
                     }
                     
                     if ([string rangeOfString:@"ISBN-13:"].location != NSNotFound) {
                         self.isbn13 = [self getResultfromString:string andSeparatedBySpanRange:spanRange];
-                        NSLog(@"%@", self.isbn13);
                     }
                     
                     if ([string rangeOfString:@"Publisher:"].location != NSNotFound) {
                         self.publisher = [self getResultfromString:string andSeparatedBySpanRange:spanRange];
-                        NSLog(@"%@", self.publisher);
                     }
                     if ([string rangeOfString:@"Publish date:"].location != NSNotFound) {
                         self.publishDate = [self getResultfromString:string andSeparatedBySpanRange:spanRange];
-                        NSLog(@"%@", self.publishDate);
                     }
 
                 }
@@ -491,11 +494,31 @@
             description = [description stringByReplacingOccurrencesOfString:@"<br />" withString:@""];
             NSString *trimmedDescription = [description stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             self.description = trimmedDescription;
+            
             //Category
-            
-            
-            
-            
+            NSRange cStart = [html lineRangeForRange:[html rangeOfString:@"<!-- Category belong to -->"]];
+            NSRange cEnd = [html rangeOfString:@"<!-- Browsing History -->"];
+            NSString *categoryString = [html substringWithRange:NSMakeRange(cStart.location+cStart.length, cEnd.location-cStart.location-cStart.length)];
+            categoryString = [categoryString stringByReplacingOccurrencesOfString:@"<div id=\"product_category\">" withString:@""];
+            categoryString = [categoryString stringByReplacingOccurrencesOfString:@"<h4>Categories</h4>" withString:@""];
+            categoryString = [categoryString stringByReplacingOccurrencesOfString:@"<div>" withString:@""];
+            categoryString = [categoryString stringByReplacingOccurrencesOfString:@"</div>" withString:@""];
+            categoryString = [categoryString stringByReplacingOccurrencesOfString:@"<ul class=\"listing categories\">" withString:@""];
+            categoryString = [categoryString stringByReplacingOccurrencesOfString:@"</ul>" withString:@""];
+            categoryString = [categoryString stringByReplacingOccurrencesOfString:@"</li>" withString:@""];
+            categoryString = [categoryString stringByReplacingOccurrencesOfString:@"<li>" withString:@""];
+            categoryString = [categoryString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+            NSArray *orginalCategories = [categoryString componentsSeparatedByString:@"</a>"];
+            for (NSString *string in orginalCategories) {
+                NSRange ahref = [string rangeOfString:@"<a href="];
+                if (ahref.location != NSNotFound) {
+                    NSRange ahrefLine = [string lineRangeForRange:ahref];
+                    NSString *newString = [string substringFromIndex:ahrefLine.location+ahrefLine.length];
+                    newString = [newString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    [self.categories addObject:newString];
+                }
+            }
         }
     }];
     [task resume];
@@ -510,6 +533,47 @@
 }
 
 
+
+
+- (void)fetchGoogle
+{
+    NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    //NSString *isbn = @"9789867406392";
+    NSURLRequest *request = [NSURLRequest requestWithURL:[BWHelper GoogleURLforbookWithISBN:isbn]];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    
+    // create the session without specifying a queue to run completion handler on (thus, not main queue)
+    // we also don't specify a delegate (since completion handler is all we need)
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration];
+    
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request
+                                                    completionHandler:^(NSURL *localfile, NSURLResponse *response, NSError *error) {
+                                                        // this handler is not executing on the main queue, so we can't do UI directly here
+                                                        if (error){
+                                                            [self invalidISBNAlert];
+                                                        }else{
+                                                            NSData *jsonResults = [NSData dataWithContentsOfURL:localfile];
+                                                            // convert it to a Property List (NSArray and NSDictionary)
+                                                            NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
+                                                                                                                                options:0
+                                                                                                                                  error:NULL];
+                                                            NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
+                                                            NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
+                                                            NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
+                                                            NSString *title = [volumeInfo valueForKey:@"title"];
+                                                            NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
+                                                            // so we must dispatch this back to the main queue
+                                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                                [self.activityIndicator stopAnimating];
+                                                                self.titleTextView.text = title;
+                                                                self.authorTextView.text = author;
+                                                                self.imageURL = [NSURL URLWithString:thumbnail];
+                                                            });
+                                                        }
+                                                    }];
+    [task resume]; // don't forget that all NSURLSession tasks start out suspended!
+    
+}
 
 
 #pragma mark - Setting the Image from the Image's URL

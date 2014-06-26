@@ -9,5 +9,5 @@
 #import "BooksTVC.h"
 
 @interface AllBooksTVC : BooksTVC
-
+@property (nonatomic, strong)NSString *category;
 @end

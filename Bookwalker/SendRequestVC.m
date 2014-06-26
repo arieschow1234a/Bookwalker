@@ -90,7 +90,7 @@
                 if (succeeded) {
                     PFObject *request = [PFObject objectWithClassName:@"Requests"];
                     [request setObject:user.objectId forKey:@"speakerId"];
-                    [request setObject:user.username forKey:@"speakerName"];
+                    [request setObject:user[@"name"] forKey:@"speakerName"];
                     [request setObject:self.replyTextView.text forKey:@"comment"];
                     [request setObject:self.book.objectId forKey:@"bookObjectId"];
                     [request addObject:self.book[@"holderId"] forKey:@"participants"];
@@ -141,7 +141,7 @@
                 [book setObject:number forKey:@"noOfRequests"];
                 
                 [book setObject:user.objectId forKey:@"requesterId"];
-                [book setObject:user.username forKey:@"requesterName"];
+                [book setObject:user[@"name"] forKey:@"requesterName"];
                 
                 
                 [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

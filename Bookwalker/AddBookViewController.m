@@ -287,7 +287,7 @@
     PFUser *user = [PFUser currentUser];
     PFObject *book = [PFObject objectWithClassName:@"Books"];
     [book setObject:[user objectId] forKey:@"holderId"];
-    [book setObject:[user username] forKey:@"holderName"];
+    [book setObject:user[@"name"] forKey:@"holderName"];
     [book setObject:@0 forKey:@"noOfRequests"];
     [book setObject:@0 forKey:@"bookStatus"];
     [book setObject:self.noteField.text forKey:@"note"];

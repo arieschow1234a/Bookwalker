@@ -36,7 +36,6 @@
     [self retrieveMyRequests];
     [self retrieveRequestsFromOthers];
     [self.navigationController.navigationBar setHidden:NO];
-
     
 }
 

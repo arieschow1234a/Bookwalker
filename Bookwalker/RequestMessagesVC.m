@@ -105,17 +105,18 @@
 
 - (IBAction)sendReply:(id)sender
 {
+    [self.replyTextView resignFirstResponder];
+    NSString *replyText = self.replyTextView.text;
+    self.replyTextView.text = nil;
     //save the reply into requests class and save it into books requestsRelation
     PFUser *user = [PFUser currentUser];
     PFObject *reply= [PFObject objectWithClassName:@"Requests"];
     [reply setObject:user.objectId forKey:@"speakerId"];
-    [reply setObject:user.username forKey:@"speakerName"];
-    [reply setObject:self.replyTextView.text forKey:@"comment"];
+    [reply setObject:user[@"name"] forKey:@"speakerName"];
+    [reply setObject:replyText forKey:@"comment"];
     [reply setObject:self.requestBook.objectId forKey:@"bookObjectId"];
     [reply saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [self.replyTextView resignFirstResponder];
-            self.replyTextView.text = nil;
             PFRelation *requestsRelation = [self.requestBook relationForKey:@"requestsRelation"];
             [requestsRelation addObject:reply];
             [self.requestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {

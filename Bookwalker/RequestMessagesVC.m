@@ -12,14 +12,15 @@
 @interface RequestMessagesVC () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic)NSArray *conversations;
+@property (strong, nonatomic) NSTimer *conversationsFetchTimer;
 @property (weak, nonatomic) IBOutlet UITextView *replyTextView;
 @property (weak, nonatomic) IBOutlet UIButton *confirmGivingButton;
 @property (weak, nonatomic) IBOutlet UIButton *cancelRequestButton;
-
-
 @property (nonatomic, strong) NSString *requesterId;
-
 @end
+
+//in second
+#define FOREGROUND_Request_FETCH_INTERVAL (1*60)
 
 @implementation RequestMessagesVC
 
@@ -49,6 +50,19 @@
     
     [self.view addGestureRecognizer:tapGesture];
     
+    //If it is from notifications
+    if (!self.requestBook) {
+        PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+        [query getObjectInBackgroundWithId:self.requestBookId block:^(PFObject *object, NSError *error) {
+            if (error){
+                NSLog(@"Error %@ %@", error, [error userInfo]);
+            }else{
+                NSLog(@"get requestbook");
+                self.requestBook = object;
+            }
+        }];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -66,12 +80,42 @@
     return _requesterId;
 }
 
+- (void)setRequestBookId:(NSString *)requestBookId
+{
+    _requestBookId = requestBookId;
+
+}
+
+- (void)setRequestBook:(PFObject *)requestBook
+{
+    _requestBook = requestBook;
+    [self retrieveRequestOfABook];
+}
+
+
 - (void)setConversations:(NSArray *)conversations
 {
     _conversations = conversations;
-    [self.tableView reloadData];
-}
+  //  [self.tableView reloadData];
+    [self.conversationsFetchTimer invalidate];
+    self.conversationsFetchTimer = nil;
+    
+    if (self.conversations)
+    {
+        // this timer will fire only when we are in the foreground
+        self.conversationsFetchTimer = [NSTimer scheduledTimerWithTimeInterval:FOREGROUND_Request_FETCH_INTERVAL
+                                                                        target:self
+                                                                      selector:@selector(retrieveRequestOfABook:)
+                                                                      userInfo:nil
+                                                                       repeats:YES];
+    }
 
+    
+    
+    
+    
+    
+}
 
 
 #pragma mark - UITableViewDataSource
@@ -117,14 +161,8 @@
     [reply setObject:self.requestBook.objectId forKey:@"bookObjectId"];
     [reply saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            PFRelation *requestsRelation = [self.requestBook relationForKey:@"requestsRelation"];
-            [requestsRelation addObject:reply];
-            [self.requestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-                    NSLog(@"replied");
-                    [self retrieveRequestOfABook];
-                }
-            }];
+            [self retrieveRequestOfABook];
+            // saved the reply into self.requestBook's relation on cloud
             
         }else{
             NSLog(@"Error %@ %@", error, [error userInfo]);
@@ -178,9 +216,16 @@
             // There was an error
         } else {
             self.conversations = objects;
+            [self.tableView reloadData];
         }
     }];
 }
+
+- (void)retrieveRequestOfABook:(NSTimer *)timer // NSTimer target/action always takes an NSTimer as an argument
+{
+    [self retrieveRequestOfABook];
+}
+
 
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

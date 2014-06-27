@@ -42,6 +42,11 @@
     
     [reach startNotifier];
     
+    // set Badge value 
+    //UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    
+    //[[[[tabBarController tabBar] items] objectAtIndex:2] setBadgeValue:@"1"];
+    
     return YES;
 }
 

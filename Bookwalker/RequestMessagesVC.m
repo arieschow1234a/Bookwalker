@@ -57,7 +57,6 @@
             if (error){
                 NSLog(@"Error %@ %@", error, [error userInfo]);
             }else{
-                NSLog(@"get requestbook");
                 self.requestBook = object;
             }
         }];

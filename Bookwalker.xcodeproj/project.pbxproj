@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2107A5A4192D1F2E005D4B69 /* BWHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2107A5A3192D1F2E005D4B69 /* BWHelper.m */; };
 		2116D8E21948101F004669D3 /* RequestCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2116D8E11948101F004669D3 /* RequestCell.m */; };
+		211822EC195E9FEA008C1420 /* NotificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 211822EB195E9FEA008C1420 /* NotificationCell.m */; };
 		213D54FC1956DABF0009BB3B /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 213D54FB1956DABF0009BB3B /* FacebookSDK.framework */; };
 		213D54FF1956E3A80009BB3B /* FBLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D54FE1956E3A80009BB3B /* FBLoginVC.m */; };
 		213D55021956E8110009BB3B /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D55011956E8110009BB3B /* UserDetailsViewController.m */; };
@@ -72,6 +73,8 @@
 		2107A5A3192D1F2E005D4B69 /* BWHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWHelper.m; sourceTree = "<group>"; };
 		2116D8E01948101F004669D3 /* RequestCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestCell.h; sourceTree = "<group>"; };
 		2116D8E11948101F004669D3 /* RequestCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestCell.m; sourceTree = "<group>"; };
+		211822EA195E9FEA008C1420 /* NotificationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationCell.h; sourceTree = "<group>"; };
+		211822EB195E9FEA008C1420 /* NotificationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationCell.m; sourceTree = "<group>"; };
 		213D54FB1956DABF0009BB3B /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		213D54FD1956E3A80009BB3B /* FBLoginVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLoginVC.h; sourceTree = "<group>"; };
 		213D54FE1956E3A80009BB3B /* FBLoginVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLoginVC.m; sourceTree = "<group>"; };
@@ -279,6 +282,8 @@
 			children = (
 				21862D59195D28F9008F267C /* NotificationsTVC.h */,
 				21862D5A195D28F9008F267C /* NotificationsTVC.m */,
+				211822EA195E9FEA008C1420 /* NotificationCell.h */,
+				211822EB195E9FEA008C1420 /* NotificationCell.m */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -488,6 +493,7 @@
 				21DE541F1917A3A7004C5591 /* AppDelegate.m in Sources */,
 				21D2BCA719442D3C00E0B7E1 /* RecordTVC.m in Sources */,
 				213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */,
+				211822EC195E9FEA008C1420 /* NotificationCell.m in Sources */,
 				21862D5B195D28F9008F267C /* NotificationsTVC.m in Sources */,
 				21544E841925D66400C20B08 /* NavigationController.m in Sources */,
 				2192840D195C1A3B00454236 /* EditAccountVC.m in Sources */,

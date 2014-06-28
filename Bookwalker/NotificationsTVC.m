@@ -9,6 +9,7 @@
 #import "NotificationsTVC.h"
 #import <Parse/Parse.h>
 #import "RequestMessagesVC.h"
+#import "NotificationCell.h"
 
 @interface NotificationsTVC ()
 @property (nonatomic, strong)NSMutableArray *notifications;
@@ -51,17 +52,19 @@
     return [self.notifications count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 75.0f;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notification cell" forIndexPath:indexPath];
+    NotificationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notification cell" forIndexPath:indexPath];
     
     // Configure the cell...
     PFObject *notification = [self.notifications objectAtIndex:indexPath.row];
-    NSString *type = notification[@"type"];
-    NSString *title = notification[@"bookTitle"];
+    [cell configureCellForNotification:notification];
     
-    cell.textLabel.text = title;
     return cell;
 }
 
@@ -118,7 +121,7 @@
         if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
-            NSLog(@"%lu", (unsigned long)[objects count]);
+           // NSLog(@"%lu", (unsigned long)[objects count]);
             if (self.notifications) {
                 for (PFObject *newNotif in objects) {
                     [self.notifications insertObject:newNotif atIndex:0];

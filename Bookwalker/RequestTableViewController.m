@@ -113,7 +113,7 @@
     if ([self.allRequests objectAtIndex:section] == self.myRequests){
         return @"My Requests";
     }else{
-        return @"Requests from others";
+        return @"Requests From Others";
     }
     
 }

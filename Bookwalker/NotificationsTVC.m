@@ -29,6 +29,7 @@
 {
     [super viewDidAppear:animated];
     [self fetchNotifications];
+    [self.navigationController.tabBarItem setBadgeValue:@"1"];
 }
 
 

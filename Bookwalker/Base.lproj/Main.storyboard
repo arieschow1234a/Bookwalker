@@ -1445,7 +1445,7 @@
         <scene sceneID="EJQ-nA-JjT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oX2-KM-Za6" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="More" id="8DO-hP-qgt"/>
+                    <tabBarItem key="tabBarItem" title="More" image="menu" id="8DO-hP-qgt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CeB-Lk-rQP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1482,7 +1482,7 @@
         <scene sceneID="VPw-T9-KEf">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Oh-Ud-oa8" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Notifications" id="FAY-1k-agj"/>
+                    <tabBarItem key="tabBarItem" title="Notifications" image="globe" id="FAY-1k-agj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="25q-0c-BHR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1501,9 +1501,11 @@
     <resources>
         <image name="book" width="26" height="26"/>
         <image name="bookshelf" width="25" height="25"/>
+        <image name="globe" width="25" height="25"/>
         <image name="login-button-small" width="151" height="43"/>
         <image name="login-button-small-pressed.png" width="151" height="43"/>
         <image name="login-button-small.png" width="151" height="43"/>
+        <image name="menu" width="26" height="26"/>
         <image name="request" width="26" height="26"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -1513,8 +1515,8 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="XjY-4T-GLX"/>
-        <segue reference="qFP-HL-GvF"/>
         <segue reference="Cbx-zG-7NM"/>
+        <segue reference="YgH-9Z-I47"/>
         <segue reference="TMq-MX-CKy"/>
         <segue reference="VkW-z2-a66"/>
     </inferredMetricsTieBreakers>

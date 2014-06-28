@@ -51,7 +51,7 @@
     [self.view addGestureRecognizer:tapGesture];
     
     //If it is from notifications
-    if (!self.requestBook) {
+    if (!self.requestBook && self.requestBookId) {
         PFQuery *query = [PFQuery queryWithClassName:@"Books"];
         [query getObjectInBackgroundWithId:self.requestBookId block:^(PFObject *object, NSError *error) {
             if (error){
@@ -242,9 +242,12 @@
 
 - (void)cancelRequest
 {
-    
+    if ([self.requestBook[@"holderId"] isEqualToString:[PFUser currentUser].objectId]) {
+        [self saveNotificationWithBook:self.requestBook andType:@"declineRequest"];
+    }else{
+        [self saveNotificationWithBook:self.requestBook andType:@"cancelRequest"];
+    }
     NSNull *null = [NSNull null];
-    
     [self.requestBook setObject:null forKey:@"requesterId"];
     [self.requestBook setObject:null forKey:@"requesterName"];
     [self.requestBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -254,6 +257,7 @@
             // going back
             [self.navigationController popViewControllerAnimated:YES];
             [self removeRequestConversation];
+
         }
         
     }];
@@ -340,6 +344,33 @@
             }
         }
     }];
+}
+
+- (void)saveNotificationWithBook:(PFObject *)book andType:(NSString *)type
+{
+    PFUser *user = [PFUser currentUser];
+    PFObject *notification = [PFObject objectWithClassName:@"Notifications"];
+    
+    [notification setObject:type forKey:@"type"];
+    
+    if ([type isEqualToString:@"declineRequest"]) {
+        [notification setObject:book[@"requesterId"] forKey:@"receiverId"];
+        [notification setObject:book[@"requesterName"] forKey:@"receiverName"];
+    }else{
+        [notification setObject:book[@"holderId"] forKey:@"receiverId"];
+        [notification setObject:book[@"holderName"] forKey:@"receiverName"];
+    }
+    [notification setObject:user.objectId forKey:@"senderId"];
+    [notification setObject:user[@"name"] forKey:@"senderName"];
+    [notification setObject:book.objectId forKey:@"bookObjectId"];
+    [notification setObject:book[@"title"] forKey:@"bookTitle"];
+    notification[@"parent"] = book;
+    [notification saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"saved Notification");
+        }
+    }];
+    
 }
 
 

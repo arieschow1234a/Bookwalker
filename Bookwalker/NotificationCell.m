@@ -27,6 +27,12 @@
     
     if ([type isEqualToString:@"newRequest"]) {
         self.contentTextView.text = [NSString stringWithFormat:@"%@ requested your book: %@.",senderName, bookTitle];
+        
+    }else if ([type isEqualToString:@"declineRequest"]) {
+        self.contentTextView.text = [NSString stringWithFormat:@"%@ declined your request on book: %@.",senderName, bookTitle];
+    
+    }else if ([type isEqualToString:@"cancelRequest"]) {
+        self.contentTextView.text = [NSString stringWithFormat:@"%@ cancelled requesting your book: %@.",senderName, bookTitle];
     }
 }
 

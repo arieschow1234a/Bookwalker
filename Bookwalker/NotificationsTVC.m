@@ -8,8 +8,9 @@
 
 #import "NotificationsTVC.h"
 #import <Parse/Parse.h>
-#import "RequestMessagesVC.h"
+#import "RequestTableViewController.h"
 #import "NotificationCell.h"
+#import "BookDetailsViewController.h"
 
 @interface NotificationsTVC ()
 @property (nonatomic, strong)NSMutableArray *notifications;
@@ -54,7 +55,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 75.0f;
+    return 80.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,8 +78,10 @@
         NSString *type = notification[@"type"];
         if ([type isEqualToString:@"newRequest"]) {
             [self performSegueWithIdentifier:@"Show Request" sender:cell];
-        }else{
-            [self performSegueWithIdentifier:@"Show Discover" sender:cell];
+        
+        }else if([type isEqualToString:@"cancelRequest"] || [type isEqualToString:@"declineRequest"]){
+            [self performSegueWithIdentifier:@"Show Cancelled Book" sender:cell];
+
         }
     }
 }
@@ -92,11 +95,21 @@
     PFObject *notification = [self.notifications objectAtIndex:indexPath.row];
     
     if([segue.identifier isEqualToString:@"Show Request"]){
-        RequestMessagesVC *rmvc = (RequestMessagesVC *)segue.destinationViewController;
-        rmvc.requestBookId = notification[@"bookObjectId"];
-        rmvc.title = notification[@"bookTitle"];
+    //    RequestTableViewController *rtvc = (RequestTableViewController *)segue.destinationViewController;
+        
+    }else if([segue.identifier isEqualToString:@"Show Cancelled Book"]){
+        BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
+        bdvc.bookId = notification[@"bookObjectId"];
     }
 }
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    
+       return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
+}
+
+
 
 #pragma mark - Helper method
 - (void)fetchNotifications

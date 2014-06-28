@@ -11,4 +11,5 @@
 
 @interface BookDetailsViewController : UIViewController
 @property (strong, nonatomic) PFObject *book;
+@property (strong, nonatomic) NSString *bookId;
 @end

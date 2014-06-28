@@ -34,8 +34,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.infoView.hidden = YES;
     
+    self.infoView.hidden = YES;
+
+    //If it is from notifications
+    if (!self.book && self.bookId) {
+        PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+        [query getObjectInBackgroundWithId:self.bookId block:^(PFObject *object, NSError *error) {
+            if (error){
+                NSLog(@"Error %@ %@", error, [error userInfo]);
+            }else{
+                self.book = object;
+                [self bookSetting];
+            }
+        }];
+    }else{
+        [self bookSetting];
+    }
+    
+}
+
+- (void)bookSetting
+{
     self.titleLabel.text = [self.book objectForKey:@"title"];
     self.authorLabel.text = [self.book objectForKey:@"author"];
     self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
@@ -78,10 +98,7 @@
         }
     }];
 
-    
 }
-
-
 
 
 #pragma mark - navigation

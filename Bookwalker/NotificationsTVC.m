@@ -11,7 +11,7 @@
 #import "RequestMessagesVC.h"
 
 @interface NotificationsTVC ()
-@property (nonatomic, strong)NSArray *notifications;
+@property (nonatomic, strong)NSMutableArray *notifications;
 @end
 
 @implementation NotificationsTVC
@@ -30,7 +30,7 @@
 }
 
 
-- (void)setNotifications:(NSArray *)notifications
+- (void)setNotifications:(NSMutableArray *)notifications
 {
     _notifications = notifications;
     [self.tableView reloadData];
@@ -101,13 +101,32 @@
     PFUser *user = [PFUser currentUser];
     PFQuery *query = [PFQuery queryWithClassName:@"Notifications"];
     [query whereKey:@"receiverId" equalTo:user.objectId];
-    [query orderByDescending:@"updatedAt"];
     query.limit = 20;
+    
+    NSMutableArray *objectIds = [[NSMutableArray alloc] init];
+    if (self.notifications) {
+        for (PFObject *oldNotif in self.notifications) {
+            [objectIds addObject:oldNotif.objectId];
+        }
+        [query whereKey:@"objectId" notContainedIn:objectIds];
+        [query orderByAscending:@"createdAt"];
+
+    }else{
+        [query orderByDescending:@"createdAt"];
+    }
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error){
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
-            self.notifications = [[NSArray alloc] initWithArray:objects];
+            NSLog(@"%lu", (unsigned long)[objects count]);
+            if (self.notifications) {
+                for (PFObject *newNotif in objects) {
+                    [self.notifications insertObject:newNotif atIndex:0];
+                }
+                [self.tableView reloadData];
+            }else{
+                self.notifications = [[NSMutableArray alloc] initWithArray:objects];
+            }
         }
     }];
 }

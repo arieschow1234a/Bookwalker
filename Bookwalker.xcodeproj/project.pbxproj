@@ -188,6 +188,10 @@
 			isa = PBXGroup;
 			children = (
 				21862D5D195D2915008F267C /* Account */,
+				21D2BCA519442D3C00E0B7E1 /* RecordTVC.h */,
+				21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */,
+				21D2BCA819443E7400E0B7E1 /* RecordCell.h */,
+				21D2BCA919443E7400E0B7E1 /* RecordCell.m */,
 			);
 			name = More;
 			sourceTree = "<group>";
@@ -346,10 +350,6 @@
 				21544E861925D95E00C20B08 /* Request */,
 				21862D5C195D290A008F267C /* Notifications */,
 				213D55031957020C0009BB3B /* More */,
-				21D2BCA519442D3C00E0B7E1 /* RecordTVC.h */,
-				21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */,
-				21D2BCA819443E7400E0B7E1 /* RecordCell.h */,
-				21D2BCA919443E7400E0B7E1 /* RecordCell.m */,
 				21544E891925D99E00C20B08 /* Support */,
 				21DE54261917A3A7004C5591 /* Images.xcassets */,
 				21DE54151917A3A7004C5591 /* Supporting Files */,
@@ -438,6 +438,11 @@
 				TargetAttributes = {
 					21DE540A1917A3A7004C5591 = {
 						DevelopmentTeam = 27UP482W8T;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					21DE542B1917A3A8004C5591 = {
 						TestTargetID = 21DE540A1917A3A7004C5591;

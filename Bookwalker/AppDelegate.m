@@ -15,6 +15,10 @@
 {
     Reachability *reach;
 }
+
+//@property (nonatomic, strong) UIImage *image;
+//@property (nonatomic, strong) NSURL *imageURL;
+
 @end
 
 
@@ -41,6 +45,10 @@
                                                object:nil];
     
     [reach startNotifier];
+    
+    if ([PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+        [self fetchFBAccount];
+    }
     
     // set Badge value 
     //UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
@@ -136,6 +144,94 @@
     [[PFFacebookUtils session] close];
 
 }
+
+#pragma mark - Facebook & Image
+- (void)fetchFBAccount
+{
+    PFUser *user = [PFUser currentUser];
+    
+    // Send request to Facebook
+    FBRequest *request = [FBRequest requestForMe];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary *result, NSError *error) {
+        // handle response
+        if (!error) {
+            // Parse the data received
+            NSDictionary *userData = (NSDictionary *)result;
+            
+            NSString *facebookID = userData[@"id"];
+            NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
+           
+            // Do not update the pic everytime
+           // self.imageURL = [NSURL URLWithString:[pictureURL absoluteString]];
+            
+            NSDictionary *originalData = user[@"profile"];
+            NSMutableDictionary *userProfile;
+            
+            //Prepare origianl profile
+            if (user[@"profile"]) {
+                userProfile = [[NSMutableDictionary alloc]initWithDictionary:originalData];
+                if (![userData isEqualToDictionary:originalData]) {
+                    //Check which one is different
+                    if (![userData[@"name"] isEqualToString:originalData[@"name"]]) {
+                        userProfile[@"name"] = userData[@"name"];
+                    }
+                    if (![userData[@"email"] isEqualToString:originalData[@"email"]]) {
+                        userProfile[@"email"] = userData[@"email"];
+                    }
+                }
+                
+                
+            }else{
+                userProfile = [[NSMutableDictionary alloc]initWithCapacity:8];
+                if (facebookID) {
+                    userProfile[@"facebookId"] = facebookID;
+                }
+                
+                if (userData[@"name"]) {
+                    userProfile[@"name"] = userData[@"name"];
+                }
+                
+                if (userData[@"email"]) {
+                    userProfile[@"email"] = userData[@"email"];
+                }
+                
+                if (userData[@"gender"]) {
+                    userProfile[@"gender"] = userData[@"gender"];
+                }
+                
+                if (userData[@"location"][@"name"]) {
+                    userProfile[@"location"] = userData[@"location"][@"name"];
+                }
+                
+                if ([pictureURL absoluteString]) {
+                    userProfile[@"pictureURL"] = [pictureURL absoluteString];
+                }
+                
+                if (userData[@"birthday"]) {
+                    userProfile[@"birthday"] = userData[@"birthday"];
+                }
+                
+                if (userData[@"relationship_status"]) {
+                    userProfile[@"relationship"] = userData[@"relationship_status"];
+                }
+            }
+            [user setObject:userProfile forKey:@"profile"];
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    NSLog(@"Saved ac");
+                }
+            }];
+            
+        } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
+                    isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
+            NSLog(@"The facebook session was invalidated");
+        }else {
+            NSLog(@"Some other error: %@", error);
+        }
+    }];
+    
+}
+
 
 
 @end

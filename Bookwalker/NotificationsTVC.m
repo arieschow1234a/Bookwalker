@@ -111,7 +111,7 @@
 }
 
 
-
+// Moved to App delegate 
 #pragma mark - Helper method
 - (void)fetchNotifications
 {

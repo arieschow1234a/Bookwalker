@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *authorTextView;
 @property (weak, nonatomic) IBOutlet UITextField *noteField;
 
+//Image
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSURL *imageURL;

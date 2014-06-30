@@ -426,7 +426,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Note (e.g. Time &amp; Venue):" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="gWH-Ia-h4F">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Free Note (e.g. Time &amp; Location):" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="gWH-Ia-h4F">
                                 <rect key="frame" x="20" y="195" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
@@ -909,6 +909,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="wMd-hc-BvR">
+                                <rect key="frame" x="141" y="222" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                            </activityIndicatorView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1s-AP-HlA" customClass="TPKeyboardAvoidingScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1040,11 +1045,13 @@
                             <constraint firstAttribute="trailing" secondItem="T1s-AP-HlA" secondAttribute="trailing" id="wzt-16-lND"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Rebbit" id="DkO-kn-Rhn"/>
+                    <navigationItem key="navigationItem" id="DkO-kn-Rhn"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="wMd-hc-BvR" id="jrX-6T-hQQ"/>
                         <outlet property="passwordField" destination="Wss-EQ-CvF" id="wnD-wd-DpX"/>
+                        <outlet property="scrollView" destination="T1s-AP-HlA" id="XzR-9f-y7v"/>
                         <outlet property="usernameField" destination="jVW-6O-MS8" id="zgp-Md-kgh"/>
                     </connections>
                 </viewController>

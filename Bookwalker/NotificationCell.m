@@ -8,7 +8,15 @@
 
 #import "NotificationCell.h"
 
+@interface NotificationCell()
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+@property (nonatomic, strong) UIImage *image;
+@end
+
+
 @implementation NotificationCell
+@synthesize imageView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -25,6 +33,8 @@
     NSString *senderName = [[NSString alloc]initWithString:notification[@"senderName"]];
     NSString *bookTitle = [[NSString alloc]initWithString:notification[@"bookTitle"]];
     
+    
+    
     if ([type isEqualToString:@"newRequest"]) {
         self.contentTextView.text = [NSString stringWithFormat:@"%@ requested your book: %@.",senderName, bookTitle];
         
@@ -34,6 +44,25 @@
     }else if ([type isEqualToString:@"cancelRequest"]) {
         self.contentTextView.text = [NSString stringWithFormat:@"%@ cancelled requesting your book: %@.",senderName, bookTitle];
     }
+    
+    NSString *senderId = [notification objectForKey:@"senderId"];
+    
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"objectId" equalTo:senderId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+        PFFile *imagefile = object[@"file"];
+        if (imagefile) {
+            [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:imageData];
+                    self.image = image;
+                }
+            }];
+        }
+    }];
+   
+    
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -41,6 +70,19 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+#pragma mark - Image
+- (UIImage *)image
+{
+    return self.imageView.image;
+}
+
+- (void)setImage:(UIImage *)image
+{
+    self.imageView.image = image;
+    // [self.imageView sizeToFit];   // update the frame of the UIImageView
+    
 }
 
 

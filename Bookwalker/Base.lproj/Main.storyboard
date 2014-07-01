@@ -1430,6 +1430,7 @@
                                 <connections>
                                     <outlet property="avatarImageView" destination="4qd-0a-OJu" id="dCR-0p-uI8"/>
                                     <outlet property="contentTextView" destination="boh-oR-9rv" id="RX2-7R-hh6"/>
+                                    <outlet property="imageView" destination="4qd-0a-OJu" id="ttG-2j-R61"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -1521,9 +1522,9 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="XjY-4T-GLX"/>
         <segue reference="Cbx-zG-7NM"/>
-        <segue reference="YgH-9Z-I47"/>
+        <segue reference="XjY-4T-GLX"/>
+        <segue reference="qFP-HL-GvF"/>
         <segue reference="TMq-MX-CKy"/>
         <segue reference="VkW-z2-a66"/>
     </inferredMetricsTieBreakers>

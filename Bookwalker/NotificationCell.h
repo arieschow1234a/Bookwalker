@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
+#import "Notification+Parse.h"
+
 @interface NotificationCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
 
-- (void)configureCellForNotification:(PFObject *)notification;
+- (void)configureCellForNotification:(Notification *)notification;
 
 @end

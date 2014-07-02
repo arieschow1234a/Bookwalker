@@ -11,12 +11,28 @@
 #import "RequestTableViewController.h"
 #import "NotificationCell.h"
 #import "BookDetailsViewController.h"
+#import "DatabaseAvailability.h"
+#import "Notification+Parse.h"
+
 
 @interface NotificationsTVC ()
 @property (nonatomic, strong)NSMutableArray *notifications;
 @end
 
 @implementation NotificationsTVC
+
+- (void)awakeFromNib
+{
+    NSLog(@"Testing HI");
+    [[NSNotificationCenter defaultCenter] addObserverForName:DatabaseAvailabilityNotification
+                                                      object:nil
+                                                       queue:nil
+                                                  usingBlock:^(NSNotification *note) {
+                                                      NSLog(@"%@", note.userInfo[DatabaseAvailabilityContext]);
+                                                      self.managedObjectContext = note.userInfo[DatabaseAvailabilityContext];
+                                                  }];
+    
+}
 
 
 - (void)viewDidLoad
@@ -28,8 +44,15 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self fetchNotifications];
-    [self.navigationController.tabBarItem setBadgeValue:@"1"];
+   // [self fetchNotifications];
+        [self fetchDatabase];
+
+    
+    if (self.navigationController.tabBarItem.badgeValue) {
+        self.navigationController.tabBarItem.badgeValue = nil;
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"notifiBadgge"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 
@@ -37,6 +60,31 @@
 {
     _notifications = notifications;
     [self.tableView reloadData];
+}
+
+
+#pragma mark - Database context
+- (void)setManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    _managedObjectContext = managedObjectContext;
+    NSLog(@"Notification: Set managedObjectContext");
+    [self fetchDatabase];
+}
+
+- (void)fetchDatabase
+{
+    if (self.managedObjectContext) {
+        
+            NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
+            request.predicate = [NSPredicate predicateWithFormat:@"receiverId = %@", [PFUser currentUser].objectId];
+            request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createdAt"
+                                                                      ascending:NO
+                                                                       selector:@selector(localizedStandardCompare:)]];
+            NSError *error;
+            NSArray *matches = [self.managedObjectContext executeFetchRequest:request error:&error];
+            self.notifications = [NSMutableArray arrayWithArray:matches];
+            NSLog(@"Notification: %@", matches);
+    }
 }
 
 
@@ -64,7 +112,7 @@
     NotificationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"notification cell" forIndexPath:indexPath];
     
     // Configure the cell...
-    PFObject *notification = [self.notifications objectAtIndex:indexPath.row];
+    Notification *notification = [self.notifications objectAtIndex:indexPath.row];
     [cell configureCellForNotification:notification];
     
     return cell;
@@ -75,14 +123,17 @@
 {
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     if ([cell.reuseIdentifier isEqualToString:@"notification cell"]) {
-        PFObject *notification = [self.notifications objectAtIndex:indexPath.row];
-        NSString *type = notification[@"type"];
-        if ([type isEqualToString:@"newRequest"]) {
-            [self performSegueWithIdentifier:@"Show Request" sender:cell];
-        
-        }else if([type isEqualToString:@"cancelRequest"] || [type isEqualToString:@"declineRequest"]){
-            [self performSegueWithIdentifier:@"Show Cancelled Book" sender:cell];
-
+        Notification *notification = [self.notifications objectAtIndex:indexPath.row];
+        NSString *type = notification.type;
+        NSLog(@"%@", type);
+        if (type) {
+            if ([type isEqualToString:@"newRequest"]) {
+                [self performSegueWithIdentifier:@"Show Request" sender:cell];
+                
+            }else if([type isEqualToString:@"cancelRequest"] || [type isEqualToString:@"declineRequest"]){
+                [self performSegueWithIdentifier:@"Show Cancelled Book" sender:cell];
+                
+            }
         }
     }
 }
@@ -93,14 +144,14 @@
 {
     self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    PFObject *notification = [self.notifications objectAtIndex:indexPath.row];
+    Notification *notification = [self.notifications objectAtIndex:indexPath.row];
     
     if([segue.identifier isEqualToString:@"Show Request"]){
     //    RequestTableViewController *rtvc = (RequestTableViewController *)segue.destinationViewController;
         
     }else if([segue.identifier isEqualToString:@"Show Cancelled Book"]){
         BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
-        bdvc.bookId = notification[@"bookObjectId"];
+        bdvc.bookId = notification.bookObjectId;
     }
 }
 
@@ -109,6 +160,8 @@
     
        return [super shouldPerformSegueWithIdentifier:identifier sender:sender];
 }
+
+
 
 
 // Moved to App delegate 

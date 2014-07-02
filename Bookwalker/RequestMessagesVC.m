@@ -101,7 +101,6 @@
     
     if (self.conversations)
     {
-        // this timer will fire only when we are in the foreground
         self.conversationsFetchTimer = [NSTimer scheduledTimerWithTimeInterval:FOREGROUND_Request_FETCH_INTERVAL
                                                                         target:self
                                                                       selector:@selector(retrieveRequestOfABook:)

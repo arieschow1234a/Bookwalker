@@ -27,11 +27,11 @@
     return self;
 }
 
-- (void)configureCellForNotification:(PFObject *)notification
+- (void)configureCellForNotification:(Notification *)notification
 {
-    NSString *type = [[NSString alloc]initWithString:notification[@"type"]];
-    NSString *senderName = [[NSString alloc]initWithString:notification[@"senderName"]];
-    NSString *bookTitle = [[NSString alloc]initWithString:notification[@"bookTitle"]];
+    NSString *type = [[NSString alloc]initWithString:notification.type];
+    NSString *senderName = [[NSString alloc]initWithString:notification.senderName];
+    NSString *bookTitle = [[NSString alloc]initWithString:notification.bookTitle];
     
     
     
@@ -45,7 +45,7 @@
         self.contentTextView.text = [NSString stringWithFormat:@"%@ cancelled requesting your book: %@.",senderName, bookTitle];
     }
     
-    NSString *senderId = [notification objectForKey:@"senderId"];
+    NSString *senderId = notification.senderId;
     
     PFQuery *query = [PFUser query];
     [query whereKey:@"objectId" equalTo:senderId];

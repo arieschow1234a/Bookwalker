@@ -1,14 +1,16 @@
 //
-//  NotificationsTVC.h
+//  TestingCDTVC.h
 //  Bookwalker
 //
-//  Created by Aries on 27/6/14.
+//  Created by Aries on 1/7/14.
 //  Copyright (c) 2014年 Aries. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CoreDataTableViewController.h"
 
-@interface NotificationsTVC : UITableViewController
+@interface TestingCDTVC : CoreDataTableViewController
+
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+
 
 @end

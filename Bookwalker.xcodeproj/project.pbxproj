@@ -36,6 +36,11 @@
 		21668DF2195B33FA001937C5 /* CategoriesTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21668DF1195B33FA001937C5 /* CategoriesTVC.m */; };
 		21862D5B195D28F9008F267C /* NotificationsTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21862D5A195D28F9008F267C /* NotificationsTVC.m */; };
 		2192840D195C1A3B00454236 /* EditAccountVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2192840C195C1A3B00454236 /* EditAccountVC.m */; };
+		21A67BA41962845700D6FB54 /* BookWalker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 21A67BA21962845700D6FB54 /* BookWalker.xcdatamodeld */; };
+		21A67BB1196298D100D6FB54 /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A67BB0196298D100D6FB54 /* CoreDataTableViewController.m */; };
+		21A67BB41962991500D6FB54 /* TestingCDTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A67BB31962991500D6FB54 /* TestingCDTVC.m */; };
+		21A67BBB1962D6EE00D6FB54 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A67BB81962D6EE00D6FB54 /* Notification.m */; };
+		21A67BBC1962D6EE00D6FB54 /* Notification+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A67BBA1962D6EE00D6FB54 /* Notification+Parse.m */; };
 		21B24F0A19289DB8002174E2 /* BookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21B24F0919289DB8002174E2 /* BookCell.m */; };
 		21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1019247BED00CA9CA1 /* BooksTVC.m */; };
 		21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */; };
@@ -116,6 +121,16 @@
 		21862D5A195D28F9008F267C /* NotificationsTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsTVC.m; sourceTree = "<group>"; };
 		2192840B195C1A3B00454236 /* EditAccountVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditAccountVC.h; sourceTree = "<group>"; };
 		2192840C195C1A3B00454236 /* EditAccountVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditAccountVC.m; sourceTree = "<group>"; };
+		21A67BA31962845700D6FB54 /* BookWalker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BookWalker.xcdatamodel; sourceTree = "<group>"; };
+		21A67BAF196298D100D6FB54 /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataTableViewController.h; sourceTree = "<group>"; };
+		21A67BB0196298D100D6FB54 /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataTableViewController.m; sourceTree = "<group>"; };
+		21A67BB21962991500D6FB54 /* TestingCDTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestingCDTVC.h; sourceTree = "<group>"; };
+		21A67BB31962991500D6FB54 /* TestingCDTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestingCDTVC.m; sourceTree = "<group>"; };
+		21A67BB61962D6D100D6FB54 /* DatabaseAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatabaseAvailability.h; path = Bookwalker/DatabaseAvailability.h; sourceTree = "<group>"; };
+		21A67BB71962D6EE00D6FB54 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Notification.h; path = Bookwalker/Notification.h; sourceTree = "<group>"; };
+		21A67BB81962D6EE00D6FB54 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Notification.m; path = Bookwalker/Notification.m; sourceTree = "<group>"; };
+		21A67BB91962D6EE00D6FB54 /* Notification+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Notification+Parse.h"; path = "Bookwalker/Notification+Parse.h"; sourceTree = "<group>"; };
+		21A67BBA1962D6EE00D6FB54 /* Notification+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Notification+Parse.m"; path = "Bookwalker/Notification+Parse.m"; sourceTree = "<group>"; };
 		21B24F0819289DB8002174E2 /* BookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCell.h; sourceTree = "<group>"; };
 		21B24F0919289DB8002174E2 /* BookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCell.m; sourceTree = "<group>"; };
 		21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTVC.h; sourceTree = "<group>"; };
@@ -136,8 +151,8 @@
 		21DE54181917A3A7004C5591 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		21DE541A1917A3A7004C5591 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		21DE541C1917A3A7004C5591 /* Bookwalker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bookwalker-Prefix.pch"; sourceTree = "<group>"; };
-		21DE541D1917A3A7004C5591 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		21DE541E1917A3A7004C5591 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		21DE541D1917A3A7004C5591 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Bookwalker/AppDelegate.h; sourceTree = "<group>"; };
+		21DE541E1917A3A7004C5591 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Bookwalker/AppDelegate.m; sourceTree = "<group>"; };
 		21DE54211917A3A7004C5591 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		21DE54261917A3A7004C5591 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		21DE542C1917A3A8004C5591 /* BookwalkerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BookwalkerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -284,6 +299,10 @@
 				21862D5A195D28F9008F267C /* NotificationsTVC.m */,
 				211822EA195E9FEA008C1420 /* NotificationCell.h */,
 				211822EB195E9FEA008C1420 /* NotificationCell.m */,
+				21A67BB21962991500D6FB54 /* TestingCDTVC.h */,
+				21A67BB31962991500D6FB54 /* TestingCDTVC.m */,
+				21A67BAF196298D100D6FB54 /* CoreDataTableViewController.h */,
+				21A67BB0196298D100D6FB54 /* CoreDataTableViewController.m */,
 			);
 			name = Notifications;
 			sourceTree = "<group>";
@@ -299,11 +318,35 @@
 			name = Account;
 			sourceTree = "<group>";
 		};
+		21A67BA51962849200D6FB54 /* BookWalker */ = {
+			isa = PBXGroup;
+			children = (
+				21DE541D1917A3A7004C5591 /* AppDelegate.h */,
+				21DE541E1917A3A7004C5591 /* AppDelegate.m */,
+				21A67BB61962D6D100D6FB54 /* DatabaseAvailability.h */,
+				213FF14A191CD725003B166B /* View */,
+				21A67BA6196284A000D6FB54 /* Model */,
+				21DE54141917A3A7004C5591 /* Controller */,
+			);
+			name = BookWalker;
+			sourceTree = "<group>";
+		};
+		21A67BA6196284A000D6FB54 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				21A67BB71962D6EE00D6FB54 /* Notification.h */,
+				21A67BB81962D6EE00D6FB54 /* Notification.m */,
+				21A67BB91962D6EE00D6FB54 /* Notification+Parse.h */,
+				21A67BBA1962D6EE00D6FB54 /* Notification+Parse.m */,
+				21A67BA21962845700D6FB54 /* BookWalker.xcdatamodeld */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		21DE54021917A3A7004C5591 = {
 			isa = PBXGroup;
 			children = (
-				213FF14A191CD725003B166B /* View */,
-				21DE54141917A3A7004C5591 /* Controller */,
+				21A67BA51962849200D6FB54 /* BookWalker */,
 				21DE54331917A3A8004C5591 /* BookwalkerTests */,
 				21DE540D1917A3A7004C5591 /* Frameworks */,
 				21DE540C1917A3A7004C5591 /* Products */,
@@ -361,8 +404,6 @@
 		21DE54151917A3A7004C5591 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				21DE541D1917A3A7004C5591 /* AppDelegate.h */,
-				21DE541E1917A3A7004C5591 /* AppDelegate.m */,
 				21DE54161917A3A7004C5591 /* Bookwalker-Info.plist */,
 				21DE54171917A3A7004C5591 /* InfoPlist.strings */,
 				21DE541A1917A3A7004C5591 /* main.m */,
@@ -494,6 +535,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21A67BB1196298D100D6FB54 /* CoreDataTableViewController.m in Sources */,
 				213FF127191C8DAD003B166B /* LoginViewController.m in Sources */,
 				21DE541F1917A3A7004C5591 /* AppDelegate.m in Sources */,
 				21D2BCA719442D3C00E0B7E1 /* RecordTVC.m in Sources */,
@@ -502,10 +544,12 @@
 				21862D5B195D28F9008F267C /* NotificationsTVC.m in Sources */,
 				21544E841925D66400C20B08 /* NavigationController.m in Sources */,
 				2192840D195C1A3B00454236 /* EditAccountVC.m in Sources */,
+				21A67BBB1962D6EE00D6FB54 /* Notification.m in Sources */,
 				21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */,
 				21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */,
 				213D55061957023B0009BB3B /* AccountVC.m in Sources */,
 				213FF143191C9BDB003B166B /* RequestTableViewController.m in Sources */,
+				21A67BA41962845700D6FB54 /* BookWalker.xcdatamodeld in Sources */,
 				213D55021956E8110009BB3B /* UserDetailsViewController.m in Sources */,
 				213D54FF1956E3A80009BB3B /* FBLoginVC.m in Sources */,
 				21DE541B1917A3A7004C5591 /* main.m in Sources */,
@@ -517,7 +561,9 @@
 				21609EFA1949A9A10077717E /* Reachability.m in Sources */,
 				213FF149191CA2CA003B166B /* AddBookViewController.m in Sources */,
 				21D2BCAA19443E7400E0B7E1 /* RecordCell.m in Sources */,
+				21A67BB41962991500D6FB54 /* TestingCDTVC.m in Sources */,
 				21F91CE81945CD1A00B2A5C4 /* SendRequestVC.m in Sources */,
+				21A67BBC1962D6EE00D6FB54 /* Notification+Parse.m in Sources */,
 				21668DF2195B33FA001937C5 /* CategoriesTVC.m in Sources */,
 				213FF128191C8DAD003B166B /* SignupViewController.m in Sources */,
 				2116D8E21948101F004669D3 /* RequestCell.m in Sources */,
@@ -754,6 +800,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		21A67BA21962845700D6FB54 /* BookWalker.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				21A67BA31962845700D6FB54 /* BookWalker.xcdatamodel */,
+			);
+			currentVersion = 21A67BA31962845700D6FB54 /* BookWalker.xcdatamodel */;
+			path = BookWalker.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 21DE54031917A3A7004C5591 /* Project object */;
 }

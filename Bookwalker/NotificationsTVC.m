@@ -79,7 +79,7 @@
             request.predicate = [NSPredicate predicateWithFormat:@"receiverId = %@", [PFUser currentUser].objectId];
             request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createdAt"
                                                                       ascending:NO
-                                                                       selector:@selector(localizedStandardCompare:)]];
+                                                                       selector:@selector(compare:)]];
             NSError *error;
             NSArray *matches = [self.managedObjectContext executeFetchRequest:request error:&error];
             self.notifications = [NSMutableArray arrayWithArray:matches];

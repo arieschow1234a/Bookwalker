@@ -24,10 +24,13 @@
 @property (strong, nonatomic) UIManagedDocument *document;
 @property (strong, nonatomic) NSManagedObjectContext *databaseContext;
 @property (strong, nonatomic) NSTimer *notificationForegroundFetchTimer;
+@property (strong, nonatomic) NSTimer *badgeTimer;
+
 @end
 
 // how often (in seconds) we fetch new notifications if we are in the foreground
 #define FOREGROUND_NOTIFICATION_FETCH_INTERVAL (1*60)
+#define BADGE_INTERVAL (30)
 
 @implementation AppDelegate
 
@@ -58,7 +61,6 @@
         [self fetchFBAccount];
     }
     
-    
     // Background fetch
     [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
 
@@ -82,12 +84,6 @@
               if (!success) NSLog(@"couldn’t create document at %@", url);
           }];
     }
-
-    // set Badge value 
-    //UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-    
-    //[[[[tabBarController tabBar] items] objectAtIndex:2] setBadgeValue:@"1"];
-    
     return YES;
 }
 
@@ -102,21 +98,14 @@
     }
 }
 
-// we do some stuff when our Photo database's context becomes available
 // we kick off our foreground NSTimer so that we are fetching every once in a while in the foreground
 // we post a notification to let others know the context is available
 
 - (void)setDatabaseContext:(NSManagedObjectContext *)databaseContext
 {
     _databaseContext = databaseContext;
-    
-    // make sure "the user" Photographer exists at all times
-    //if (photoDatabaseContext) [Photographer userInManagedObjectContext:photoDatabaseContext];
-    
-    // every time the context changes, we'll restart our timer
+       // every time the context changes, we'll restart our timer
     // so kill (invalidate) the current one
-    // (we didn't get to this line of code in lecture, sorry!)
-    
     [self.notificationForegroundFetchTimer invalidate];
     self.notificationForegroundFetchTimer = nil;
     
@@ -161,33 +150,44 @@
 - (void)startNotificationFetch
 {
     NSLog(@"start fetching");
-
+    //Check the objectId of existing notifications
+    NSMutableArray *existingNotifId = [[NSMutableArray alloc] init];
+    if (self.databaseContext){
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
+        NSError *error;
+        NSArray *matches = [self.databaseContext executeFetchRequest:request error:&error];
+        for (Notification *notif in matches){
+            [existingNotifId addObject:notif.objectId];
+            
+        }
+    }
+    NSArray *existingId = [[NSArray alloc] initWithArray:existingNotifId];
+    
     PFUser *user = [PFUser currentUser];
     if (user) {
         PFQuery *query = [PFQuery queryWithClassName:@"Notifications"];
         
         [query whereKey:@"receiverId" equalTo:user.objectId];
-        
+        if ([existingId count]) {
+            [query whereKey:@"objectId" notContainedIn:existingId]; //Do not download the existing notification
+        }
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error){
                 NSLog(@"Error %@ %@", error, [error userInfo]);
             }else{
                 NSLog(@"Downloaded %lu object", (unsigned long)[objects count]);
-                [self loadNotificationsFromParseArray:objects intoContext:self.databaseContext];
+                if ([objects count]){   //Load only when there is notification
+                    [self loadNotificationsFromParseArray:objects intoContext:self.databaseContext];
+                }
             }
         }];
     }
-    
 }
 
 - (void)startNotificationFetch:(NSTimer *)timer
 {
     [self startNotificationFetch];
 }
-
-// gets the Flickr photo dictionaries out of the url and puts them into Core Data
-// this was moved here after lecture to give you an example of how to declare a method that takes a block as an argument
-// and because we now do this both as part of our background session delegate handler and when background fetch happens
 
 - (void)loadNotificationsFromParseArray:(NSArray *)results intoContext:(NSManagedObjectContext *)context
 {
@@ -196,38 +196,24 @@
             NSLog(@"load into context");
             [Notification loadNotificationsFromParseArray:results intoManagedObjectContext:context];
             // set Badge value
-            NSLog(@"Set badge value");
-            NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"notifiBadgge"];
-            if (number) {
-                UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
-                NSString *notifiBadge = [[NSString alloc]initWithFormat:@"%@",number];
-                [[[[tabBarController tabBar] items] objectAtIndex:3] setBadgeValue:notifiBadge];
-            }
+            [self setNotificationBadgeValue];
         }];
     }
 }
 
-#pragma mark - Facebook
-
-// Facebook
-
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation {
-    return [FBAppCall handleOpenURL:url
-                  sourceApplication:sourceApplication
-                        withSession:[PFFacebookUtils session]];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-      // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+- (void)setNotificationBadgeValue
+{
+    NSLog(@"Set badge value");
+    NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"notifiBadgge"];
+    if (number) {
+        UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+        NSString *notifiBadge = [[NSString alloc]initWithFormat:@"%@",number];
+        [[[[tabBarController tabBar] items] objectAtIndex:3] setBadgeValue:notifiBadge];
+    }
 }
 
 
-
-// Reachability
+#pragma mark - Reachability
 -(void) reachabilityChanged:(NSNotification *)notice
 {
     // called after network status changes
@@ -256,8 +242,7 @@
 }
 
 
-
-// Set the navigation bar
+#pragma mark - navigation bar
 - (void)setupAppearance
 {
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
@@ -267,33 +252,22 @@
     
 }
 
-							
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+
+#pragma mark - Facebook
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    return [FBAppCall handleOpenURL:url
+                  sourceApplication:sourceApplication
+                        withSession:[PFFacebookUtils session]];
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    [[PFFacebookUtils session] close];
-
-}
-
-#pragma mark - Facebook & Image
 - (void)fetchFBAccount
 {
     PFUser *user = [PFUser currentUser];
@@ -308,9 +282,9 @@
             
             NSString *facebookID = userData[@"id"];
             NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
-           
+            
             // Do not update the pic everytime
-           // self.imageURL = [NSURL URLWithString:[pictureURL absoluteString]];
+            // self.imageURL = [NSURL URLWithString:[pictureURL absoluteString]];
             
             NSDictionary *originalData = user[@"profile"];
             NSMutableDictionary *userProfile;
@@ -381,5 +355,31 @@
 }
 
 
+#pragma mark - App Delegate
+							
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
+    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+}
+
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[PFFacebookUtils session] close];
+
+}
 
 @end

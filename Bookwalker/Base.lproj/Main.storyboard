@@ -1503,7 +1503,7 @@
         <!--Navigation Controller - More-->
         <scene sceneID="EJQ-nA-JjT">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oX2-KM-Za6" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oX2-KM-Za6" customClass="NavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="More" image="menu" id="8DO-hP-qgt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="CeB-Lk-rQP">
@@ -1540,7 +1540,7 @@
         <!--Navigation Controller - Notifications-->
         <scene sceneID="VPw-T9-KEf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Oh-Ud-oa8" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Oh-Ud-oa8" customClass="NavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Notifications" image="globe" id="FAY-1k-agj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="25q-0c-BHR">
@@ -1575,7 +1575,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Cbx-zG-7NM"/>
         <segue reference="XjY-4T-GLX"/>
-        <segue reference="qFP-HL-GvF"/>
+        <segue reference="YgH-9Z-I47"/>
         <segue reference="TMq-MX-CKy"/>
         <segue reference="VkW-z2-a66"/>
     </inferredMetricsTieBreakers>

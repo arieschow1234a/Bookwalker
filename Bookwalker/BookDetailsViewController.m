@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIView *noteView;
 @property (weak, nonatomic) IBOutlet UIView *infoView;
+@property (weak, nonatomic) IBOutlet UIButton *wishButton;
 
 @end
 
@@ -38,16 +39,18 @@
     self.infoView.hidden = YES;
 
     //If it is from notifications
-    if (!self.book && self.bookId) {
-        PFQuery *query = [PFQuery queryWithClassName:@"Books"];
-        [query getObjectInBackgroundWithId:self.bookId block:^(PFObject *object, NSError *error) {
-            if (error){
-                NSLog(@"Error %@ %@", error, [error userInfo]);
-            }else{
-                self.book = object;
-                [self bookSetting];
-            }
-        }];
+    if (!self.book) {
+        if (self.bookId) {
+            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+            [query getObjectInBackgroundWithId:self.bookId block:^(PFObject *object, NSError *error) {
+                if (error){
+                    NSLog(@"Error %@ %@", error, [error userInfo]);
+                }else{
+                    self.book = object;
+                    [self bookSetting];
+                }
+            }];
+        }
     }else{
         [self bookSetting];
     }
@@ -59,7 +62,7 @@
     self.titleLabel.text = [self.book objectForKey:@"title"];
     self.authorLabel.text = [self.book objectForKey:@"author"];
     self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
-    self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@",[self.book objectForKey:@"holderName"]];
+    self.holderLabel.text = [[NSString alloc]initWithFormat:@"%@",[self.book objectForKey:@"holderName"]];
     
     if ([self.book[@"note"] isKindOfClass:[NSString class]]){
         self.noteTextView.text = [NSString stringWithFormat:@"%@",self.book[@"note"]];
@@ -70,8 +73,15 @@
         NSArray *preHolders = self.book[@"previousHolderName"];
         NSString *result = [[preHolders valueForKey:@"description"] componentsJoinedByString:@", "];
         
-        self.preHolderLabel.text = [NSString stringWithFormat:@"Prev: %@", result];
+        self.preHolderLabel.text = [NSString stringWithFormat:@"Journey:%@", result];
     }
+    PFUser *user = [PFUser currentUser];
+        if ([user[@"wishBookId"] containsObject:self.book.objectId]) {
+        [self.wishButton setTitle:@"Remove" forState:UIControlStateNormal];
+    }else{
+        [self.wishButton setTitle:@"Wishlist" forState:UIControlStateNormal];
+    }
+    
     PFFile *imagefile = [self.book objectForKey:@"file"];
     if (imagefile) {
         [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -163,6 +173,29 @@
     }
 }
 
+- (IBAction)addWishlist:(id)sender {
+    PFUser *user = [PFUser currentUser];
+    NSArray *wishes = @[self.book[@"title"], self.book[@"author"]];
+    if ([self.wishButton.currentTitle isEqualToString:@"Wishlist"]){
+        [self.wishButton setTitle:@"Remove" forState:UIControlStateNormal];
+        [user addObjectsFromArray:wishes forKey:@"wishlist"];
+        [user addObject:self.book.objectId forKey:@"wishBookId"];
+        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                NSLog(@"add wish");
+            }
+        }];
+    }else{
+        [self.wishButton setTitle:@"Wishlist" forState:UIControlStateNormal];
+        [user removeObject:self.book[@"title"] forKey:@"wishlist"];
+        [user removeObject:self.book.objectId forKey:@"wishBookId"];
+        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                NSLog(@"remove wish");
+            }
+        }];
+    }
+}
 
 
 

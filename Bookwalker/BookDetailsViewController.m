@@ -29,7 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *wishButton;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic)NSArray *previousHolderId;
+@property (strong, nonatomic)NSMutableArray *previousHolder;
 @end
 
 @implementation BookDetailsViewController
@@ -72,13 +72,20 @@
         self.noteTextView.text = @"No note from holder";
     }
     if (self.book[@"previousHolderName"]) {
-        NSArray *preHolders = self.book[@"previousHolderName"];
-        NSString *result = [[preHolders valueForKey:@"description"] componentsJoinedByString:@", "];
-        
-        self.preHolderLabel.text = [NSString stringWithFormat:@"Journey:%@", result];
+     //   NSArray *preHolders = self.book[@"previousHolderName"];
+     //   NSString *result = [[preHolders valueForKey:@"description"] componentsJoinedByString:@", "]
+     //   self.preHolderLabel.text = [NSString stringWithFormat:@"Journey:%@", result];
     }
-    if (self.book[@"previousHolderId"]) {
-        self.previousHolderId = self.book[@"previousHolderId"];
+    if ([self.book[@"previousHolderId"] count]) {
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"objectId" containedIn:self.book[@"previousHolderId"]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                NSLog(@"%lu", (unsigned long)[objects count]);
+                self.previousHolder = [[NSMutableArray alloc]initWithArray:objects];
+            }
+            
+        }];
     }
     PFUser *user = [PFUser currentUser];
         if ([user[@"wishBookId"] containsObject:self.book.objectId]) {
@@ -130,9 +137,9 @@
     //self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
 }
 
-- (void)setPreviousHolderId:(NSArray *)previousHolderId
+- (void)setPreviousHolder:(NSMutableArray *)previousHolder
 {
-    _previousHolderId = previousHolderId;
+    _previousHolder = previousHolder;
     [self setJourneyImage];
 }
 
@@ -141,46 +148,48 @@
     // Adjust scroll view content size, set background colour and turn on paging
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    NSLog(@"%u", ([self.previousHolderId count]/3));
-    
-    self.scrollView.contentSize = self.previousHolderId ? CGSizeMake(60 * [self.previousHolderId count], self.scrollView.frame.size.height) : CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    self.scrollView.contentSize = self.previousHolder? CGSizeMake(60 * [self.previousHolder count], self.scrollView.frame.size.height) : CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height);
     //self.scrollView.pagingEnabled=YES;
     //self.scrollView.backgroundColor = [UIColor grayColor];
 
     // Generate content for our scroll view using the frame height and width as the reference point
     int i = 0;
-    while (i<[self.previousHolderId count]) {
+    while (i<[self.previousHolder count]) {
         
         UIImageView *views = [[UIImageView alloc]
                          initWithFrame:CGRectMake((self.scrollView.frame.size.width/ 3) *i, 0,
                                                   (self.scrollView.frame.size.width/ 3) -10, self.scrollView.frame.size.height)];
         //views.backgroundColor=[UIColor yellowColor];
-        NSString *preHolderId = self.previousHolderId[i];
-        NSLog(@"%@", preHolderId);
-        PFQuery *query = [PFUser query];
-        [query whereKey:@"objectId" equalTo:preHolderId];
-        [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
-            PFFile *imagefile = object[@"file"];
+        PFObject *preHolder = self.previousHolder[i];
+            PFFile *imagefile = preHolder[@"file"];
             if (imagefile) {
-                NSLog(@"there is image");
                 [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
                     if (!error) {
                         UIImage *image = [UIImage imageWithData:imageData];
                         views.image = image;
+                        [views setTag:i];
+                        [views setUserInteractionEnabled:YES];
+                        UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
+                        [singleTap setNumberOfTapsRequired:1];
+                        [views addGestureRecognizer:singleTap];
+                        [self.scrollView addSubview:views];
+                        
+                        
                         
                     }
                 }];
             }else{
+                //Now assume all use FB log in so everyone gets a image else, use the next line.
                 //views.image = [UIImage imageNamed:@"bookcover"];
             }
-            [views setTag:i];
-            [self.scrollView addSubview:views];
-            
-        }];
-        i++;
+    i++;
     }
 }
-
+-(void)singleTapping:(UIGestureRecognizer *)recognizer
+{
+    [self performSegueWithIdentifier:@"Show Previous Holder" sender:recognizer];
+    NSLog(@"image click:%ld", (long)recognizer.view.tag);
+}
 
 /*
  - (void) buttonClicked: (id)sender
@@ -201,7 +210,16 @@
         UINavigationController *navigationController = segue.destinationViewController;
         SendRequestVC *srvc = (SendRequestVC *)navigationController.topViewController;
         srvc.book = self.book;
+        
+    }else if([segue.identifier isEqualToString:@"Show Previous Holder"]){
+        UIViewController *vc = segue.destinationViewController;
+        UIGestureRecognizer *recognizer = sender;
+        NSString *str = [NSString stringWithFormat:@"image click:%ld", (long)recognizer.view.tag];
+        vc.title = str;
     }
+    
+    
+    
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender

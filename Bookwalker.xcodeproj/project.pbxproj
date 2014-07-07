@@ -254,6 +254,10 @@
 				213FF152191D065D003B166B /* BookDetailsViewController.m */,
 				21F91CE61945CD1A00B2A5C4 /* SendRequestVC.h */,
 				21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */,
+				21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */,
+				21CDCA1019247BED00CA9CA1 /* BooksTVC.m */,
+				21B24F0819289DB8002174E2 /* BookCell.h */,
+				21B24F0919289DB8002174E2 /* BookCell.m */,
 			);
 			name = AllBooks;
 			sourceTree = "<group>";
@@ -278,10 +282,6 @@
 			children = (
 				2107A5A2192D1F2E005D4B69 /* BWHelper.h */,
 				2107A5A3192D1F2E005D4B69 /* BWHelper.m */,
-				21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */,
-				21CDCA1019247BED00CA9CA1 /* BooksTVC.m */,
-				21B24F0819289DB8002174E2 /* BookCell.h */,
-				21B24F0919289DB8002174E2 /* BookCell.m */,
 				213FF125191C8DAD003B166B /* TPKeyboardAvoidingScrollView.h */,
 				213FF126191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m */,
 				21609EF81949A9A10077717E /* Reachability.h */,

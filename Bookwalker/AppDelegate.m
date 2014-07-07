@@ -111,14 +111,16 @@
     
     if (self.databaseContext){
         NSLog(@"databasecontext available");
+        /*
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
         NSError *error;
         NSArray *matches = [self.databaseContext executeFetchRequest:request error:&error];
         for (Notification *notif in matches){
             NSLog(@"%@", notif.objectId);
-           // [self.databaseContext deleteObject:notif];
+            [self.databaseContext deleteObject:notif];
             
         }
+        */
         // this timer will fire only when we are in the foreground
         self.notificationForegroundFetchTimer = [NSTimer scheduledTimerWithTimeInterval:FOREGROUND_NOTIFICATION_FETCH_INTERVAL
                                                                            target:self
@@ -135,7 +137,6 @@
         // it would make NO SENSE to listen to this radio station in a View Controller that was segued to, for example
         // (but that's okay because a segued-to View Controller would presumably be "prepared" by being given a context to work in)
         //NSDictionary *userInfo = self.databaseContext ? @{DatabaseAvailabilityContext : self.databaseContext} : nil;
-        NSLog(@"UserInfo");
         NSDictionary *userInfo = @{DatabaseAvailabilityContext : self.databaseContext};
         [[NSNotificationCenter defaultCenter] postNotificationName:DatabaseAvailabilityNotification
                                                             object:self

@@ -77,14 +77,13 @@
      //   self.preHolderLabel.text = [NSString stringWithFormat:@"Journey:%@", result];
     }
     if ([self.book[@"previousHolderId"] count]) {
+        self.preHolderLabel.text = [NSString stringWithFormat:@"Previous reader:%lu", (unsigned long)[self.book[@"previousHolderId"] count]];
         PFQuery *query = [PFUser query];
         [query whereKey:@"objectId" containedIn:self.book[@"previousHolderId"]];
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (!error) {
-                NSLog(@"%lu", (unsigned long)[objects count]);
                 self.previousHolder = [[NSMutableArray alloc]initWithArray:objects];
             }
-            
         }];
     }
     PFUser *user = [PFUser currentUser];
@@ -159,7 +158,7 @@
         UIImageView *views = [[UIImageView alloc]
                          initWithFrame:CGRectMake((self.scrollView.frame.size.width/ 3) *i, 0,
                                                   (self.scrollView.frame.size.width/ 3) -10, self.scrollView.frame.size.height)];
-        //views.backgroundColor=[UIColor yellowColor];
+        views.backgroundColor=[UIColor yellowColor];
         PFObject *preHolder = self.previousHolder[i];
             PFFile *imagefile = preHolder[@"file"];
             if (imagefile) {
@@ -174,13 +173,17 @@
                         [views addGestureRecognizer:singleTap];
                         [self.scrollView addSubview:views];
                         
-                        
-                        
                     }
                 }];
             }else{
                 //Now assume all use FB log in so everyone gets a image else, use the next line.
                 //views.image = [UIImage imageNamed:@"bookcover"];
+                [views setTag:i];
+                [views setUserInteractionEnabled:YES];
+                UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
+                [singleTap setNumberOfTapsRequired:1];
+                [views addGestureRecognizer:singleTap];
+                [self.scrollView addSubview:views];
             }
     i++;
     }
@@ -188,7 +191,6 @@
 -(void)singleTapping:(UIGestureRecognizer *)recognizer
 {
     [self performSegueWithIdentifier:@"Show Previous Holder" sender:recognizer];
-    NSLog(@"image click:%ld", (long)recognizer.view.tag);
 }
 
 /*
@@ -206,6 +208,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     if([segue.identifier isEqualToString:@"Request Book"]){
         UINavigationController *navigationController = segue.destinationViewController;
         SendRequestVC *srvc = (SendRequestVC *)navigationController.topViewController;
@@ -282,7 +285,7 @@
         [user addObject:self.book.objectId forKey:@"wishBookId"];
         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                NSLog(@"add wish");
+               // NSLog(@"add wish");
             }
         }];
     }else{
@@ -291,7 +294,7 @@
         [user removeObject:self.book.objectId forKey:@"wishBookId"];
         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                NSLog(@"remove wish");
+              //  NSLog(@"remove wish");
             }
         }];
     }

@@ -23,7 +23,6 @@
 
 - (void)awakeFromNib
 {
-    NSLog(@"Testing HI");
     [[NSNotificationCenter defaultCenter] addObserverForName:DatabaseAvailabilityNotification
                                                       object:nil
                                                        queue:nil
@@ -83,7 +82,7 @@
             NSError *error;
             NSArray *matches = [self.managedObjectContext executeFetchRequest:request error:&error];
             self.notifications = [NSMutableArray arrayWithArray:matches];
-            NSLog(@"Notification: %@", matches);
+            //NSLog(@"Notification: %@", matches);
     }
 }
 
@@ -125,14 +124,12 @@
     if ([cell.reuseIdentifier isEqualToString:@"notification cell"]) {
         Notification *notification = [self.notifications objectAtIndex:indexPath.row];
         NSString *type = notification.type;
-        NSLog(@"%@", type);
         if (type) {
             if ([type isEqualToString:@"newRequest"]) {
                 [self performSegueWithIdentifier:@"Show Request" sender:cell];
                 
-            }else if([type isEqualToString:@"cancelRequest"] || [type isEqualToString:@"declineRequest"]){
-                [self performSegueWithIdentifier:@"Show Cancelled Book" sender:cell];
-                
+            }else if([type isEqualToString:@"cancelRequest"] || [type isEqualToString:@"declineRequest"] || [type isEqualToString:@"wishBook"] || [type isEqualToString:@"interestedBook"]){
+                [self performSegueWithIdentifier:@"Show Book" sender:cell];
             }
         }
     }
@@ -149,7 +146,7 @@
     if([segue.identifier isEqualToString:@"Show Request"]){
     //    RequestTableViewController *rtvc = (RequestTableViewController *)segue.destinationViewController;
         
-    }else if([segue.identifier isEqualToString:@"Show Cancelled Book"]){
+    }else if([segue.identifier isEqualToString:@"Show Book"]){
         BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
         bdvc.bookId = notification.bookObjectId;
     }

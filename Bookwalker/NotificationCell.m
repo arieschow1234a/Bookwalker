@@ -43,6 +43,12 @@
     
     }else if ([type isEqualToString:@"cancelRequest"]) {
         self.contentTextView.text = [NSString stringWithFormat:@"%@ cancelled requesting your book: %@.",senderName, bookTitle];
+    
+    }else if ([type isEqualToString:@"wishBook"]) {
+        self.contentTextView.text = [NSString stringWithFormat:@"%@ on your wish list is now available.", bookTitle];
+    
+    }else if ([type isEqualToString:@"interestedBook"]) {
+        self.contentTextView.text = [NSString stringWithFormat:@"We think you may like this book: %@.", bookTitle];
     }
     
     NSString *senderId = notification.senderId;

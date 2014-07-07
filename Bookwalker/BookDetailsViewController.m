@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UIView *infoView;
 @property (weak, nonatomic) IBOutlet UIButton *wishButton;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic)NSArray *previousHolderId;
 @end
 
 @implementation BookDetailsViewController
@@ -37,7 +39,7 @@
     [super viewDidLoad];
     
     self.infoView.hidden = YES;
-
+    //self.previousHolderId = @[@"a", @"b", @"c", @"d", @"e"];
     //If it is from notifications
     if (!self.book) {
         if (self.bookId) {
@@ -75,6 +77,9 @@
         
         self.preHolderLabel.text = [NSString stringWithFormat:@"Journey:%@", result];
     }
+    if (self.book[@"previousHolderId"]) {
+        self.previousHolderId = self.book[@"previousHolderId"];
+    }
     PFUser *user = [PFUser currentUser];
         if ([user[@"wishBookId"] containsObject:self.book.objectId]) {
         [self.wishButton setTitle:@"Remove" forState:UIControlStateNormal];
@@ -110,6 +115,83 @@
 
 }
 
+#pragma mark - scroll view
+- (void)setScrollView:(UIScrollView *)scrollView
+{
+    _scrollView = scrollView;
+    
+    // next three lines are necessary for zooming
+    //_scrollView.minimumZoomScale = 0.2;
+    //_scrollView.maximumZoomScale = 2.0;
+    //_scrollView.delegate = self;
+    
+    // next line is necessary in case self.image gets set before self.scrollView does
+    // for example, prepareForSegue:sender: is called before outlet-setting phase
+    //self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
+}
+
+- (void)setPreviousHolderId:(NSArray *)previousHolderId
+{
+    _previousHolderId = previousHolderId;
+    [self setJourneyImage];
+}
+
+- (void)setJourneyImage
+{
+    // Adjust scroll view content size, set background colour and turn on paging
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    NSLog(@"%u", ([self.previousHolderId count]/3));
+    
+    self.scrollView.contentSize = self.previousHolderId ? CGSizeMake(60 * [self.previousHolderId count], self.scrollView.frame.size.height) : CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    //self.scrollView.pagingEnabled=YES;
+    //self.scrollView.backgroundColor = [UIColor grayColor];
+
+    // Generate content for our scroll view using the frame height and width as the reference point
+    int i = 0;
+    while (i<[self.previousHolderId count]) {
+        
+        UIImageView *views = [[UIImageView alloc]
+                         initWithFrame:CGRectMake((self.scrollView.frame.size.width/ 3) *i, 0,
+                                                  (self.scrollView.frame.size.width/ 3) -10, self.scrollView.frame.size.height)];
+        //views.backgroundColor=[UIColor yellowColor];
+        NSString *preHolderId = self.previousHolderId[i];
+        NSLog(@"%@", preHolderId);
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"objectId" equalTo:preHolderId];
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+            PFFile *imagefile = object[@"file"];
+            if (imagefile) {
+                NSLog(@"there is image");
+                [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                    if (!error) {
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        views.image = image;
+                        
+                    }
+                }];
+            }else{
+                //views.image = [UIImage imageNamed:@"bookcover"];
+            }
+            [views setTag:i];
+            [self.scrollView addSubview:views];
+            
+        }];
+        i++;
+    }
+}
+
+
+/*
+ - (void) buttonClicked: (id)sender
+ {
+ NSLog( @"Button clicked." );
+ }
+ Now modify the code creating the button and add the following code:
+ [button addTarget: self
+ action: @selector(buttonClicked:)
+ forControlEvents: UIControlEventTouchDown];
+*/
 
 #pragma mark - navigation
 
@@ -178,7 +260,7 @@
     NSArray *wishes = @[self.book[@"title"], self.book[@"author"]];
     if ([self.wishButton.currentTitle isEqualToString:@"Wishlist"]){
         [self.wishButton setTitle:@"Remove" forState:UIControlStateNormal];
-        [user addObjectsFromArray:wishes forKey:@"wishlist"];
+        [user addObjectsFromArray:wishes forKey:@"interestedBook"];
         [user addObject:self.book.objectId forKey:@"wishBookId"];
         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
@@ -187,7 +269,7 @@
         }];
     }else{
         [self.wishButton setTitle:@"Wishlist" forState:UIControlStateNormal];
-        [user removeObject:self.book[@"title"] forKey:@"wishlist"];
+        [user removeObject:self.book[@"title"] forKey:@"interestedBook"];
         [user removeObject:self.book.objectId forKey:@"wishBookId"];
         [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {

@@ -38,6 +38,7 @@
 @property (weak, nonatomic) IBOutlet UIView *editView;
 @property (weak, nonatomic) IBOutlet UISwitch *statusSwitch;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UISwitch *freeNoteDefaultSwitch;
 
 @end
 
@@ -47,6 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.noteField.delegate = self;
     if (self.book !=nil) {
         self.isbnTextField.hidden = YES;
         self.searchButton.hidden = YES;
@@ -72,8 +74,11 @@
                 }
             }];
         }
+    }else{
+        if ([PFUser currentUser][@"freeNoteDefault"]) {
+            self.noteField.text = [PFUser currentUser][@"freeNoteDefault"];
+        }
     }
-
 }
 
 - (NSNumber *)bookStatus
@@ -121,7 +126,13 @@
     if ([segue.identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]){
         if (self.book != nil) {
             [self updateCopy];
+            if (self.freeNoteDefaultSwitch.on == YES) {
+                [self uploadFreeNoteDefault];
+            }
         }else{
+            if (self.freeNoteDefaultSwitch.on == YES) {
+                [self uploadFreeNoteDefault];
+            }
             if (self.metaBookExist) {
                 [self createBook];
             }else{
@@ -166,6 +177,21 @@
 
 
 #pragma mark - database
+
+- (void)uploadFreeNoteDefault
+{
+    PFUser *user = [PFUser currentUser];
+    user[@"freeNoteDefault"] = self.noteField.text;
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"save FreeNoteDefault");
+        }else if (error){
+            NSLog(@"Error %@ %@", error, [error userInfo]);
+        }
+    }];
+}
+
+
 
 - (void)updateCopy
 {
@@ -330,14 +356,28 @@
 {
     [self.isbnTextField resignFirstResponder];
     [self.noteField resignFirstResponder];
-    [self.activityIndicator startAnimating];
     NSString *isbn = [self.isbnTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
     if ([isbn length] == 11 || [isbn length] == 12 || [isbn length] < 10 || [isbn length] > 13 ){
         [self invalidISBNAlert];
     }else{
+        [self.activityIndicator startAnimating];
         [self fetchMetabook];
     }
+}
+
+// self.noteField delegate. Hid the keyboard
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == self.noteField) {
+        [theTextField resignFirstResponder];
+    }
+    return YES;
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    //hides keyboard when another part of layout was touched
+    [self.view endEditing:YES];
+    [super touchesBegan:touches withEvent:event];
 }
 
 

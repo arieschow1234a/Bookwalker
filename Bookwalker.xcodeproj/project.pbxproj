@@ -60,6 +60,7 @@
 		21DE54301917A3A8004C5591 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54121917A3A7004C5591 /* UIKit.framework */; };
 		21DE54381917A3A8004C5591 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 21DE54361917A3A8004C5591 /* InfoPlist.strings */; };
 		21DE543A1917A3A8004C5591 /* BookwalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DE54391917A3A8004C5591 /* BookwalkerTests.m */; };
+		21F40027196BA97400930B1E /* MoreTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F40026196BA97400930B1E /* MoreTVC.m */; };
 		21F91CE81945CD1A00B2A5C4 /* SendRequestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */; };
 /* End PBXBuildFile section */
 
@@ -160,6 +161,8 @@
 		21DE54351917A3A8004C5591 /* BookwalkerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BookwalkerTests-Info.plist"; sourceTree = "<group>"; };
 		21DE54371917A3A8004C5591 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		21DE54391917A3A8004C5591 /* BookwalkerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookwalkerTests.m; sourceTree = "<group>"; };
+		21F40025196BA97400930B1E /* MoreTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTVC.h; sourceTree = "<group>"; };
+		21F40026196BA97400930B1E /* MoreTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTVC.m; sourceTree = "<group>"; };
 		21F91CE61945CD1A00B2A5C4 /* SendRequestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRequestVC.h; sourceTree = "<group>"; };
 		21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendRequestVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +205,8 @@
 		213D55031957020C0009BB3B /* More */ = {
 			isa = PBXGroup;
 			children = (
+				21F40025196BA97400930B1E /* MoreTVC.h */,
+				21F40026196BA97400930B1E /* MoreTVC.m */,
 				21862D5D195D2915008F267C /* Account */,
 				21D2BCA519442D3C00E0B7E1 /* RecordTVC.h */,
 				21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */,
@@ -235,8 +240,8 @@
 			children = (
 				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
 				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
-				21654AB11922274900D808F2 /* RequestMessagesVC.h */,
 				21654AB21922274900D808F2 /* RequestMessagesVC.m */,
+				21654AB11922274900D808F2 /* RequestMessagesVC.h */,
 				2116D8E01948101F004669D3 /* RequestCell.h */,
 				2116D8E11948101F004669D3 /* RequestCell.m */,
 			);
@@ -541,6 +546,7 @@
 				21D2BCA719442D3C00E0B7E1 /* RecordTVC.m in Sources */,
 				213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				211822EC195E9FEA008C1420 /* NotificationCell.m in Sources */,
+				21F40027196BA97400930B1E /* MoreTVC.m in Sources */,
 				21862D5B195D28F9008F267C /* NotificationsTVC.m in Sources */,
 				21544E841925D66400C20B08 /* NavigationController.m in Sources */,
 				2192840D195C1A3B00454236 /* EditAccountVC.m in Sources */,

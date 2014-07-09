@@ -10,7 +10,6 @@
 
 @interface NotificationCell()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-
 @property (nonatomic, strong) UIImage *image;
 @end
 

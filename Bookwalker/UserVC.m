@@ -23,6 +23,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self fetchUserImage];
+    NSLog(@"%@", self.user);
 }
 
 /*
@@ -35,5 +37,19 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)fetchUserImage
+{
+    PFFile *imagefile = self.user[@"file"];
+    if (imagefile) {
+        [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+            if (!error) {
+                UIImage *image = [UIImage imageWithData:imageData];
+                self.userImageView.image = image;
+            }
+        }];
+    }
+}
+
 
 @end

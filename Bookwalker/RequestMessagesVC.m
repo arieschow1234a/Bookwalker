@@ -68,7 +68,6 @@
 {
     [super viewWillAppear:animated];
     [self retrieveRequestOfABook];
-    
 }
 
 - (NSString *)requesterId
@@ -286,11 +285,19 @@
         if (error) {
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
+            [self updateHolders];
             [self updateBookInfo];
         }
     }];
+}
 
-
+- (void)updateHolders{
+    [PFCloud callFunctionInBackground:@"updateHolders"
+                       withParameters:@{@"newHolderObjectId": self.requestBook[@"requesterId"],
+                                        @"oldHolderObjectId": self.requestBook[@"holderId"],
+                                        @"bookObjectId" : self.requestBook.objectId}
+                                block:^(id object, NSError *error) {
+                                }];
 }
 
 - (void)updateBookInfo

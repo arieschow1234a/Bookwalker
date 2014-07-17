@@ -331,6 +331,12 @@
     [book saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [self uploadImageOfBook:book];
+            [user addUniqueObject:book.objectId forKey:@"holdingBooksId"];
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    NSLog(@"Error %@ %@", error, [error userInfo]);
+                }
+            }];
         }
     }];
     

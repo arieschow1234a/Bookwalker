@@ -9,6 +9,7 @@
 #import "BookDetailsViewController.h"
 #import "BWHelper.h"
 #import "SendRequestVC.h"
+#import "UserVC.h"
 
 @interface BookDetailsViewController ()
 
@@ -72,9 +73,6 @@
         self.noteTextView.text = @"No note from holder";
     }
     if (self.book[@"previousHolderName"]) {
-     //   NSArray *preHolders = self.book[@"previousHolderName"];
-     //   NSString *result = [[preHolders valueForKey:@"description"] componentsJoinedByString:@", "]
-     //   self.preHolderLabel.text = [NSString stringWithFormat:@"Journey:%@", result];
     }
     if ([self.book[@"previousHolderId"] count]) {
         self.preHolderLabel.text = [NSString stringWithFormat:@"Previous reader:%lu", (unsigned long)[self.book[@"previousHolderId"] count]];
@@ -215,10 +213,11 @@
         srvc.book = self.book;
         
     }else if([segue.identifier isEqualToString:@"Show Previous Holder"]){
-        UIViewController *vc = segue.destinationViewController;
+        UserVC *uvc = segue.destinationViewController;
         UIGestureRecognizer *recognizer = sender;
-        NSString *str = [NSString stringWithFormat:@"image click:%ld", (long)recognizer.view.tag];
-        vc.title = str;
+        PFUser *prevHolder = self.previousHolder[recognizer.view.tag];
+        uvc.user = prevHolder;
+        uvc.title = prevHolder[@"name"];
     }
     
     

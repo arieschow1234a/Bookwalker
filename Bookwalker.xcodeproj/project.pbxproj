@@ -245,8 +245,8 @@
 			children = (
 				213FF141191C9BDB003B166B /* RequestTableViewController.h */,
 				213FF142191C9BDB003B166B /* RequestTableViewController.m */,
-				21654AB21922274900D808F2 /* RequestMessagesVC.m */,
 				21654AB11922274900D808F2 /* RequestMessagesVC.h */,
+				21654AB21922274900D808F2 /* RequestMessagesVC.m */,
 				2116D8E01948101F004669D3 /* RequestCell.h */,
 				2116D8E11948101F004669D3 /* RequestCell.m */,
 			);

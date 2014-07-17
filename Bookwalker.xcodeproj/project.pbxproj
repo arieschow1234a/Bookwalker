@@ -60,6 +60,7 @@
 		21DE54301917A3A8004C5591 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DE54121917A3A7004C5591 /* UIKit.framework */; };
 		21DE54381917A3A8004C5591 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 21DE54361917A3A8004C5591 /* InfoPlist.strings */; };
 		21DE543A1917A3A8004C5591 /* BookwalkerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DE54391917A3A8004C5591 /* BookwalkerTests.m */; };
+		21E17AAE196D05F800F7817A /* UserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E17AAD196D05F800F7817A /* UserVC.m */; };
 		21F40027196BA97400930B1E /* MoreTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F40026196BA97400930B1E /* MoreTVC.m */; };
 		21F91CE81945CD1A00B2A5C4 /* SendRequestVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21F91CE71945CD1A00B2A5C4 /* SendRequestVC.m */; };
 /* End PBXBuildFile section */
@@ -161,6 +162,8 @@
 		21DE54351917A3A8004C5591 /* BookwalkerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "BookwalkerTests-Info.plist"; sourceTree = "<group>"; };
 		21DE54371917A3A8004C5591 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		21DE54391917A3A8004C5591 /* BookwalkerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BookwalkerTests.m; sourceTree = "<group>"; };
+		21E17AAC196D05F700F7817A /* UserVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVC.h; sourceTree = "<group>"; };
+		21E17AAD196D05F800F7817A /* UserVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserVC.m; sourceTree = "<group>"; };
 		21F40025196BA97400930B1E /* MoreTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTVC.h; sourceTree = "<group>"; };
 		21F40026196BA97400930B1E /* MoreTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTVC.m; sourceTree = "<group>"; };
 		21F91CE61945CD1A00B2A5C4 /* SendRequestVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRequestVC.h; sourceTree = "<group>"; };
@@ -205,6 +208,8 @@
 		213D55031957020C0009BB3B /* More */ = {
 			isa = PBXGroup;
 			children = (
+				21E17AAC196D05F700F7817A /* UserVC.h */,
+				21E17AAD196D05F800F7817A /* UserVC.m */,
 				21F40025196BA97400930B1E /* MoreTVC.h */,
 				21F40026196BA97400930B1E /* MoreTVC.m */,
 				21862D5D195D2915008F267C /* Account */,
@@ -561,6 +566,7 @@
 				21DE541B1917A3A7004C5591 /* main.m in Sources */,
 				21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */,
 				21654AB31922274900D808F2 /* RequestMessagesVC.m in Sources */,
+				21E17AAE196D05F800F7817A /* UserVC.m in Sources */,
 				21B24F0A19289DB8002174E2 /* BookCell.m in Sources */,
 				2107A5A4192D1F2E005D4B69 /* BWHelper.m in Sources */,
 				213FF153191D065D003B166B /* BookDetailsViewController.m in Sources */,

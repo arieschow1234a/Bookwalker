@@ -89,8 +89,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="zag-oA-oqD">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
                         <outlet property="searchDisplayController" destination="ZY8-EB-LhB" id="sEF-9j-erP"/>
+                        <segue destination="Gsy-j9-Uqq" kind="push" identifier="Show Login" id="qDb-5p-UNT"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QoV-lg-6e9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -147,10 +151,10 @@
             </objects>
             <point key="canvasLocation" x="1450" y="-860"/>
         </scene>
-        <!--View Controller-->
+        <!--UserVC-->
         <scene sceneID="dDe-HM-FIE">
             <objects>
-                <viewController id="JWr-m2-4F5" sceneMemberID="viewController">
+                <viewController id="JWr-m2-4F5" customClass="UserVC" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5kY-xv-EmS"/>
                         <viewControllerLayoutGuide type="bottom" id="O3A-V0-vUg"/>
@@ -163,14 +167,50 @@
                                 <rect key="frame" x="0.0" y="244" width="320" height="125"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="01f-Ue-ySi">
+                                <rect key="frame" x="20" y="76" width="106" height="124"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MNK-US-PzT" userLabel="Label - Name">
+                                <rect key="frame" x="134" y="76" width="166" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Release Books:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivr-6m-F3q">
+                                <rect key="frame" x="134" y="115" width="166" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pick up Books: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVG-f8-BBL">
+                                <rect key="frame" x="134" y="144" width="166" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Other books from " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXf-3s-6N3">
+                                <rect key="frame" x="20" y="215" width="216" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="0xG-LL-gnY"/>
+                    <connections>
+                        <outlet property="nameLabel" destination="MNK-US-PzT" id="WZu-Xh-RKG"/>
+                        <outlet property="otherBooksLabel" destination="GXf-3s-6N3" id="Flh-n6-L7G"/>
+                        <outlet property="pickUpLabel" destination="fVG-f8-BBL" id="SuJ-KD-zO3"/>
+                        <outlet property="releaseLabel" destination="Ivr-6m-F3q" id="SKx-ZV-uPw"/>
+                        <outlet property="userImageView" destination="01f-Ue-ySi" id="pDh-vp-dPv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oMw-TL-enz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1915" y="-855"/>
+            <point key="canvasLocation" x="2040" y="-877"/>
         </scene>
         <!--Book Details View Controller - BookWalker-->
         <scene sceneID="J3a-Sf-SfX">
@@ -459,9 +499,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <segue destination="Gsy-j9-Uqq" kind="push" identifier="Show Login" id="xUn-Iv-aIf"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hhy-2E-q4h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -879,15 +916,15 @@
         <scene sceneID="DQf-qj-R0l">
             <objects>
                 <tableViewController id="TM9-TE-rdw" customClass="MoreTVC" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="z78-WO-tWg">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="z78-WO-tWg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
                             <tableViewSection id="0nj-4K-YtM">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="vVj-jo-SZb">
-                                        <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="99" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vVj-jo-SZb" id="Hal-lC-peZ">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -908,7 +945,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="GAw-mA-Dpp">
-                                        <rect key="frame" x="0.0" y="108" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="143" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GAw-mA-Dpp" id="g73-7l-rMu">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -931,7 +968,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="dw8-JF-hhR">
-                                        <rect key="frame" x="0.0" y="152" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="187" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dw8-JF-hhR" id="HcM-Z6-Edw">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -951,7 +988,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Cxr-w8-bMI">
-                                        <rect key="frame" x="0.0" y="196" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="231" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cxr-w8-bMI" id="9Eo-rh-88K">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -970,7 +1007,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Gsy-j9-Uqq" kind="push" identifier="Show Log In" id="wzw-Jj-Xh7"/>
+                                            <segue destination="Gsy-j9-Uqq" kind="push" identifier="Show Login" id="tGu-2S-u5U"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -1701,10 +1738,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Cbx-zG-7NM"/>
-        <segue reference="qFP-HL-GvF"/>
-        <segue reference="wzw-Jj-Xh7"/>
-        <segue reference="XjY-4T-GLX"/>
+        <segue reference="A43-6Y-MLN"/>
         <segue reference="VkW-z2-a66"/>
+        <segue reference="qDb-5p-UNT"/>
+        <segue reference="qFP-HL-GvF"/>
+        <segue reference="XjY-4T-GLX"/>
     </inferredMetricsTieBreakers>
 </document>

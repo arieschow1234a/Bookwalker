@@ -40,7 +40,7 @@
     [self retrieveRequestsFromOthers];
     [self.navigationController.navigationBar setHidden:NO];
     
-    NSLog(@"%hhd", self.myReq);
+   // NSLog(@"%hhd", self.myReq);
 }
 
 - (NSMutableArray *)allRequests

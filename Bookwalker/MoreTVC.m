@@ -8,6 +8,7 @@
 
 #import "MoreTVC.h"
 #import <Parse/Parse.h>
+#import "UserVC.h"
 @interface MoreTVC ()
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -43,9 +44,14 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    //self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     if([segue.identifier isEqualToString:@"Show Login"]){
         [PFUser logOut];
+    
+    }else if([segue.identifier isEqualToString:@"Show User"]){
+        UserVC *uvc = segue.destinationViewController;
+        uvc.user = [PFUser currentUser];
+        uvc.title = [PFUser currentUser][@"name"];
     }
 }
 

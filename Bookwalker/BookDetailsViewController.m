@@ -31,6 +31,8 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic)NSMutableArray *previousHolder;
+@property (weak, nonatomic) IBOutlet UIImageView *holderImageView;
+@property (strong, nonatomic)PFUser *holder;
 @end
 
 @implementation BookDetailsViewController
@@ -40,7 +42,6 @@
     [super viewDidLoad];
     
     self.infoView.hidden = YES;
-    //self.previousHolderId = @[@"a", @"b", @"c", @"d", @"e"];
     //If it is from notifications
     if (!self.book) {
         if (self.bookId) {
@@ -62,6 +63,7 @@
 
 - (void)bookSetting
 {
+    [self fetchHolderImage];
     self.titleLabel.text = [self.book objectForKey:@"title"];
     self.authorLabel.text = [self.book objectForKey:@"author"];
     self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
@@ -117,6 +119,31 @@
         }
     }];
 
+}
+- (void)fetchHolderImage
+{
+    NSString *holderId = self.book[@"holderId"];
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"objectId" equalTo:holderId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *user, NSError *error) {
+        self.holder = (PFUser *) user;
+        PFFile *imagefile = self.holder[@"file"];
+        if (imagefile) {
+            [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:imageData];
+                    self.holderImageView.image = image;
+                }
+            }];
+        }else{
+            self.holderImageView.backgroundColor = [UIColor yellowColor];
+        }
+        [self.holderImageView setTag:1000000];
+        [self.holderImageView setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
+        [singleTap setNumberOfTapsRequired:1];
+        [self.holderImageView addGestureRecognizer:singleTap];
+    }];
 }
 
 #pragma mark - scroll view
@@ -188,7 +215,7 @@
 }
 -(void)singleTapping:(UIGestureRecognizer *)recognizer
 {
-    [self performSegueWithIdentifier:@"Show Previous Holder" sender:recognizer];
+    [self performSegueWithIdentifier:@"Show Holder" sender:recognizer];
 }
 
 /*
@@ -212,16 +239,19 @@
         SendRequestVC *srvc = (SendRequestVC *)navigationController.topViewController;
         srvc.book = self.book;
         
-    }else if([segue.identifier isEqualToString:@"Show Previous Holder"]){
+    }else if([segue.identifier isEqualToString:@"Show Holder"]){
         UserVC *uvc = segue.destinationViewController;
         UIGestureRecognizer *recognizer = sender;
-        PFUser *prevHolder = self.previousHolder[recognizer.view.tag];
-        uvc.user = prevHolder;
-        uvc.title = prevHolder[@"name"];
+        
+        if (recognizer.view.tag == 1000000) {
+            uvc.user = self.holder;
+            uvc.title = self.holder[@"name"];
+        }else{
+            PFUser *prevHolder = self.previousHolder[recognizer.view.tag];
+            uvc.user = prevHolder;
+            uvc.title = prevHolder[@"name"];
+        }
     }
-    
-    
-    
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender

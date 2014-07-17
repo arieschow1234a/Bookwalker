@@ -163,10 +163,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ba-qi-hV3">
-                                <rect key="frame" x="0.0" y="244" width="320" height="125"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </scrollView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="01f-Ue-ySi">
                                 <rect key="frame" x="20" y="76" width="100" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -177,25 +173,29 @@
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Release Books:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivr-6m-F3q">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Released Books:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivr-6m-F3q">
                                 <rect key="frame" x="134" y="76" width="166" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pick up Books: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVG-f8-BBL">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Picked up Books: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVG-f8-BBL">
                                 <rect key="frame" x="134" y="115" width="166" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Other books from " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXf-3s-6N3">
-                                <rect key="frame" x="20" y="215" width="216" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXf-3s-6N3">
+                                <rect key="frame" x="20" y="215" width="280" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="daG-lQ-LbP">
+                                <rect key="frame" x="20" y="244" width="280" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -205,12 +205,14 @@
                         <outlet property="otherBooksLabel" destination="GXf-3s-6N3" id="Flh-n6-L7G"/>
                         <outlet property="pickUpLabel" destination="fVG-f8-BBL" id="SuJ-KD-zO3"/>
                         <outlet property="releaseLabel" destination="Ivr-6m-F3q" id="SKx-ZV-uPw"/>
+                        <outlet property="scrollView" destination="daG-lQ-LbP" id="QZw-6E-CHs"/>
                         <outlet property="userImageView" destination="01f-Ue-ySi" id="pDh-vp-dPv"/>
+                        <segue destination="FKe-r4-jJz" kind="push" identifier="Show Book Details" id="bOs-4F-wsO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oMw-TL-enz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2040" y="-877"/>
+            <point key="canvasLocation" x="2320" y="-877"/>
         </scene>
         <!--Book Details View Controller - BookWalker-->
         <scene sceneID="J3a-Sf-SfX">
@@ -300,7 +302,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eeF-p6-JHw">
-                                        <rect key="frame" x="65" y="0.0" width="196" height="22"/>
+                                        <rect key="frame" x="65" y="0.0" width="150" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -327,6 +329,10 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GdN-wF-riE">
+                                        <rect key="frame" x="230" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
@@ -360,6 +366,7 @@
                         <outlet property="authorLabel" destination="IVc-Gc-O25" id="Eh1-tp-mtg"/>
                         <outlet property="bookImageView" destination="ixc-Ly-ALZ" id="ayY-c1-czL"/>
                         <outlet property="descriptionTextView" destination="ago-4O-dEk" id="sma-Df-8c0"/>
+                        <outlet property="holderImageView" destination="GdN-wF-riE" id="tez-gG-r9W"/>
                         <outlet property="holderLabel" destination="eeF-p6-JHw" id="bRn-IR-0BL"/>
                         <outlet property="infoView" destination="xYS-fb-4VU" id="N0O-al-9Kp"/>
                         <outlet property="isbn10Label" destination="BaJ-XU-8mh" id="red-r7-rbz"/>
@@ -372,7 +379,7 @@
                         <outlet property="statusLabel" destination="mA2-Zi-Xs3" id="AkI-Io-hgG"/>
                         <outlet property="titleLabel" destination="XU4-Jv-Paa" id="bqf-3V-gTN"/>
                         <outlet property="wishButton" destination="I8f-Xv-w83" id="I0h-kG-DWO"/>
-                        <segue destination="JWr-m2-4F5" kind="push" identifier="Show Previous Holder" id="hvB-F8-r2A"/>
+                        <segue destination="JWr-m2-4F5" kind="push" identifier="Show Holder" id="hvB-F8-r2A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mFS-Sj-A4u" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -943,6 +950,9 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="JWr-m2-4F5" kind="push" identifier="Show User" id="NLW-3z-qSy"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="GAw-mA-Dpp">
                                         <rect key="frame" x="0.0" y="143" width="320" height="44"/>
@@ -1738,10 +1748,11 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="A43-6Y-MLN"/>
-        <segue reference="VkW-z2-a66"/>
-        <segue reference="qDb-5p-UNT"/>
-        <segue reference="qFP-HL-GvF"/>
+        <segue reference="bOs-4F-wsO"/>
+        <segue reference="NLW-3z-qSy"/>
         <segue reference="XjY-4T-GLX"/>
+        <segue reference="qFP-HL-GvF"/>
+        <segue reference="tGu-2S-u5U"/>
+        <segue reference="VkW-z2-a66"/>
     </inferredMetricsTieBreakers>
 </document>

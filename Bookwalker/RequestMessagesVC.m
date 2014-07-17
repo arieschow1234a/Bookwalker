@@ -292,12 +292,19 @@
 }
 
 - (void)updateHolders{
-    [PFCloud callFunctionInBackground:@"updateHolders"
+    [PFCloud callFunctionInBackground:@"updateOldHolder"
                        withParameters:@{@"newHolderObjectId": self.requestBook[@"requesterId"],
                                         @"oldHolderObjectId": self.requestBook[@"holderId"],
                                         @"bookObjectId" : self.requestBook.objectId}
                                 block:^(id object, NSError *error) {
                                 }];
+    [PFCloud callFunctionInBackground:@"updateNewHolder"
+                       withParameters:@{@"newHolderObjectId": self.requestBook[@"requesterId"],
+                                        @"oldHolderObjectId": self.requestBook[@"holderId"],
+                                        @"bookObjectId" : self.requestBook.objectId}
+                                block:^(id object, NSError *error) {
+                                }];
+    
 }
 
 - (void)updateBookInfo

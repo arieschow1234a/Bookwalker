@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic)NSMutableArray *previousHolder;
 @property (weak, nonatomic) IBOutlet UIImageView *holderImageView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic)PFUser *holder;
 @end
 
@@ -44,16 +45,29 @@
     self.infoView.hidden = YES;
     //If it is from notifications
     if (!self.book) {
+        [self.activityIndicator startAnimating];
         if (self.bookId) {
+            [self.view setUserInteractionEnabled:NO];
             PFQuery *query = [PFQuery queryWithClassName:@"Books"];
             [query getObjectInBackgroundWithId:self.bookId block:^(PFObject *object, NSError *error) {
                 if (error){
                     NSLog(@"Error %@ %@", error, [error userInfo]);
+                    [self.activityIndicator stopAnimating];
+                    [self.view setUserInteractionEnabled:YES];
+                    [self bookNotExistAlert];
+                    [self.navigationController popToRootViewControllerAnimated:NO];
                 }else{
+                    [self.activityIndicator stopAnimating];
+                    [self.view setUserInteractionEnabled:YES];
                     self.book = object;
                     [self bookSetting];
                 }
             }];
+        }else{
+            [self.activityIndicator stopAnimating];
+            [self.view setUserInteractionEnabled:YES];
+            [self bookNotExistAlert];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
     }else{
         [self bookSetting];
@@ -366,14 +380,24 @@
 }
 
 - (void)someoneRequestedAlert
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                                message:@"Someone have requested this book but we can notify you when the book is available."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Put into Wishlist"
-                                                      otherButtonTitles:@"Cancel", nil];
-            [alertView show];
-        }
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                        message:@"Someone have requested this book but we can notify you when the book is available."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Put into Wishlist"
+                                              otherButtonTitles:@"Cancel", nil];
+    [alertView show];
+}
+
+- (void)bookNotExistAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                        message:@"The book is no longer exist! The holder may have deleted the book."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
 
 @end

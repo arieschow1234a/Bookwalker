@@ -226,6 +226,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="3Pl-Oa-zd5">
+                                <rect key="frame" x="141" y="222" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ixc-Ly-ALZ">
                                 <rect key="frame" x="20" y="70" width="85" height="110"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -363,6 +368,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activityIndicator" destination="3Pl-Oa-zd5" id="7i6-iw-3fj"/>
                         <outlet property="authorLabel" destination="IVc-Gc-O25" id="Eh1-tp-mtg"/>
                         <outlet property="bookImageView" destination="ixc-Ly-ALZ" id="ayY-c1-czL"/>
                         <outlet property="descriptionTextView" destination="ago-4O-dEk" id="sma-Df-8c0"/>
@@ -1807,9 +1813,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="wtd-Yz-Y26"/>
         <segue reference="qFP-HL-GvF"/>
-        <segue reference="NLW-3z-qSy"/>
         <segue reference="tGu-2S-u5U"/>
         <segue reference="Mln-Ml-2sC"/>
+        <segue reference="hvB-F8-r2A"/>
         <segue reference="VkW-z2-a66"/>
     </inferredMetricsTieBreakers>
 </document>

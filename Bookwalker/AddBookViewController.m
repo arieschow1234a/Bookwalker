@@ -368,6 +368,7 @@
         [self invalidISBNAlert];
     }else{
         [self.activityIndicator startAnimating];
+        [self.view setUserInteractionEnabled:NO];
         [self fetchMetabook];
     }
 }
@@ -399,6 +400,7 @@
             [self fetchAnobii];
         }else{
             [self.activityIndicator stopAnimating];
+            [self.view setUserInteractionEnabled:YES];
            // NSLog(@"fetch metabook");
             self.metaBookExist = YES;
             self.metaBook = metaBook;
@@ -466,6 +468,7 @@
                     
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.activityIndicator stopAnimating];
+                        [self.view setUserInteractionEnabled:YES];
                         self.titleTextView.text = title;
                         self.imageURL = [BWHelper AnobiiImageURLforbookWithId:aBookId];
                         self.authorTextView.text = author;
@@ -612,6 +615,7 @@
                                                             // so we must dispatch this back to the main queue
                                                             dispatch_async(dispatch_get_main_queue(), ^{
                                                                 [self.activityIndicator stopAnimating];
+                                                                [self.view setUserInteractionEnabled:YES];
                                                                 self.titleTextView.text = title;
                                                                 self.authorTextView.text = author;
                                                                 self.imageURL = [NSURL URLWithString:thumbnail];

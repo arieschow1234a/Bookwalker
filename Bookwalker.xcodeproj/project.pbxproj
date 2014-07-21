@@ -42,6 +42,7 @@
 		21A67BBB1962D6EE00D6FB54 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A67BB81962D6EE00D6FB54 /* Notification.m */; };
 		21A67BBC1962D6EE00D6FB54 /* Notification+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A67BBA1962D6EE00D6FB54 /* Notification+Parse.m */; };
 		21B24F0A19289DB8002174E2 /* BookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21B24F0919289DB8002174E2 /* BookCell.m */; };
+		21B27757197CC686009A5857 /* WishListTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21B27756197CC686009A5857 /* WishListTVC.m */; };
 		21CDCA1119247BED00CA9CA1 /* BooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1019247BED00CA9CA1 /* BooksTVC.m */; };
 		21CDCA1419247DFB00CA9CA1 /* AllBooksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA1319247DFB00CA9CA1 /* AllBooksTVC.m */; };
 		21CDCA171924810600CA9CA1 /* BookShelfTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 21CDCA161924810600CA9CA1 /* BookShelfTVC.m */; };
@@ -135,6 +136,8 @@
 		21A67BBA1962D6EE00D6FB54 /* Notification+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Notification+Parse.m"; path = "Bookwalker/Notification+Parse.m"; sourceTree = "<group>"; };
 		21B24F0819289DB8002174E2 /* BookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCell.h; sourceTree = "<group>"; };
 		21B24F0919289DB8002174E2 /* BookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCell.m; sourceTree = "<group>"; };
+		21B27755197CC686009A5857 /* WishListTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WishListTVC.h; sourceTree = "<group>"; };
+		21B27756197CC686009A5857 /* WishListTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WishListTVC.m; sourceTree = "<group>"; };
 		21CDCA0F19247BED00CA9CA1 /* BooksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BooksTVC.h; sourceTree = "<group>"; };
 		21CDCA1019247BED00CA9CA1 /* BooksTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BooksTVC.m; sourceTree = "<group>"; };
 		21CDCA1219247DFB00CA9CA1 /* AllBooksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllBooksTVC.h; sourceTree = "<group>"; };
@@ -208,10 +211,12 @@
 		213D55031957020C0009BB3B /* More */ = {
 			isa = PBXGroup;
 			children = (
-				21E17AAC196D05F700F7817A /* UserVC.h */,
-				21E17AAD196D05F800F7817A /* UserVC.m */,
 				21F40025196BA97400930B1E /* MoreTVC.h */,
 				21F40026196BA97400930B1E /* MoreTVC.m */,
+				21B27755197CC686009A5857 /* WishListTVC.h */,
+				21B27756197CC686009A5857 /* WishListTVC.m */,
+				21E17AAC196D05F700F7817A /* UserVC.h */,
+				21E17AAD196D05F800F7817A /* UserVC.m */,
 				21862D5D195D2915008F267C /* Account */,
 				21D2BCA519442D3C00E0B7E1 /* RecordTVC.h */,
 				21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */,
@@ -552,6 +557,7 @@
 				213FF129191C8DAD003B166B /* TPKeyboardAvoidingScrollView.m in Sources */,
 				211822EC195E9FEA008C1420 /* NotificationCell.m in Sources */,
 				21F40027196BA97400930B1E /* MoreTVC.m in Sources */,
+				21B27757197CC686009A5857 /* WishListTVC.m in Sources */,
 				21862D5B195D28F9008F267C /* NotificationsTVC.m in Sources */,
 				21544E841925D66400C20B08 /* NavigationController.m in Sources */,
 				2192840D195C1A3B00454236 /* EditAccountVC.m in Sources */,

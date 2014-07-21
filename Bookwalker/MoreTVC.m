@@ -9,6 +9,8 @@
 #import "MoreTVC.h"
 #import <Parse/Parse.h>
 #import "UserVC.h"
+#import "WishListTVC.h"
+
 @interface MoreTVC ()
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -52,6 +54,10 @@
         UserVC *uvc = segue.destinationViewController;
         uvc.user = [PFUser currentUser];
         uvc.title = [PFUser currentUser][@"name"];
+    
+    }else if([segue.identifier isEqualToString:@"Show Wish List"]){
+        WishListTVC *wltvc = segue.destinationViewController;
+        wltvc.wishBookId = [PFUser currentUser][@"wishBookId"];
     }
 }
 

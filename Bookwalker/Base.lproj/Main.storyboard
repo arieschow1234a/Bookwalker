@@ -850,6 +850,60 @@
             </objects>
             <point key="canvasLocation" x="1522" y="2767"/>
         </scene>
+        <!--Wish ListTVC - Wish List-->
+        <scene sceneID="0j9-No-YG8">
+            <objects>
+                <tableViewController id="1ht-s8-8Pk" customClass="WishListTVC" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2Mn-Jt-OcI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="BookCell" rowHeight="90" id="MYO-TX-Nzs" customClass="BookCell">
+                                <rect key="frame" x="0.0" y="86" width="320" height="90"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MYO-TX-Nzs" id="aFo-2w-ksd">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="89"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="titleLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h3Z-2X-zOL">
+                                            <rect key="frame" x="88" y="14" width="218" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hTV-Ff-QSC">
+                                            <rect key="frame" x="20" y="5" width="60" height="75"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="authorLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rUt-3f-Ci9">
+                                            <rect key="frame" x="88" y="43" width="218" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="authorLabel" destination="rUt-3f-Ci9" id="MQW-VI-eUR"/>
+                                    <outlet property="bookImageView" destination="hTV-Ff-QSC" id="eNQ-3B-EoY"/>
+                                    <outlet property="titleLabel" destination="h3Z-2X-zOL" id="v7s-R6-jic"/>
+                                    <segue destination="FKe-r4-jJz" kind="push" identifier="Show Details" id="Mln-Ml-2sC"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="1ht-s8-8Pk" id="9GZ-TN-mrz"/>
+                            <outlet property="delegate" destination="1ht-s8-8Pk" id="jbO-eh-C9V"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Wish List" id="ZbV-zm-jB4"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EH6-2Q-g4G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1529" y="3358"/>
+        </scene>
         <!--AccountVC-->
         <scene sceneID="4ZA-E3-SzO">
             <objects>
@@ -917,7 +971,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aXN-rY-XZi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1040" y="3429"/>
+            <point key="canvasLocation" x="996" y="4281"/>
         </scene>
         <!--MoreTVC - BookWalker-->
         <scene sceneID="DQf-qj-R0l">
@@ -996,6 +1050,9 @@
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="1ht-s8-8Pk" kind="push" identifier="Show Wish List" id="BfP-8B-Ngq"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Cxr-w8-bMI">
                                         <rect key="frame" x="0.0" y="231" width="320" height="44"/>
@@ -1112,7 +1169,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gBX-cy-CNq" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="xIs-oi-VFd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1982" y="3424"/>
+            <point key="canvasLocation" x="1938" y="4276"/>
         </scene>
         <!--Navigation Controller - Requests-->
         <scene sceneID="3bV-1f-csS">
@@ -1691,7 +1748,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ecL-xF-9KA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1456" y="3424"/>
+            <point key="canvasLocation" x="1412" y="4276"/>
         </scene>
         <!--Navigation Controller - Notifications-->
         <scene sceneID="VPw-T9-KEf">
@@ -1748,11 +1805,11 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="bOs-4F-wsO"/>
-        <segue reference="NLW-3z-qSy"/>
-        <segue reference="XjY-4T-GLX"/>
+        <segue reference="wtd-Yz-Y26"/>
         <segue reference="qFP-HL-GvF"/>
+        <segue reference="NLW-3z-qSy"/>
         <segue reference="tGu-2S-u5U"/>
+        <segue reference="Mln-Ml-2sC"/>
         <segue reference="VkW-z2-a66"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -86,6 +86,8 @@
             }
         }];
     }
+    
+    // Wish Button
     PFUser *user = [PFUser currentUser];
         if ([user[@"wishBookId"] containsObject:self.book.objectId]) {
         [self.wishButton setTitle:@"Remove" forState:UIControlStateNormal];

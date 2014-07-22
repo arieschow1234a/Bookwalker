@@ -29,6 +29,10 @@
 @property (weak, nonatomic) IBOutlet UITextView *titleTextView;
 @property (weak, nonatomic) IBOutlet UITextView *authorTextView;
 @property (weak, nonatomic) IBOutlet UITextField *noteField;
+@property (weak, nonatomic) IBOutlet UITextField *titleField;
+@property (weak, nonatomic) IBOutlet UITextField *authorField;
+@property (nonatomic) BOOL noBookInfo;
+
 
 //Image
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -48,6 +52,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.titleField.hidden = YES;
+    self.authorField.hidden = YES;
     self.noteField.delegate = self;
     if (self.book !=nil) {
         self.isbnTextField.hidden = YES;
@@ -120,7 +126,7 @@
 
 #pragma mark - Navigation
 #define UNWIND_SEGUE_IDENTIFIER @"Do Add Book"
-
+//After pressing Done
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]){
@@ -147,8 +153,16 @@
 {
     if ([identifier isEqualToString:UNWIND_SEGUE_IDENTIFIER]) {
         NSString *note = self.noteField.text;
-        NSString *title = self.titleTextView.text;
-        NSString *author = self.authorTextView.text;
+        NSString *title;
+        NSString *author;
+        
+        if (self.noBookInfo) {
+            title = self.titleField.text;
+            author = self.authorField.text;
+        }else{
+            title = self.titleTextView.text;
+            author = self.authorTextView.text;
+        }
         
         if ([note length] == 0 ||[title length] == 0 || [author length] == 0){
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops!"
@@ -210,10 +224,27 @@
 - (void)createMetaBook
 {
     
+    NSString *title;
+    NSString *author;
+    
+    if (self.noBookInfo) {
+        title = self.titleField.text;
+        author = self.authorField.text;
+        if ([self.isbnTextField.text length] == 10) {
+            self.isbn10 = self.isbnTextField.text ;
+        }else{
+            self.isbn13 = self.isbnTextField.text ;
+        }
+    
+    }else{
+        title = self.titleTextView.text;
+        author = self.authorTextView.text;
+    }
+    
     //upload to parse
     PFObject *metaBook = [PFObject objectWithClassName:@"MetaBooks"];
-    [metaBook setObject:self.titleTextView.text forKey:@"title"];
-    [metaBook setObject:self.authorTextView.text forKey:@"author"];
+    [metaBook setObject:title forKey:@"title"];
+    [metaBook setObject:author forKey:@"author"];
     
     if (self.description) {
         [metaBook setObject:self.description forKey:@"description"];
@@ -249,6 +280,10 @@
         [metaBook setObject:self.categories forKey:@"categories"];
     }else{
         [metaBook setObject:@"No Categories" forKey:@"categories"];
+    }
+    
+    if (self.noBookInfo) {
+        [metaBook setObject:[NSNumber numberWithBool:YES] forKey:@"noBookInfo"];
     }
     
     [metaBook saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -311,6 +346,18 @@
 - (void)createBook
 {
     
+    NSString *title;
+    NSString *author;
+    
+    if (self.noBookInfo) {
+        title = self.titleField.text;
+        author = self.authorField.text;
+        
+    }else{
+        title = self.titleTextView.text;
+        author = self.authorTextView.text;
+    }
+    
     PFUser *user = [PFUser currentUser];
     PFObject *book = [PFObject objectWithClassName:@"Books"];
     [book setObject:[user objectId] forKey:@"holderId"];
@@ -319,9 +366,13 @@
     [book setObject:@0 forKey:@"bookStatus"];
     [book setObject:self.noteField.text forKey:@"note"];
     [book setObject:self.metaBook.objectId forKey:@"bookId"];
-    [book setObject:self.titleTextView.text forKey:@"title"];
-    [book setObject:self.authorTextView.text forKey:@"author"];
-    [book setObject:self.categories forKey:@"categories"];
+    [book setObject:title forKey:@"title"];
+    [book setObject:author forKey:@"author"];
+    
+    if (self.categories) {
+        [book setObject:self.categories forKey:@"categories"];
+    }
+    
     if (self.isbn10) {
         [book setObject:self.isbn10 forKey:@"isbn10"];
     }
@@ -438,10 +489,17 @@
          
             if (error) {
                 [self fetchGoogle];
+                NSLog(@"no book");
+                
             }else if (!error) {
+                NSLog(@"Anobii");
+                
                 NSString *html = [NSString stringWithContentsOfURL:localfile encoding:NSUTF8StringEncoding error:NULL];
                 
-                if ([html rangeOfString:@"<div class=\"error_message\">"].location == NSNotFound) {
+                if ([html rangeOfString:@" <div class=\"shelf\">"].location == NSNotFound) {
+                    [self fetchGoogle];
+
+                }else if ([html rangeOfString:@"<div class=\"error_message\">"].location == NSNotFound) {
                     NSString *siteLine = [self fetchHTML:html LineContainwords:@"cover_image"];
                     
                     // Get site
@@ -484,7 +542,7 @@
 }
 
 - (void)fetchAnobiiSite:(NSURL *)siteURL
-{
+{    
     NSURLRequest *request = [NSURLRequest requestWithURL:siteURL];
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     
@@ -607,19 +665,32 @@
                                                             NSDictionary *propertyListResults = [NSJSONSerialization JSONObjectWithData:jsonResults
                                                                                                                                 options:0
                                                                                                                                   error:NULL];
-                                                            NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
-                                                            NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
-                                                            NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
-                                                            NSString *title = [volumeInfo valueForKey:@"title"];
-                                                            NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
-                                                            // so we must dispatch this back to the main queue
-                                                            dispatch_async(dispatch_get_main_queue(), ^{
-                                                                [self.activityIndicator stopAnimating];
-                                                                [self.view setUserInteractionEnabled:YES];
-                                                                self.titleTextView.text = title;
-                                                                self.authorTextView.text = author;
-                                                                self.imageURL = [NSURL URLWithString:thumbnail];
-                                                            });
+                                                            NSLog(@"%@", propertyListResults);
+                                                            if ([[propertyListResults valueForKey:@"totalItems"]  isEqual: @0] ) {
+                                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                                    NSLog(@"no book");
+                                                                    [self.activityIndicator stopAnimating];
+                                                                    [self.view setUserInteractionEnabled:YES];
+                                                                    [self noBookInfoAlert];
+                                                                    self.titleField.hidden = NO;
+                                                                    self.authorField.hidden = NO;
+                                                                    self.noBookInfo = YES;
+                                                                });
+                                                            }else{
+                                                                NSDictionary *item = [propertyListResults valueForKey:@"items"][0];
+                                                                NSDictionary *volumeInfo = [item valueForKey:@"volumeInfo"];
+                                                                NSString *author = [[volumeInfo valueForKey:@"authors"] objectAtIndex:0];
+                                                                NSString *title = [volumeInfo valueForKey:@"title"];
+                                                                NSString *thumbnail = [volumeInfo valueForKeyPath:@"imageLinks.thumbnail"];
+                                                                // so we must dispatch this back to the main queue
+                                                                dispatch_async(dispatch_get_main_queue(), ^{
+                                                                    [self.activityIndicator stopAnimating];
+                                                                    [self.view setUserInteractionEnabled:YES];
+                                                                    self.titleTextView.text = title;
+                                                                    self.authorTextView.text = author;
+                                                                    self.imageURL = [NSURL URLWithString:thumbnail];
+                                                                });
+                                                            }
                                                         }
                                                     }];
     [task resume]; // don't forget that all NSURLSession tasks start out suspended!
@@ -713,6 +784,17 @@
                                               otherButtonTitles:nil, nil];
     [alertView show];
 }
+
+- (void)noBookInfoAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                        message:@"We don't have any matches. Let's create this record!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
 
 - (NSString *)getResultfromString:(NSString *)string andSeparatedBySpanRange:(NSRange)spanRange
 {

@@ -607,6 +607,18 @@
                                 <rect key="frame" x="212" y="237" width="51" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </switch>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Uzd-vE-DyB">
+                                <rect key="frame" x="20" y="116" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Author" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DF9-gd-uF9">
+                                <rect key="frame" x="20" y="154" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -626,6 +638,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="qPd-CC-HVb" id="XVQ-oj-Bb5"/>
+                        <outlet property="authorField" destination="DF9-gd-uF9" id="xfU-8m-1zi"/>
                         <outlet property="authorTextView" destination="6OE-hv-GMk" id="M3b-75-Z3c"/>
                         <outlet property="editView" destination="BWh-qO-Fg5" id="p1c-8I-ZMC"/>
                         <outlet property="freeNoteDefaultSwitch" destination="LLs-kY-cgy" id="7og-ap-hHi"/>
@@ -634,6 +647,7 @@
                         <outlet property="noteField" destination="gWH-Ia-h4F" id="ibo-Qy-Hbc"/>
                         <outlet property="searchButton" destination="kKC-hZ-k5M" id="W0L-e1-L1b"/>
                         <outlet property="statusSwitch" destination="gjG-ph-gvq" id="99B-Ff-dvQ"/>
+                        <outlet property="titleField" destination="Uzd-vE-DyB" id="hYz-1Z-ZSw"/>
                         <outlet property="titleTextView" destination="nPP-9k-QvY" id="MM7-KV-VsO"/>
                     </connections>
                 </viewController>

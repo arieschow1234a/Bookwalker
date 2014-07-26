@@ -139,14 +139,14 @@
         }
         */
         // this timer will fire only when we are in the foreground
-        self.notificationForegroundFetchTimer = [NSTimer scheduledTimerWithTimeInterval:FOREGROUND_NOTIFICATION_FETCH_INTERVAL
+      /*  self.notificationForegroundFetchTimer = [NSTimer scheduledTimerWithTimeInterval:FOREGROUND_NOTIFICATION_FETCH_INTERVAL
                                                                            target:self
                                                                                selector:@selector(startNotificationFetch:)
                                                                          userInfo:nil
                                                                           repeats:YES];
     
     
-    
+    */
     
     
         // let everyone who might be interested know this context is available
@@ -182,13 +182,32 @@
         // so we consider the app as having been "opened by a push notification."
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
     }
-    
+
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     if (application.applicationState == UIApplicationStateInactive) {
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
     }
+    //If your app is already running when the notification is received
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    //Parse clear badge
+    currentInstallation.badge = 0;
+    [currentInstallation saveEventually];
+
+    UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+    UITabBarItem *tabBarItem = [[[tabBarController tabBar] items] objectAtIndex:3];
+    
+    NSString *currentBadgeValue = tabBarItem.badgeValue;
+    int currentBadgeNumber = [currentBadgeValue intValue];
+    int result = currentBadgeNumber + 1;
+    NSString *newBadgeValue = [[NSString alloc ] initWithFormat:@"%d", result];
+        if (newBadgeValue) {
+       // [[[[tabBarController tabBar] items] objectAtIndex:3] setBadgeValue:badgeNumber];
+        [tabBarItem setBadgeValue:newBadgeValue];
+        [self startNotificationFetch];
+    }
+    
 }
 
 #pragma mark - Notifcation Fetching
@@ -242,7 +261,7 @@
             NSLog(@"load into context");
             [Notification loadNotificationsFromParseArray:results intoManagedObjectContext:context];
             // set Badge value
-            [self setNotificationBadgeValue];
+           // [self setNotificationBadgeValue];
         }];
     }
 }
@@ -312,8 +331,24 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
-    //Parse clear badge
+    
+    // Set the badge value according to notificaiton, when an app is opened from a notification
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    if (currentInstallation.badge != 0) {
+        UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
+        UITabBarItem *tabBarItem = [[[tabBarController tabBar] items] objectAtIndex:3];
+        
+        NSString *currentBadgeValue = tabBarItem.badgeValue;
+        int currentBadgeNumber = [currentBadgeValue intValue];
+        int result = currentBadgeNumber + currentInstallation.badge;
+        NSString *newBadgeValue = [[NSString alloc ] initWithFormat:@"%d", result];
+        if (newBadgeValue) {
+            [tabBarItem setBadgeValue:newBadgeValue];
+            [self startNotificationFetch];
+        }
+    }
+
+    //Parse clear badge
     if (currentInstallation.badge != 0) {
         currentInstallation.badge = 0;
         [currentInstallation saveEventually];

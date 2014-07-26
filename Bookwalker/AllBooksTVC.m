@@ -29,6 +29,7 @@
     if (!currentUser) {
         [self performSegueWithIdentifier:@"Show Login" sender:self];
     }
+    
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(changeBooks) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;

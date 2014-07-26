@@ -168,9 +168,13 @@
 {
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
-    currentInstallation[@"userObjectId"] = [PFUser currentUser].objectId;
-    [currentInstallation saveInBackground];
+    
+    if ([PFUser currentUser]) {
+        currentInstallation[@"userObjectId"] = [PFUser currentUser].objectId;
+    }
+    [currentInstallation saveEventually];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -190,11 +194,13 @@
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
     }
     //If your app is already running when the notification is received
+    
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+
     //Parse clear badge
     currentInstallation.badge = 0;
     [currentInstallation saveEventually];
-
+    
     UITabBarController *tabBarController = (UITabBarController *)self.window.rootViewController;
     UITabBarItem *tabBarItem = [[[tabBarController tabBar] items] objectAtIndex:3];
     
@@ -347,10 +353,13 @@
             [self startNotificationFetch];
         }
     }
-
+    
     //Parse clear badge
     if (currentInstallation.badge != 0) {
         currentInstallation.badge = 0;
+        if ([PFUser currentUser]) {
+            currentInstallation[@"userObjectId"] = [PFUser currentUser].objectId;
+        }
         [currentInstallation saveEventually];
     }
 }

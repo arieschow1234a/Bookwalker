@@ -346,7 +346,8 @@
         
         NSString *currentBadgeValue = tabBarItem.badgeValue;
         int currentBadgeNumber = [currentBadgeValue intValue];
-        int result = currentBadgeNumber + currentInstallation.badge;
+        int installationBadge = currentInstallation.badge;
+        int result = currentBadgeNumber + installationBadge;
         NSString *newBadgeValue = [[NSString alloc ] initWithFormat:@"%d", result];
         if (newBadgeValue) {
             [tabBarItem setBadgeValue:newBadgeValue];

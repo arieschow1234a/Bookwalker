@@ -14,8 +14,8 @@
 @property (strong, nonatomic) NSMutableArray *allRequests;
 @property (strong, nonatomic) NSMutableArray *myRequests;
 @property (strong, nonatomic) NSMutableArray *requestsFromOthers;
-@property (nonatomic, assign) BOOL myReq;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
 @end
 
 @implementation RequestTableViewController
@@ -29,7 +29,11 @@
     if (!currentUser) {
         [self performSegueWithIdentifier:@"Show Login" sender:self];
     }
-    self.myReq = YES;
+    if (self.myReq) {
+        self.segmentedControl.selectedSegmentIndex = 0;
+    }else{
+        self.segmentedControl.selectedSegmentIndex = 1;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -73,7 +73,6 @@
 - (void)fetchDatabase
 {
     if (self.managedObjectContext) {
-        
             NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
             request.predicate = [NSPredicate predicateWithFormat:@"receiverId = %@", [PFUser currentUser].objectId];
             request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"createdAt"
@@ -142,10 +141,9 @@
     self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     Notification *notification = [self.notifications objectAtIndex:indexPath.row];
-    
     if([segue.identifier isEqualToString:@"Show Request"]){
-    //    RequestTableViewController *rtvc = (RequestTableViewController *)segue.destinationViewController;
-        
+        RequestTableViewController *rtvc = (RequestTableViewController *)segue.destinationViewController;
+        rtvc.myReq = NO;
     }else if([segue.identifier isEqualToString:@"Show Book"]){
         BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
         bdvc.bookId = notification.bookObjectId;
@@ -159,10 +157,10 @@
 }
 
 
-
-
-// Moved to App delegate 
 #pragma mark - Helper method
+
+
+// Deprecated. Moved to App delegate
 - (void)fetchNotifications
 {
     PFUser *user = [PFUser currentUser];

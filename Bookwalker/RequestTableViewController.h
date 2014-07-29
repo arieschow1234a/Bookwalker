@@ -10,6 +10,9 @@
 #import <Parse/Parse.h>
 
 @interface RequestTableViewController : UITableViewController
+@property (nonatomic, assign) BOOL myReq;
+
 - (IBAction)logout:(id)sender;
+
 
 @end

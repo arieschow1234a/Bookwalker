@@ -25,11 +25,21 @@
     //reachaibility
     appdelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     [super viewDidLoad];
+    PFUser *currentUser = [PFUser currentUser];
+    if (!currentUser) {
+        [self performSegueWithIdentifier:@"Show Login" sender:self];
+    }
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(changeBooks) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setHidden:NO];
     [self checkInternet];
     if (self.category == nil) {
         [self fetchAllBooks];
@@ -44,6 +54,17 @@
 
 #pragma mark - helper method
 
+
+-(void)changeBooks
+{
+    if (self.category == nil) {
+        [self fetchAllBooks];
+    }else{
+        [self fetchCategoryBooks];
+    }
+}
+
+
 - (void)fetchAllBooks
 {
         PFQuery *query = [PFQuery queryWithClassName:@"Books"];
@@ -53,6 +74,7 @@
                 NSLog(@"Error %@ %@", error, [error userInfo]);
             }else{
                 self.books = [[NSMutableArray alloc] initWithArray:objects];
+                [self.refreshControl endRefreshing];
             }
         }];
     
@@ -68,6 +90,7 @@
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
             self.books = [[NSMutableArray alloc] initWithArray:objects];
+            [self.refreshControl endRefreshing];
         }
     }];
     

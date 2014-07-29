@@ -18,10 +18,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    PFUser *currentUser = [PFUser currentUser];
-    if (!currentUser) {
-        [self performSegueWithIdentifier:@"Show Login" sender:self];
-    }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -52,9 +49,17 @@
             [self.books removeObjectAtIndex:indexPath.row];
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationRight];
         }
-        [book deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        PFUser *user = [PFUser currentUser];
+        [user removeObject:book.objectId forKey:@"holdingBooksId"];
+        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (error) {
                 NSLog(@"Error %@ %@", error, [error userInfo]);
+            }else{
+                [book deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                    if (error) {
+                        NSLog(@"Error %@ %@", error, [error userInfo]);
+                    }
+                }];
             }
         }];
     }
@@ -101,6 +106,17 @@
             NSLog(@"Error %@ %@", error, [error userInfo]);
         }else{
             self.books = [[NSMutableArray alloc] initWithArray:objects];
+            PFUser *user = [PFUser currentUser];
+            for (PFObject *book in self.books) {
+                [user addUniqueObject:book.objectId forKey:@"holdingBooksId"];
+            }
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (error) {
+                    NSLog(@"Error %@ %@", error, [error userInfo]);
+                }
+            }];
+            
+
         }
     }];
     

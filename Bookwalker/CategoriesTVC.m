@@ -69,7 +69,6 @@
                        withParameters:@{}
                                 block:^(NSDictionary *result, NSError *error) {
                                     self.categories = [[NSArray alloc] initWithArray:[result allKeys]];
-                                    NSLog(@"%@", self.categories);
                                 }];
 }
 

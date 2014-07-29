@@ -137,7 +137,7 @@
             indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
             book = [searchResults objectAtIndex:indexPath.row];
         }else{
-            NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+            indexPath = [self.tableView indexPathForCell:sender];
             book = [self.books objectAtIndex:indexPath.row];
         }
         bdvc.book = book;

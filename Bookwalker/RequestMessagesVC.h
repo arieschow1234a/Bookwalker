@@ -12,5 +12,6 @@
 @interface RequestMessagesVC : UIViewController
 
 @property (nonatomic, strong) PFObject *requestBook;
+@property (nonatomic, strong) NSString *requestBookId;
 
 @end

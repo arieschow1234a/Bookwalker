@@ -9,6 +9,7 @@
 #import "BookDetailsViewController.h"
 #import "BWHelper.h"
 #import "SendRequestVC.h"
+#import "UserVC.h"
 
 @interface BookDetailsViewController ()
 
@@ -26,7 +27,13 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIView *noteView;
 @property (weak, nonatomic) IBOutlet UIView *infoView;
+@property (weak, nonatomic) IBOutlet UIButton *wishButton;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic)NSMutableArray *previousHolder;
+@property (weak, nonatomic) IBOutlet UIImageView *holderImageView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic)PFUser *holder;
 @end
 
 @implementation BookDetailsViewController
@@ -34,12 +41,47 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.infoView.hidden = YES;
     
+    self.infoView.hidden = YES;
+    //If it is from notifications
+    if (!self.book) {
+        [self.activityIndicator startAnimating];
+        if (self.bookId) {
+            [self.view setUserInteractionEnabled:NO];
+            PFQuery *query = [PFQuery queryWithClassName:@"Books"];
+            [query getObjectInBackgroundWithId:self.bookId block:^(PFObject *object, NSError *error) {
+                if (error){
+                    NSLog(@"Error %@ %@", error, [error userInfo]);
+                    [self.activityIndicator stopAnimating];
+                    [self.view setUserInteractionEnabled:YES];
+                    [self bookNotExistAlert];
+                    [self.navigationController popToRootViewControllerAnimated:NO];
+                }else{
+                    [self.activityIndicator stopAnimating];
+                    [self.view setUserInteractionEnabled:YES];
+                    self.book = object;
+                    [self bookSetting];
+                }
+            }];
+        }else{
+            [self.activityIndicator stopAnimating];
+            [self.view setUserInteractionEnabled:YES];
+            [self bookNotExistAlert];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }else{
+        [self bookSetting];
+    }
+    
+}
+
+- (void)bookSetting
+{
+    [self fetchHolderImage];
     self.titleLabel.text = [self.book objectForKey:@"title"];
     self.authorLabel.text = [self.book objectForKey:@"author"];
     self.statusLabel.text = [[NSString alloc]initWithFormat:@"Status: %@",[BWHelper statusOfBook:self.book]];
-    self.holderLabel.text = [[NSString alloc]initWithFormat:@"Holder: %@",[self.book objectForKey:@"holderName"]];
+    self.holderLabel.text = [[NSString alloc]initWithFormat:@"%@",[self.book objectForKey:@"holderName"]];
     
     if ([self.book[@"note"] isKindOfClass:[NSString class]]){
         self.noteTextView.text = [NSString stringWithFormat:@"%@",self.book[@"note"]];
@@ -47,11 +89,26 @@
         self.noteTextView.text = @"No note from holder";
     }
     if (self.book[@"previousHolderName"]) {
-        NSArray *preHolders = self.book[@"previousHolderName"];
-        NSString *result = [[preHolders valueForKey:@"description"] componentsJoinedByString:@", "];
-        
-        self.preHolderLabel.text = [NSString stringWithFormat:@"Prev: %@", result];
     }
+    if ([self.book[@"previousHolderId"] count]) {
+        self.preHolderLabel.text = [NSString stringWithFormat:@"Previous reader:%lu", (unsigned long)[self.book[@"previousHolderId"] count]];
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"objectId" containedIn:self.book[@"previousHolderId"]];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                self.previousHolder = [[NSMutableArray alloc]initWithArray:objects];
+            }
+        }];
+    }
+    
+    // Wish Button
+    PFUser *user = [PFUser currentUser];
+        if ([user[@"wishBookId"] containsObject:self.book.objectId]) {
+        [self.wishButton setTitle:@"Remove" forState:UIControlStateNormal];
+    }else{
+        [self.wishButton setTitle:@"Wishlist" forState:UIControlStateNormal];
+    }
+    
     PFFile *imagefile = [self.book objectForKey:@"file"];
     if (imagefile) {
         [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
@@ -78,20 +135,138 @@
         }
     }];
 
-    
+}
+- (void)fetchHolderImage
+{
+    NSString *holderId = self.book[@"holderId"];
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"objectId" equalTo:holderId];
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *user, NSError *error) {
+        self.holder = (PFUser *) user;
+        PFFile *imagefile = self.holder[@"file"];
+        if (imagefile) {
+            [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                if (!error) {
+                    UIImage *image = [UIImage imageWithData:imageData];
+                    self.holderImageView.image = image;
+                }
+            }];
+        }else{
+            self.holderImageView.backgroundColor = [UIColor yellowColor];
+        }
+        [self.holderImageView setTag:1000000];
+        [self.holderImageView setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
+        [singleTap setNumberOfTapsRequired:1];
+        [self.holderImageView addGestureRecognizer:singleTap];
+    }];
 }
 
+#pragma mark - scroll view
+- (void)setScrollView:(UIScrollView *)scrollView
+{
+    _scrollView = scrollView;
+    
+    // next three lines are necessary for zooming
+    //_scrollView.minimumZoomScale = 0.2;
+    //_scrollView.maximumZoomScale = 2.0;
+    //_scrollView.delegate = self;
+    
+    // next line is necessary in case self.image gets set before self.scrollView does
+    // for example, prepareForSegue:sender: is called before outlet-setting phase
+    //self.scrollView.contentSize = self.image ? self.image.size : CGSizeZero;
+}
 
+- (void)setPreviousHolder:(NSMutableArray *)previousHolder
+{
+    _previousHolder = previousHolder;
+    [self setJourneyImage];
+}
 
+- (void)setJourneyImage
+{
+    // Adjust scroll view content size, set background colour and turn on paging
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    self.scrollView.contentSize = self.previousHolder? CGSizeMake(60 * [self.previousHolder count], self.scrollView.frame.size.height) : CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+    //self.scrollView.pagingEnabled=YES;
+    //self.scrollView.backgroundColor = [UIColor grayColor];
+
+    // Generate content for our scroll view using the frame height and width as the reference point
+    int i = 0;
+    while (i<[self.previousHolder count]) {
+        
+        UIImageView *views = [[UIImageView alloc]
+                         initWithFrame:CGRectMake((self.scrollView.frame.size.width/ 3) *i, 0,
+                                                  (self.scrollView.frame.size.width/ 3) -10, self.scrollView.frame.size.height)];
+        views.backgroundColor=[UIColor yellowColor];
+        PFObject *preHolder = self.previousHolder[i];
+            PFFile *imagefile = preHolder[@"file"];
+            if (imagefile) {
+                [imagefile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+                    if (!error) {
+                        UIImage *image = [UIImage imageWithData:imageData];
+                        views.image = image;
+                        [views setTag:i];
+                        [views setUserInteractionEnabled:YES];
+                        UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
+                        [singleTap setNumberOfTapsRequired:1];
+                        [views addGestureRecognizer:singleTap];
+                        [self.scrollView addSubview:views];
+                        
+                    }
+                }];
+            }else{
+                //Now assume all use FB log in so everyone gets a image else, use the next line.
+                //views.image = [UIImage imageNamed:@"bookcover"];
+                [views setTag:i];
+                [views setUserInteractionEnabled:YES];
+                UITapGestureRecognizer *singleTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapping:)];
+                [singleTap setNumberOfTapsRequired:1];
+                [views addGestureRecognizer:singleTap];
+                [self.scrollView addSubview:views];
+            }
+    i++;
+    }
+}
+-(void)singleTapping:(UIGestureRecognizer *)recognizer
+{
+    [self performSegueWithIdentifier:@"Show Holder" sender:recognizer];
+}
+
+/*
+ - (void) buttonClicked: (id)sender
+ {
+ NSLog( @"Button clicked." );
+ }
+ Now modify the code creating the button and add the following code:
+ [button addTarget: self
+ action: @selector(buttonClicked:)
+ forControlEvents: UIControlEventTouchDown];
+*/
 
 #pragma mark - navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     if([segue.identifier isEqualToString:@"Request Book"]){
         UINavigationController *navigationController = segue.destinationViewController;
         SendRequestVC *srvc = (SendRequestVC *)navigationController.topViewController;
         srvc.book = self.book;
+        
+    }else if([segue.identifier isEqualToString:@"Show Holder"]){
+        UserVC *uvc = segue.destinationViewController;
+        UIGestureRecognizer *recognizer = sender;
+        
+        if (recognizer.view.tag == 1000000) {
+            uvc.user = self.holder;
+            uvc.title = self.holder[@"name"];
+        }else{
+            PFUser *prevHolder = self.previousHolder[recognizer.view.tag];
+            uvc.user = prevHolder;
+            uvc.title = prevHolder[@"name"];
+        }
     }
 }
 
@@ -146,6 +321,29 @@
     }
 }
 
+- (IBAction)addWishlist:(id)sender {
+    PFUser *user = [PFUser currentUser];
+    NSArray *wishes = @[self.book[@"title"], self.book[@"author"]];
+    if ([self.wishButton.currentTitle isEqualToString:@"Wishlist"]){
+        [self.wishButton setTitle:@"Remove" forState:UIControlStateNormal];
+        [user addObjectsFromArray:wishes forKey:@"interestedBook"];
+        [user addObject:self.book.objectId forKey:@"wishBookId"];
+        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+               // NSLog(@"add wish");
+            }
+        }];
+    }else{
+        [self.wishButton setTitle:@"Wishlist" forState:UIControlStateNormal];
+        [user removeObject:self.book[@"title"] forKey:@"interestedBook"];
+        [user removeObject:self.book.objectId forKey:@"wishBookId"];
+        [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+              //  NSLog(@"remove wish");
+            }
+        }];
+    }
+}
 
 
 
@@ -182,14 +380,24 @@
 }
 
 - (void)someoneRequestedAlert
-        {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                                message:@"Someone have requested this book but we can notify you when the book is available."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Put into Wishlist"
-                                                      otherButtonTitles:@"Cancel", nil];
-            [alertView show];
-        }
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                        message:@"Someone have requested this book. If you put this book in the wish list, we will notify you when it is available."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:@"Cancel", nil];
+    [alertView show];
+}
+
+- (void)bookNotExistAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
+                                                        message:@"The book is no longer exist! The holder may have deleted the book."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
 
 @end

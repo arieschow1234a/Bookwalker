@@ -14,6 +14,8 @@
 @property (strong, nonatomic) NSMutableArray *allRequests;
 @property (strong, nonatomic) NSMutableArray *myRequests;
 @property (strong, nonatomic) NSMutableArray *requestsFromOthers;
+@property (nonatomic, assign) BOOL myReq;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @end
 
 @implementation RequestTableViewController
@@ -27,6 +29,7 @@
     if (!currentUser) {
         [self performSegueWithIdentifier:@"Show Login" sender:self];
     }
+    self.myReq = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -37,6 +40,7 @@
     [self retrieveRequestsFromOthers];
     [self.navigationController.navigationBar setHidden:NO];
     
+   // NSLog(@"%hhd", self.myReq);
 }
 
 - (NSMutableArray *)allRequests
@@ -51,6 +55,7 @@
 - (void)setMyRequests:(NSMutableArray *)myRequests
 {
     _myRequests = myRequests;
+    /*
     if (![self.allRequests count]) {
         [self.allRequests addObject:myRequests];
     }else if ([self.requestsFromOthers count] && [self.allRequests count] == 1){
@@ -60,13 +65,14 @@
     }else{
         [self.allRequests replaceObjectAtIndex:0 withObject:myRequests];
     }
+     */
     [self.tableView reloadData];
 }
 
 - (void)setRequestsFromOthers:(NSMutableArray *)requestsFromOthers
 {
     _requestsFromOthers = requestsFromOthers;
-    
+    /*
     if (![self.allRequests count]) {
         [self.allRequests addObject:requestsFromOthers];
     }else if ([self.myRequests count] && [self.allRequests count] == 1){
@@ -77,9 +83,8 @@
         [self.allRequests replaceObjectAtIndex:0 withObject:requestsFromOthers];
         
     }
-    
+    */
     [self.tableView reloadData];
-    
 }
 
 #pragma mark - Table view data source
@@ -87,37 +92,49 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [self.allRequests count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[self.allRequests objectAtIndex:section] count];
+    if (self.myReq) {
+        return [self.myRequests count];
+    }else{
+        return [self.requestsFromOthers count];
+    }
+    
+    //return [[self.allRequests objectAtIndex:section] count];
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"request" forIndexPath:indexPath];
-    
+    if (self.myReq) {
+        PFObject *requestBook = [self.myRequests objectAtIndex:indexPath.row];
+        cell.textLabel.text = requestBook[@"title"];
+    }else{
+        PFObject *requestBook = [self.requestsFromOthers objectAtIndex:indexPath.row];
+        cell.textLabel.text = requestBook[@"title"];
+    }
+    /*
     // Configure the cell...
     PFObject *requestBook = [[self.allRequests objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     //cell.textLabel.text = [NSString stringWithFormat:@"For %@, %@ sent you a request", request[@"title"], request[@""] ];
     cell.textLabel.text = requestBook[@"title"];
+    */
     return cell;
 }
-
+/*
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-   
     if ([self.allRequests objectAtIndex:section] == self.myRequests){
         return @"My Requests";
     }else{
-        return @"Requests from others";
+        return @"Requests From Others";
     }
-    
 }
-
+  */
 
 
 
@@ -132,9 +149,20 @@
         // set up the vc to run here
         
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        PFObject *requestBook = [[self.allRequests objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        rdvc.requestBook = requestBook;
-        rdvc.title = [requestBook objectForKey:@"title"];
+        
+        if (self.myReq) {
+            PFObject *requestBook = [self.myRequests objectAtIndex:indexPath.row];
+            rdvc.requestBook = requestBook;
+            rdvc.title = [requestBook objectForKey:@"title"];
+        }else{
+            PFObject *requestBook = [self.requestsFromOthers objectAtIndex:indexPath.row];
+            rdvc.requestBook = requestBook;
+            rdvc.title = [requestBook objectForKey:@"title"];
+        }
+        
+       // PFObject *requestBook = [[self.allRequests objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+       // rdvc.requestBook = requestBook;
+       // rdvc.title = [requestBook objectForKey:@"title"];
         
     }
 }
@@ -147,6 +175,25 @@
     [self performSegueWithIdentifier:@"Show Login" sender:self];
 }
 
+- (IBAction)switchSegment:(id)sender {
+    switch (self.segmentedControl.selectedSegmentIndex) {
+        case 0:
+            if (!self.myReq) {
+                self.myReq = YES;
+                [self.tableView reloadData];
+            }
+            break;
+        case 1:
+            if (self.myReq) {
+                self.myReq = NO;
+                [self.tableView reloadData];
+            }
+            break;
+        default:
+            self.myReq = YES;
+            break;
+    }
+}
 
 # pragma mark - Helper methods
 

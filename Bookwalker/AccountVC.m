@@ -15,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *nicknameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *emailLabel;
 
-
 @property (nonatomic, strong) NSMutableData *imageData;
 @end
 
@@ -37,10 +36,7 @@
     self.nicknameLabel.text = user[@"name"];
     self.emailLabel.text = user[@"email"];
     NSLog(@"%@", user[@"email"]);
-    
-    if ([PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-        [self fetchFBAccount];
-    }
+
 }
 
 #pragma mark - NSURLConnectionDataDelegate
@@ -80,72 +76,6 @@
     }
 }
 
-- (void)fetchFBAccount
-{
-    // Send request to Facebook
-    FBRequest *request = [FBRequest requestForMe];
-    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        // handle response
-        if (!error) {
-            // Parse the data received
-            NSDictionary *userData = (NSDictionary *)result;
-            NSLog(@"%@", result);
-            
-            NSString *facebookID = userData[@"id"];
-            
-            NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
-            
-            NSMutableDictionary *userProfile = [NSMutableDictionary dictionaryWithCapacity:8];
-            
-            if (facebookID) {
-                userProfile[@"facebookId"] = facebookID;
-            }
-            
-            if (userData[@"name"]) {
-                userProfile[@"name"] = userData[@"name"];
-            }
-            
-            if (userData[@"email"]) {
-                userProfile[@"email"] = userData[@"email"];
-            }
-            
-            if (userData[@"gender"]) {
-                userProfile[@"gender"] = userData[@"gender"];
-            }
-            
-            if (userData[@"location"][@"name"]) {
-                userProfile[@"location"] = userData[@"location"][@"name"];
-            }
-            
-            if (userData[@"birthday"]) {
-                userProfile[@"birthday"] = userData[@"birthday"];
-            }
-            
-            if (userData[@"relationship_status"]) {
-                userProfile[@"relationship"] = userData[@"relationship_status"];
-            }
-            
-            if ([pictureURL absoluteString]) {
-                userProfile[@"pictureURL"] = [pictureURL absoluteString];
-            }
-            
-            [[PFUser currentUser] setObject:userProfile forKey:@"profile"];
-            [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                }
-            }];
-            
-            [self retrieveImage];
-        } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
-                    isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
-            NSLog(@"The facebook session was invalidated");
-        } else {
-            NSLog(@"Some other error: %@", error);
-        }
-    }];
-
-}
-
 
 #pragma mark - Navigation
 
@@ -163,7 +93,7 @@
 - (IBAction)editedAccount:(UIStoryboardSegue *)segue
 {
     if ([segue.sourceViewController isKindOfClass:[EditAccountVC class]]) {
-        [self fetchFBAccount];
+
     }
 }
 

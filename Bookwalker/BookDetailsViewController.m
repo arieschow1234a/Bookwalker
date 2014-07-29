@@ -382,9 +382,9 @@
 - (void)someoneRequestedAlert
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry"
-                                                        message:@"Someone have requested this book but we can notify you when the book is available."
+                                                        message:@"Someone have requested this book. If you put this book in the wish list, we will notify you when it is available."
                                                        delegate:nil
-                                              cancelButtonTitle:@"Put into Wishlist"
+                                              cancelButtonTitle:@"OK"
                                               otherButtonTitles:@"Cancel", nil];
     [alertView show];
 }

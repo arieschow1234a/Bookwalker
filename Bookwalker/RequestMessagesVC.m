@@ -8,6 +8,7 @@
 
 #import "RequestMessagesVC.h"
 #import "RequestCell.h"
+#import "BookDetailsViewController.h"
 
 @interface RequestMessagesVC () <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -386,6 +387,15 @@
     
 }
 
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([segue.identifier isEqualToString:@"Show Book"]){
+        BookDetailsViewController *bdvc = (BookDetailsViewController *)segue.destinationViewController;
+        self.navigationItem.backBarButtonItem=[[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+        bdvc.book = self.requestBook;
+    }
+}
 
 
 

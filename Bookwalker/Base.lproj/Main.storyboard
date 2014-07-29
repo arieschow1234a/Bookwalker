@@ -815,7 +815,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="nyv-MK-fMw">
-                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="RHm-2U-rU1"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="RHm-2U-rU1">
+                            <connections>
+                                <segue destination="FKe-r4-jJz" kind="push" identifier="Show Book" id="6m7-59-b22"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -845,7 +849,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFZ-hj-deZ">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFZ-hj-deZ">
                                             <rect key="frame" x="55" y="0.0" width="253" height="59"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1825,10 +1829,10 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="wtd-Yz-Y26"/>
         <segue reference="qFP-HL-GvF"/>
         <segue reference="tGu-2S-u5U"/>
-        <segue reference="Mln-Ml-2sC"/>
+        <segue reference="wtd-Yz-Y26"/>
+        <segue reference="6m7-59-b22"/>
         <segue reference="hvB-F8-r2A"/>
         <segue reference="VkW-z2-a66"/>
     </inferredMetricsTieBreakers>

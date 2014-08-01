@@ -37,7 +37,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(fetchDatabase) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -81,6 +83,7 @@
             NSError *error;
             NSArray *matches = [self.managedObjectContext executeFetchRequest:request error:&error];
             self.notifications = [NSMutableArray arrayWithArray:matches];
+            [self.refreshControl endRefreshing];
             //NSLog(@"Notification: %@", matches);
     }
 }

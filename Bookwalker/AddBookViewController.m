@@ -357,11 +357,11 @@
         title = self.titleTextView.text;
         author = self.authorTextView.text;
     }
-    
     PFUser *user = [PFUser currentUser];
+    NSString *userName = user[@"name"];
     PFObject *book = [PFObject objectWithClassName:@"Books"];
     [book setObject:[user objectId] forKey:@"holderId"];
-    [book setObject:user[@"name"] forKey:@"holderName"];
+    [book setObject:userName forKey:@"holderName"];
     [book setObject:@0 forKey:@"noOfRequests"];
     [book setObject:@0 forKey:@"bookStatus"];
     [book setObject:self.noteField.text forKey:@"note"];

@@ -29,7 +29,7 @@
 @end
 
 // how often (in seconds) we fetch new notifications if we are in the foreground
-#define FOREGROUND_NOTIFICATION_FETCH_INTERVAL (1*60)
+#define FOREGROUND_NOTIFICATION_FETCH_INTERVAL (2*60)
 #define BADGE_INTERVAL (30)
 
 @implementation AppDelegate
@@ -46,6 +46,9 @@
     
     //Parse Push notification
     [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeAlert |UIRemoteNotificationTypeSound];
+    
+    //Check if user enable push notification
+    [self checkifPushNotificationIsEnable];
     
     //Parse push analytic
     if (application.applicationState != UIApplicationStateBackground) {
@@ -138,17 +141,16 @@
             
         }
         */
-        // this timer will fire only when we are in the foreground
-      /*  self.notificationForegroundFetchTimer = [NSTimer scheduledTimerWithTimeInterval:FOREGROUND_NOTIFICATION_FETCH_INTERVAL
-                                                                           target:self
-                                                                               selector:@selector(startNotificationFetch:)
-                                                                         userInfo:nil
-                                                                          repeats:YES];
-    
-    
-    */
-    
-    
+        BOOL pushNotificationsEnable = [[NSUserDefaults standardUserDefaults] boolForKey:@"PushNotificationsEnable"];
+        if (pushNotificationsEnable == NO) {
+            // this timer will fire only when we are in the foreground
+            self.notificationForegroundFetchTimer = [NSTimer scheduledTimerWithTimeInterval:FOREGROUND_NOTIFICATION_FETCH_INTERVAL
+                                                                                     target:self
+                                                                                   selector:@selector(startNotificationFetch:)
+                                                                                   userInfo:nil
+                                                                                    repeats:YES];
+            
+        }
         // let everyone who might be interested know this context is available
         // this happens very early in the running of our application
         // it would make NO SENSE to listen to this radio station in a View Controller that was segued to, for example
@@ -164,6 +166,30 @@
 }
 
 #pragma mark - Parse Push notification
+
+- (void)checkifPushNotificationIsEnable
+{
+    // Check if the user enable the push notificaiton
+    UIRemoteNotificationType types = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+    UIRemoteNotificationType allEnableType = UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeBadge ;
+    UIRemoteNotificationType disableType = UIRemoteNotificationTypeNone ;
+    
+    if (types == allEnableType) {
+        // all enable
+        NSLog(@"All enable");
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"PushNotificationsEnable"];
+    } else if (types == disableType) {
+        // all disable
+        NSLog(@"All disable");
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"PushNotificationsEnable"];
+    } else {
+        // some enable
+        NSLog(@"some enable");
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"PushNotificationsEnable"];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken
 {
     // Store the deviceToken in the current installation and save it to Parse.
@@ -194,6 +220,12 @@
         [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
     }
     //If your app is already running when the notification is received
+    
+    //If the user enable the push notificaiton from setting
+    [self.notificationForegroundFetchTimer invalidate];
+    self.notificationForegroundFetchTimer = nil;
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"PushNotificationsEnable"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
 
@@ -255,6 +287,7 @@
     }
 }
 
+// Only activate when push notification is disable
 - (void)startNotificationFetch:(NSTimer *)timer
 {
     [self startNotificationFetch];
@@ -267,7 +300,10 @@
             NSLog(@"load into context");
             [Notification loadNotificationsFromParseArray:results intoManagedObjectContext:context];
             // set Badge value
-           // [self setNotificationBadgeValue];
+            BOOL pushNotificationsEnable = [[NSUserDefaults standardUserDefaults] boolForKey:@"PushNotificationsEnable"];
+            if (pushNotificationsEnable == NO) {
+                [self setNotificationBadgeValue];
+            }
         }];
     }
 }
@@ -338,6 +374,12 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
     
+    //If the user enable the push notificaiton from setting
+    [self.notificationForegroundFetchTimer invalidate];
+    self.notificationForegroundFetchTimer = nil;
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"PushNotificationsEnable"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     // Set the badge value according to notificaiton, when an app is opened from a notification
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     if (currentInstallation.badge != 0) {
@@ -346,7 +388,8 @@
         
         NSString *currentBadgeValue = tabBarItem.badgeValue;
         int currentBadgeNumber = [currentBadgeValue intValue];
-        int result = currentBadgeNumber + currentInstallation.badge;
+        int installationBadge = currentInstallation.badge;
+        int result = currentBadgeNumber + installationBadge;
         NSString *newBadgeValue = [[NSString alloc ] initWithFormat:@"%d", result];
         if (newBadgeValue) {
             [tabBarItem setBadgeValue:newBadgeValue];

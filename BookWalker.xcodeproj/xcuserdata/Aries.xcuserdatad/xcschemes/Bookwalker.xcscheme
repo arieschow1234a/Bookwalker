@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "21DE540A1917A3A7004C5591"
-               BuildableName = "Bookwalker.app"
+               BuildableName = "BookWalker.app"
                BlueprintName = "Bookwalker"
-               ReferencedContainer = "container:Bookwalker.xcodeproj">
+               ReferencedContainer = "container:BookWalker.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "21DE542B1917A3A8004C5591"
                BuildableName = "BookwalkerTests.xctest"
                BlueprintName = "BookwalkerTests"
-               ReferencedContainer = "container:Bookwalker.xcodeproj">
+               ReferencedContainer = "container:BookWalker.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "21DE540A1917A3A7004C5591"
-            BuildableName = "Bookwalker.app"
+            BuildableName = "BookWalker.app"
             BlueprintName = "Bookwalker"
-            ReferencedContainer = "container:Bookwalker.xcodeproj">
+            ReferencedContainer = "container:BookWalker.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "21DE540A1917A3A7004C5591"
-            BuildableName = "Bookwalker.app"
+            BuildableName = "BookWalker.app"
             BlueprintName = "Bookwalker"
-            ReferencedContainer = "container:Bookwalker.xcodeproj">
+            ReferencedContainer = "container:BookWalker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "21DE540A1917A3A7004C5591"
-            BuildableName = "Bookwalker.app"
+            BuildableName = "BookWalker.app"
             BlueprintName = "Bookwalker"
-            ReferencedContainer = "container:Bookwalker.xcodeproj">
+            ReferencedContainer = "container:BookWalker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
@@ -91,6 +91,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "BookWalker"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

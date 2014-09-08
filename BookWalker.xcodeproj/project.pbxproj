@@ -148,7 +148,7 @@
 		21D2BCA619442D3C00E0B7E1 /* RecordTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordTVC.m; sourceTree = "<group>"; };
 		21D2BCA819443E7400E0B7E1 /* RecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordCell.h; sourceTree = "<group>"; };
 		21D2BCA919443E7400E0B7E1 /* RecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordCell.m; sourceTree = "<group>"; };
-		21DE540B1917A3A7004C5591 /* Bookwalker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookwalker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DE540B1917A3A7004C5591 /* BookWalker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookWalker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DE540E1917A3A7004C5591 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		21DE54101917A3A7004C5591 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		21DE54121917A3A7004C5591 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -371,7 +371,7 @@
 		21DE540C1917A3A7004C5591 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				21DE540B1917A3A7004C5591 /* Bookwalker.app */,
+				21DE540B1917A3A7004C5591 /* BookWalker.app */,
 				21DE542C1917A3A8004C5591 /* BookwalkerTests.xctest */,
 			);
 			name = Products;
@@ -462,7 +462,7 @@
 			);
 			name = Bookwalker;
 			productName = Bookwalker;
-			productReference = 21DE540B1917A3A7004C5591 /* Bookwalker.app */;
+			productReference = 21DE540B1917A3A7004C5591 /* BookWalker.app */;
 			productType = "com.apple.product-type.application";
 		};
 		21DE542B1917A3A8004C5591 /* BookwalkerTests */ = {
@@ -505,7 +505,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 21DE54061917A3A7004C5591 /* Build configuration list for PBXProject "Bookwalker" */;
+			buildConfigurationList = 21DE54061917A3A7004C5591 /* Build configuration list for PBXProject "BookWalker" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -651,8 +651,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ka Ho Chow (27UP482W8T)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ka Ho Chow (27UP482W8T)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ka Ho Chow (3GS534TZJ9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ka Ho Chow (3GS534TZJ9)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -670,8 +670,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "A1FC72EC-8931-4A4D-88E2-E7A2027D5B5D";
-				SDKROOT = iphoneos;
+				PROVISIONING_PROFILE = "1A63B517-64AB-4BC6-8A8B-AFD77EFCA916";
+				SDKROOT = iphoneos7.1;
 			};
 			name = Debug;
 		};
@@ -703,8 +703,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
-				PROVISIONING_PROFILE = "A1FC72EC-8931-4A4D-88E2-E7A2027D5B5D";
-				SDKROOT = iphoneos;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "792293EF-945F-4EA5-9D42-EFA56483EBD6";
+				SDKROOT = iphoneos7.1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -725,8 +726,8 @@
 				GCC_PREFIX_HEADER = "Bookwalker/Bookwalker-Prefix.pch";
 				INFOPLIST_FILE = "Bookwalker/Bookwalker-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "612B8EE6-F3F9-4294-A8A4-5A22ED05C80B";
+				PRODUCT_NAME = BookWalker;
+				PROVISIONING_PROFILE = "1A63B517-64AB-4BC6-8A8B-AFD77EFCA916";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -747,8 +748,8 @@
 				GCC_PREFIX_HEADER = "Bookwalker/Bookwalker-Prefix.pch";
 				INFOPLIST_FILE = "Bookwalker/Bookwalker-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A1FC72EC-8931-4A4D-88E2-E7A2027D5B5D";
+				PRODUCT_NAME = BookWalker;
+				PROVISIONING_PROFILE = "792293EF-945F-4EA5-9D42-EFA56483EBD6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -796,7 +797,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		21DE54061917A3A7004C5591 /* Build configuration list for PBXProject "Bookwalker" */ = {
+		21DE54061917A3A7004C5591 /* Build configuration list for PBXProject "BookWalker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DE543B1917A3A8004C5591 /* Debug */,

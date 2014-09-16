@@ -843,15 +843,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="record" rowHeight="60" id="i6E-FN-UQx" customClass="RecordCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="60"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="record" rowHeight="75" id="i6E-FN-UQx" customClass="RecordCell">
+                                <rect key="frame" x="0.0" y="86" width="320" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i6E-FN-UQx" id="tkt-eH-uTp">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFZ-hj-deZ">
-                                            <rect key="frame" x="55" y="0.0" width="253" height="59"/>
+                                            <rect key="frame" x="55" y="0.0" width="253" height="74"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
@@ -1833,11 +1833,11 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="qFP-HL-GvF"/>
         <segue reference="wtd-Yz-Y26"/>
-        <segue reference="Cbx-zG-7NM"/>
-        <segue reference="hvB-F8-r2A"/>
+        <segue reference="qFP-HL-GvF"/>
+        <segue reference="tGu-2S-u5U"/>
+        <segue reference="NLW-3z-qSy"/>
+        <segue reference="Mln-Ml-2sC"/>
         <segue reference="VkW-z2-a66"/>
-        <segue reference="qDb-5p-UNT"/>
     </inferredMetricsTieBreakers>
 </document>
